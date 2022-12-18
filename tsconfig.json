@@ -1,0 +1,68 @@
+{
+  "compilerOptions": {
+    "paths": {
+      "@value-objects/*": [
+        "./src/domain/value-objects/*"
+      ],
+      "@aggregates/*": [
+        "./src/domain/aggregates/*"
+      ],
+      "@entities/*": [
+        "./src/domain/entities/*"
+      ],
+      "@entities": [
+        "./src/domain/entities"
+      ],
+      "@domain-events/*": [
+        "./src/domain/domain-events/*"
+      ],
+      "@domain-services/*": [
+        "./src/domain/domain-services/*"
+      ],
+      "@domain-errors/*": [
+        "./src/domain/domain-errors/*"
+      ],
+      "@driven-ports/*": [
+        "./src/domain/driven-ports/*"
+      ],
+      "@driver-ports/*": [
+        "./src/application/driver-ports/*"
+      ],
+      "@driver-adapters/*": [
+        "./src/adapters/driver-adapters/*"
+      ],
+      "@driven-adapters/*": [
+        "./src/adapters/driven-adapters/*"
+      ],
+      "@configs/*": [
+        "./src/adapters/driven-adapters/configs/*"
+      ]
+    },
+    "module": "CommonJS",
+    "moduleResolution": "Node",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "ES6",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "incremental": true,
+    "skipLibCheck": true,
+    "strictNullChecks": false,
+    "noImplicitAny": false,
+    "strictBindCallApply": false,
+    "forceConsistentCasingInFileNames": false,
+    "noFallthroughCasesInSwitch": false
+  },
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "node_modules",
+    "test",
+    "dist"
+  ]
+}
