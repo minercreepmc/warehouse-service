@@ -6,20 +6,21 @@ import {
   IProductShippedDomainEvent,
   ProductShippedDomainEvent,
 } from '@domain-events/product/product-shipped';
-import { AbstractAggregateRoot, UUID } from 'common-base-classes';
+import { ProductQuantityValueObject } from '@value-objects/product';
+import { AbstractAggregateRoot, DomainEvent, UUID } from 'common-base-classes';
 import { IProductAggregate } from './product.aggregate.interface';
 
 export class ProductAggregate extends AbstractAggregateRoot<
   Partial<IProductAggregate.Details>
 > {
-  importProduct(importProductProps: IProductAggregate.ImportProps) {
+  importProducts(importProductProps: IProductAggregate.ImportProps) {
     const props: IProductImportedDomainEvent.ImportedProps = {
       aggregateId: importProductProps.id,
       aggregateType: ProductAggregate.name,
       details: importProductProps.details,
       eventName: ProductImportedDomainEvent.name,
     };
-    this.addEvent(new ProductImportedDomainEvent(props));
+    this.applyChanges(new ProductImportedDomainEvent(props));
   }
 
   shipProducts(shipProductProps: IProductAggregate.ShipProps) {
@@ -31,6 +32,20 @@ export class ProductAggregate extends AbstractAggregateRoot<
     };
 
     this.addEvent(new ProductShippedDomainEvent(props));
+  }
+
+  applyChanges(event: ProductImportedDomainEvent) {
+    const newQuantity = this.quantity.addQuantity(event.quantity);
+    this.quantity = newQuantity;
+    this.addEvent(event);
+  }
+
+  private get quantity() {
+    return this.details.quantity;
+  }
+
+  private set quantity(newQuantity: ProductQuantityValueObject) {
+    this.quantity = newQuantity;
   }
 
   constructor() {

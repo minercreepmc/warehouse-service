@@ -5,4 +5,12 @@ export class ProductImportedDomainEvent extends DomainEvent<IProductImportedDoma
   constructor(props: IProductImportedDomainEvent.ImportedProps) {
     super(props);
   }
+
+  get quantity() {
+    return this.details.quantity;
+  }
+
+  get name() {
+    return this.details.name;
+  }
 }
