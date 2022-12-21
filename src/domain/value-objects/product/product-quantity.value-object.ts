@@ -4,7 +4,7 @@ import { AbstractValueObject } from 'common-base-classes';
 export class ProductQuantityValueObject extends AbstractValueObject<number> {
   private static readonly MIN_QUANTITY = 0;
 
-  static create(value: number) {
+  static create(value = 0) {
     if (!this.isValid(value)) {
       throw new ArgumentInvalidExeception('Invalid quantity number');
     }
@@ -13,10 +13,10 @@ export class ProductQuantityValueObject extends AbstractValueObject<number> {
   }
 
   static isValid(value: number) {
-    return value > this.MIN_QUANTITY;
+    return value >= this.MIN_QUANTITY;
   }
 
-  addQuantity(quantity: ProductQuantityValueObject) {
+  addAmount(quantity: ProductQuantityValueObject) {
     const newQuantity = this.unpack() + quantity.unpack();
     return new ProductQuantityValueObject(newQuantity);
   }

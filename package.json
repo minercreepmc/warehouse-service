@@ -6,6 +6,11 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
+    "up": "docker compose -f ./docker-compose.dev.yml up -d",
+    "down": "docker compose -f ./docker-compose.dev.yml down",
+    "app": "docker logs warehouse-service --follow",
+    "app-run": "docker exec -it warehouse-service npm run",
+    "database": "docker exec -it warehouse-service-database bash",
     "prebuild": "rimraf dist",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
@@ -23,9 +28,13 @@
   "dependencies": {
     "@nestjs/common": "^9.0.0",
     "@nestjs/core": "^9.0.0",
+    "@nestjs/cqrs": "^9.0.1",
     "@nestjs/platform-express": "^9.0.0",
+    "@nestjs/swagger": "^6.1.4",
     "@tinphamm/common-exceptions": "^2.0.2",
-    "common-base-classes": "0.13.10",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.0",
+    "common-base-classes": "0.14.1",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0"

@@ -1,23 +1,43 @@
-import { IProductAggregate } from '@aggregates/product/product.aggregate.interface';
+import { ProductImportedDomainEvent } from '@domain-events/product/product-imported';
 import {
   productEventStoreDiToken,
   ProductEventStorePort,
 } from '@driven-ports/product/product.repository.port';
 import { Inject, Injectable } from '@nestjs/common';
-import { ImportProductDomainService } from './services/import-product.domain-service';
+import { ProductNameValueObject } from '@value-objects/product';
+import {
+  CreateProductDomainService,
+  CreateProductDomainServiceProps,
+} from './services/create-product.domain-service';
+import {
+  ImportProductDomainService,
+  ImportProductDomainServiceProps,
+} from './services/import-product.domain-service';
 
 @Injectable()
 export class ProductDomainService {
-  constructor(
-    @Inject(productEventStoreDiToken)
-    private readonly eventStore: ProductEventStorePort,
-  ) {}
+  // constructor(
+  //   @Inject(productEventStoreDiToken)
+  //   private readonly eventStore: ProductEventStorePort,
+  // ) {}
 
-  private readonly importProductDomainService = new ImportProductDomainService(
-    this.eventStore,
-  );
+  // private readonly importProductDomainService = new ImportProductDomainService(
+  //   this.eventStore,
+  // );
 
-  async importProduct(props: IProductAggregate.ImportProps) {
-    return this.importProductDomainService.execute(props);
+  private readonly createProductDomainService =
+    new CreateProductDomainService();
+
+  async importProduct(props: ImportProductDomainServiceProps) {
+    console.log('implement');
+    //  return this.importProductDomainService.execute(props);
   }
+
+  async createProduct(props: CreateProductDomainServiceProps) {
+    return this.createProductDomainService.execute(props);
+  }
+
+  // async isProductExist(productName: ProductNameValueObject) {
+  //   return this.eventStore.isProductExist(productName);
+  // }
 }

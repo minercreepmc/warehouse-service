@@ -1,12 +1,18 @@
-import { ProductAggregate } from '@aggregates/product/product.aggregate';
-import { IProductAggregate } from '@aggregates/product/product.aggregate.interface';
+import { ProductAggregateInterfaces } from '@aggregates/product/product.aggregate.interface';
 import { ProductEventStorePort } from '@driven-ports/product/product.repository.port';
+
+export interface ImportProductDomainServiceProps
+  extends ProductAggregateInterfaces.Details {}
 
 export class ImportProductDomainService {
   constructor(private readonly eventStore: ProductEventStorePort) {}
-  async execute(props: IProductAggregate.ImportProps) {
-    const product = new ProductAggregate();
-    product.importProducts(props);
-    await this.eventStore.saveMany(product.domainEvents);
+  async execute(props: ImportProductDomainServiceProps) {
+    const product = this.eventStore.getProduct(props.name);
+    const productImported = product.importProducts({
+      id: product.id,
+      details: props,
+    });
+    await this.eventStore.save(productImported);
+    return productImported;
   }
 }

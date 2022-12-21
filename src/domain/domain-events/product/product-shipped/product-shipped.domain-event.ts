@@ -1,8 +1,8 @@
 import { DomainEvent } from 'common-base-classes';
-import { IProductShippedDomainEvent } from './product-shipped.domain-event.interface';
+import { ProductsShippedDomainEventInterfaces } from './product-shipped.domain-event.interface';
 
-export class ProductShippedDomainEvent extends DomainEvent<IProductShippedDomainEvent.Details> {
-  constructor(props: IProductShippedDomainEvent.Props) {
+export class ProductShippedDomainEvent extends DomainEvent<ProductsShippedDomainEventInterfaces.Details> {
+  constructor(props: ProductsShippedDomainEventInterfaces.Props) {
     super(props);
   }
 }

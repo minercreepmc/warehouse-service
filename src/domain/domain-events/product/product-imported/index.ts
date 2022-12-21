@@ -1,3 +1,2 @@
-export * from './product-imported.domain-event';
-
-export * from './product-imported.domain-event.interface';
+export * from './products-imported.domain-event';
+export * from './products-imported.domain-event.interface';
