@@ -1,4 +1,4 @@
-import { ProductCreatedDomainEvent } from '@domain-events/product/product-created';
+import { ProductCreatedDomainEvent } from '@domain-events/product';
 import { ProductDomainService } from '@domain-services/product/product.domain-service';
 import { Injectable } from '@nestjs/common';
 import { ProductNameValueObject } from '@value-objects/product';

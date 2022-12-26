@@ -10,30 +10,30 @@ services:
       target: development
     volumes:
       - .:/usr/src/app
-    # depends_on:
-    #   - postgres
-    #   - rabbitmq
-    # links:
-    #   - postgres
-    #   - rabbitmq
+    depends_on:
+      - postgres
+      #- rabbitmq
+    links:
+      - postgres
+      #- rabbitmq
     env_file:
       - .env
     command: npm run start:dev
     ports:
-      - 3003:3000
+      - 3000:3000
 
-  # postgres:
-  #   container_name: warehouse-service-database
-  #   image: postgres:14.5-alpine
-  #   restart: always
-  #   env_file:
-  #     - .env
-  #     #- ./scripts/init.sql:/docker-entrypoint-initdb.d/init.sql
-  #   volumes:
-  #     - ./data/db:/var/lib/postgresql/data
-  #   ports:
-  #     - 8002:5432
-  #
+  postgres:
+    container_name: warehouse-service-database
+    image: postgres:15.1-alpine
+    restart: always
+    env_file:
+      - .env
+      #- ./scripts/init.sql:/docker-entrypoint-initdb.d/init.sql
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    ports:
+      - 8000:5432
+
   # rabbitmq:
   #   container_name: warehouse-service-message-broker
   #   image: rabbitmq:3-management-alpine
@@ -46,9 +46,9 @@ services:
   #   env_file:
   #     - ./rabbitmq.env
 
-  # adminer:
-  #   container_name: warehouse-service-adminer
-  #   image: adminer
-  #   restart: always
-  #   ports:
-  #     - '8901:8080'
+  adminer:
+    container_name: warehouse-service-adminer
+    image: adminer
+    restart: always
+    ports:
+      - '8900:8080'

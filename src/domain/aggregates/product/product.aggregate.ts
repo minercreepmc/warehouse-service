@@ -1,94 +1,92 @@
-import { ProductCreatedDomainEvent } from '@domain-events/product/product-created/product-created.domain-event';
-import { ProductCreatedDomainEventInterfaces } from '@domain-events/product/product-created/product-created.domain-event.interface';
 import {
-  ProductsImportedDomainEventInterfaces,
   ProductImportedDomainEvent,
-} from '@domain-events/product/product-imported';
-import {
-  ProductsShippedDomainEventInterfaces,
   ProductShippedDomainEvent,
-} from '@domain-events/product/product-shipped';
+  ProductCreatedDomainEvent,
+} from '@domain-events/product';
 import {
   ProductNameValueObject,
   ProductQuantityValueObject,
 } from '@value-objects/product';
 import { ProductUnitValueObject } from '@value-objects/product/product-unit.value-object';
 import { AbstractAggregateRoot, UUID } from 'common-base-classes';
-import { ProductAggregateInterfaces } from './product.aggregate.interface';
+import {
+  CreateProductAggegateData,
+  ImportProductsAggregateData,
+  ProductAggregateDetails,
+  ProductAggregateProcess,
+  ShipProductsAggregateData,
+} from './product.aggregate.interface';
+import { InitialProductState, ProductState } from './states';
 
-export class ProductAggregate extends AbstractAggregateRoot<
-  Partial<ProductAggregateInterfaces.Details>
-> {
-  createProduct(createProductProps: ProductAggregateInterfaces.CreateProps) {
-    const props: ProductCreatedDomainEventInterfaces.Props = {
+export class ProductAggregate
+  extends AbstractAggregateRoot<Partial<ProductAggregateDetails>>
+  implements ProductAggregateProcess
+{
+  state: InitialProductState;
+  changeState(newState: ProductState): void {
+    this.state = newState;
+  }
+
+  createProduct(data: CreateProductAggegateData): ProductCreatedDomainEvent {
+    const event = new ProductCreatedDomainEvent({
       aggregateId: this.id,
       aggregateType: this.constructor.name,
       eventName: ProductCreatedDomainEvent.name,
-      details: createProductProps,
-    };
-    const event = new ProductCreatedDomainEvent(props);
-    this.applyCreateProduct(event);
+      details: data,
+    });
+    this.state.applyCreateProduct(event);
     return event;
   }
 
-  importProducts(importProductProps: ProductAggregateInterfaces.ImportProps) {
-    const props: ProductsImportedDomainEventInterfaces.ImportedProps = {
-      aggregateId: importProductProps.id,
-      aggregateType: ProductAggregate.name,
-      details: importProductProps.details,
+  importProducts(
+    data: ImportProductsAggregateData,
+  ): ProductImportedDomainEvent {
+    const event = new ProductImportedDomainEvent({
+      aggregateId: this.id,
+      aggregateType: this.constructor.name,
       eventName: ProductImportedDomainEvent.name,
-    };
-    const event = new ProductImportedDomainEvent(props);
-    this.applyImportProducts(event);
+      details: data.details,
+    });
+    this.state.applyImportProducts(event);
     return event;
   }
 
-  shipProducts(shipProductProps: ProductAggregateInterfaces.ShipProps) {
-    const props: ProductsShippedDomainEventInterfaces.Props = {
-      aggregateId: shipProductProps.id,
+  shipProducts(data: ShipProductsAggregateData): ProductShippedDomainEvent {
+    const event = new ProductShippedDomainEvent({
+      aggregateId: this.id,
       aggregateType: this.constructor.name,
       eventName: ProductShippedDomainEvent.name,
-      details: shipProductProps.details,
-    };
-
-    this.addEvent(new ProductShippedDomainEvent(props));
+      details: data,
+    });
+    this.state.applyShipProducts(event);
+    return event;
   }
 
-  applyCreateProduct(event: ProductCreatedDomainEvent) {
-    this.name = event.name;
-    this.quantity = ProductQuantityValueObject.create(0);
-    this.addEvent(event);
+  isEnoughToShip(quantity: ProductQuantityValueObject) {
+    return this.quantity >= quantity;
   }
 
-  applyImportProducts(event: ProductImportedDomainEvent) {
-    const newQuantity = this.quantity.addAmount(event.quantity);
-    this.quantity = newQuantity;
-    this.unit = event.unit;
-    this.applyUpdatedAt(event.dateOccurred);
-    this.addEvent(event);
-  }
-
-  private get name() {
+  get name() {
     return this.details.name;
   }
 
-  private set name(newName: ProductNameValueObject) {
+  set name(newName: ProductNameValueObject) {
     this.details.name = newName;
   }
 
-  private get quantity() {
+  get quantity() {
     return this.details.quantity;
   }
 
-  private set quantity(newQuantity: ProductQuantityValueObject) {
+  set quantity(newQuantity: ProductQuantityValueObject) {
     this.details.quantity = newQuantity;
   }
 
-  private get unit() {
+  get unit() {
     return this.details.unit;
   }
 
-  private set unit(unitName: ProductUnitValueObject) {
+  set unit(unitName: ProductUnitValueObject) {
     this.details.unit = unitName;
   }
 
@@ -96,5 +94,6 @@ export class ProductAggregate extends AbstractAggregateRoot<
     const id = UUID.create();
     const details = {};
     super({ id, details });
+    this.state = new InitialProductState(this);
   }
 }

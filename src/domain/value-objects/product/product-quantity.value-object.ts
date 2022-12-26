@@ -16,11 +16,6 @@ export class ProductQuantityValueObject extends AbstractValueObject<number> {
     return value >= this.MIN_QUANTITY;
   }
 
-  addAmount(quantity: ProductQuantityValueObject) {
-    const newQuantity = this.unpack() + quantity.unpack();
-    return new ProductQuantityValueObject(newQuantity);
-  }
-
   private constructor(value: number) {
     super({ value });
   }

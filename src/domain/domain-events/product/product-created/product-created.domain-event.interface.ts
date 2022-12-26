@@ -1,8 +1,7 @@
-import { ProductAggregateInterfaces } from '@aggregates/product/product.aggregate.interface';
-import { DomainEventProps } from 'common-base-classes';
+import { CreateProductAggegateData } from '@aggregates/product';
+import { DomainEventData } from 'common-base-classes';
 
-export namespace ProductCreatedDomainEventInterfaces {
-  export interface Details extends ProductAggregateInterfaces.CreateProps {}
-
-  export interface Props extends DomainEventProps<Details> {}
-}
+export interface ProductCreatedDomainEventDetails
+  extends CreateProductAggegateData {}
+export interface ProductCreatedDomainEventData
+  extends DomainEventData<ProductCreatedDomainEventDetails> {}

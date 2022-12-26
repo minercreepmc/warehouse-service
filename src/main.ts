@@ -9,9 +9,11 @@ async function bootstrap() {
 
   const document = SwaggerModule.createDocument(app, swaggerOption);
   SwaggerModule.setup('docs', app, document);
-  app.useGlobalPipes(new ValidationPipe({
-forbidUnknownValues: false
-  }));
+  app.useGlobalPipes(
+    new ValidationPipe({
+      forbidUnknownValues: false,
+    }),
+  );
 
   await app.listen(3000);
 }
