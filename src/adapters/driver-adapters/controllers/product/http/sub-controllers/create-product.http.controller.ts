@@ -1,6 +1,20 @@
+import {
+  ProductBusinessError,
+  ProductValidationError,
+} from '@domain-errors/product';
 import { CreateProductRequestDto } from '@driver-adapters/dtos/product';
-import { CreateProductCommand } from '@driver-ports/use-cases/create-product/data-flows';
+import { CreateProductUseCaseError } from '@driver-ports/use-cases/create-product/orchestration';
+import {
+  CreateProductCommand,
+  CreateProductResponseDto,
+} from '@driver-ports/use-cases/create-product/orchestration/data';
+import {
+  ConflictException,
+  UnprocessableEntityException,
+} from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
+import { IsArrayContainInstanceOf } from 'common-base-classes';
+import { match } from 'oxide.ts';
 
 export class CreateProductHttpController {
   constructor(private readonly commandBus: CommandBus) {}
@@ -9,6 +23,19 @@ export class CreateProductHttpController {
 
     const result = await this.commandBus.execute(command);
 
-    return result;
+    return match(result, {
+      Ok: (response: CreateProductResponseDto) => response,
+      Err: (errors: CreateProductUseCaseError) => {
+        if (IsArrayContainInstanceOf(errors, ProductValidationError)) {
+          throw new UnprocessableEntityException(errors);
+        }
+
+        if (IsArrayContainInstanceOf(errors, ProductBusinessError)) {
+          throw new ConflictException(errors);
+        }
+
+        throw errors;
+      },
+    });
   }
 }

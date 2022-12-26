@@ -1,4 +1,4 @@
-import { ProductDomainService } from '@domain-services/product/product.domain-service';
+import { ProductDomainService } from '@domain-services/product';
 import { typeormConfig } from '@driven-adapters/configs/typeorm';
 import { ProductEventModel } from '@driven-adapters/database/models';
 import { ProductEventStore } from '@driven-adapters/database/repositories';
@@ -6,9 +6,13 @@ import { productEventStoreDiToken } from '@driven-ports/product/product.reposito
 import { ProductHttpController } from '@driver-adapters/controllers/product/http';
 import { CreateProductHandler } from '@driver-ports/use-cases/create-product';
 import {
-  CreateProductOrchestrator,
-  createProductOrchestratorDiToken,
-} from '@driver-ports/use-cases/create-product/data-flows';
+  CreateProductBusinessChecker,
+  createProductBusinessCheckerDiToken,
+  CreateProductMapper,
+  createProductMapperDiToken,
+  CreateProductValidator,
+  createProductValidatorDiToken,
+} from '@driver-ports/use-cases/create-product/orchestration';
 import { Module, Provider } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { CqrsModule } from '@nestjs/cqrs';
@@ -17,10 +21,22 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 const domainServices = [ProductDomainService];
 const httpControllers = [ProductHttpController];
 const commandHandlers = [CreateProductHandler];
-const orchestrators: Provider[] = [
+const mappers: Provider[] = [
   {
-    provide: createProductOrchestratorDiToken,
-    useClass: CreateProductOrchestrator,
+    provide: createProductMapperDiToken,
+    useClass: CreateProductMapper,
+  },
+];
+const validators: Provider[] = [
+  {
+    provide: createProductValidatorDiToken,
+    useClass: CreateProductValidator,
+  },
+];
+const businessChecker: Provider[] = [
+  {
+    provide: createProductBusinessCheckerDiToken,
+    useClass: CreateProductBusinessChecker,
   },
 ];
 const repositories: Provider[] = [
@@ -41,9 +57,11 @@ const repositories: Provider[] = [
   ],
   controllers: [...httpControllers],
   providers: [
+    ...validators,
+    ...businessChecker,
+    ...mappers,
     ...domainServices,
     ...commandHandlers,
-    ...orchestrators,
     ...repositories,
   ],
 })

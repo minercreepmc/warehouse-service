@@ -20,8 +20,8 @@
     "**/node_modules/**",
     "e2e/",
     "**/dist/**",
-    "data/",
-    "postgres-data/"
+    "./data/",
+    "./postgres-data/"
   ],
   "rules": {
     "@typescript-eslint/interface-name-prefix": "off",

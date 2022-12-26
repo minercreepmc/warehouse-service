@@ -11,11 +11,6 @@ export class CreateProductDomainService {
   constructor(private readonly eventStore: ProductEventStorePort) {}
 
   async execute(data: CreateProductDomainServiceData) {
-    // check if product exist
-    const found = await this.eventStore.isProductExist(data.name);
-    if (found) {
-      throw new ProductDomainError.NameExist();
-    }
     const product = new ProductAggregate();
     const productCreatedEvent = product.createProduct({
       name: data.name,

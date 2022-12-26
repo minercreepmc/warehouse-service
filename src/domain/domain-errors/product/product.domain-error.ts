@@ -9,7 +9,7 @@ export namespace ProductDomainError {
     readonly code = ProductDomainErrorCode.nameIsNotValid;
     readonly message = 'Product name is not valid';
   }
-  export class NameExist extends ProductBusinessError {
+  export class NameIsExist extends ProductBusinessError {
     readonly code = ProductDomainErrorCode.nameIsExist;
     readonly message = 'Product name is exist';
   }

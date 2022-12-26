@@ -1964,10 +1964,10 @@ commander@^2.20.0:
   resolved "https://registry.npmjs.org/commander/-/commander-2.20.3.tgz"
   integrity sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==
 
-common-base-classes@0.14.16:
-  version "0.14.16"
-  resolved "https://registry.yarnpkg.com/common-base-classes/-/common-base-classes-0.14.16.tgz#87bd0c08645ef487c547361fa956dd75f40adb22"
-  integrity sha512-EBv/fXTHNwYhGvtSpPfXJh4Y3724o3UCLyki9yuwAzuVEDA0KtwdBErKhLPLt7tn4Xp4hx5+nFBgECZfQjOaDw==
+common-base-classes@0.14.17:
+  version "0.14.17"
+  resolved "https://registry.yarnpkg.com/common-base-classes/-/common-base-classes-0.14.17.tgz#29f7197532e60c31b5b7de4c626dda3efe040cd9"
+  integrity sha512-vEuHsQL+/DCcJhd8t5q1rGU/PpdNRAQEpVZP5FW+MR2vXxVeThAoolEFw+XzwFIO46sNEAZWtLrE8DG53s6FnQ==
   dependencies:
     common-errors "^1.2.0"
     guarder "^0.9.0"
@@ -3951,6 +3951,11 @@ os-tmpdir@~1.0.2:
   version "1.0.2"
   resolved "https://registry.npmjs.org/os-tmpdir/-/os-tmpdir-1.0.2.tgz"
   integrity sha512-D2FR03Vir7FIu45XBY20mTb+/ZSWB00sjU9jdQXt83gDrI4Ztz5Fs7/yy74g2N5SVQY4xY1qDr4rNddwYRVX0g==
+
+oxide.ts@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/oxide.ts/-/oxide.ts-1.1.0.tgz#591205d2d31270a95c677a61985a795443470e19"
+  integrity sha512-+MkqFRQVHEe/x4/cJ6KuYz2m2VpnoBi7aKLbttGYTxmpNZalQ2RbKH2HxyfsTqXJhjh9DYxulPWfQV/hWMmzCg==
 
 p-limit@^2.2.0:
   version "2.3.0"

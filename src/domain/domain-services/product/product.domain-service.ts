@@ -1,8 +1,10 @@
+import { ProductDomainError } from '@domain-errors/product';
 import {
   productEventStoreDiToken,
   ProductEventStorePort,
 } from '@driven-ports/product/product.repository.port';
 import { Inject, Injectable } from '@nestjs/common';
+import { ProductNameValueObject } from '@value-objects/product';
 import {
   CreateProductDomainService,
   CreateProductDomainServiceData,
@@ -24,16 +26,20 @@ export class ProductDomainService {
     this.eventStore,
   );
 
-  async importProduct(props: ImportProductDomainServiceData) {
+  async importProduct(data: ImportProductDomainServiceData) {
     console.log('implement');
     //  return this.importProductDomainService.execute(props);
   }
 
-  async createProduct(props: CreateProductDomainServiceData) {
-    return this.createProductDomainService.execute(props);
+  async createProduct(data: CreateProductDomainServiceData) {
+    const found = await this.isProductExist(data.name);
+    if (found) {
+      throw new ProductDomainError.NameIsExist();
+    }
+    return this.createProductDomainService.execute(data);
   }
 
-  // async isProductExist(productName: ProductNameValueObject) {
-  //   return this.eventStore.isProductExist(productName);
-  // }
+  async isProductExist(productName: ProductNameValueObject): Promise<boolean> {
+    return this.eventStore.isProductExist(productName);
+  }
 }

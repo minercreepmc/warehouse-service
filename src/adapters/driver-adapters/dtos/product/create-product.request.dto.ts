@@ -1,4 +1,4 @@
-import { CreateProductCommand } from '@driver-ports/use-cases/create-product/data-flows';
+import { CreateProductCommand } from '@driver-ports/use-cases/create-product/orchestration/data';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateProductRequestDto implements CreateProductCommand {
