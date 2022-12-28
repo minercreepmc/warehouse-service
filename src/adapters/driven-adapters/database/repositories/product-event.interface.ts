@@ -1,5 +1,5 @@
-import { ProductAggregate } from "@aggregates/product";
+import { ProductAggregate } from '@aggregates/product';
 
 export interface ProductEventsRebuilded {
-  [key: string]: ProductAggregate
+  [key: string]: ProductAggregate;
 }

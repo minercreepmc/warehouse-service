@@ -34,6 +34,9 @@
       "@driven-adapters/*": [
         "./src/adapters/driven-adapters/*"
       ],
+      "@application/*": [
+        "./src/application/*"
+      ],
       "@configs/*": [
         "./src/adapters/driven-adapters/configs/*"
       ]

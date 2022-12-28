@@ -13,7 +13,7 @@ import {
 import {
   ImportProductDomainService,
   ImportProductDomainServiceData,
-} from './services/import-product.domain-service';
+} from './services/import-products.domain-service';
 
 @Injectable()
 export class ProductDomainService {
@@ -31,8 +31,7 @@ export class ProductDomainService {
   );
 
   async importProduct(data: ImportProductDomainServiceData) {
-    const product = await this.getProduct(data.name);
-    return this.importProductDomainService.execute(product, data);
+    return this.importProductDomainService.execute(data);
   }
 
   async createProduct(data: CreateProductDomainServiceData) {

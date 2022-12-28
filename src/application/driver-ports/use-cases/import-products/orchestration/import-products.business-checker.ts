@@ -19,4 +19,9 @@ export class ImportProductsBusinessChecker extends AbstractNotificationWrapper<P
       this.note.addNote(new ProductDomainError.NameIsNotExist());
     }
   }
+
+  async clearNoteAndCheck(domainData: ImportProductsDomainData): Promise<void> {
+    super.clearNote();
+    return this.check(domainData);
+  }
 }
