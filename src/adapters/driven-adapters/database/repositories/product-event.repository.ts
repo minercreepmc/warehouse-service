@@ -18,6 +18,7 @@ import {
   productAggregateApplyEventMethodNamesDocuments,
 } from '@aggregates/product';
 import { ProductNameValueObject } from '@value-objects/product';
+import { ProductEventsRebuilded } from './product-event.interface';
 
 @Injectable()
 export class ProductEventStore
@@ -45,24 +46,32 @@ export class ProductEventStore
 
   async isProductExist(productName: ProductNameValueObject): Promise<boolean> {
     const products = await this.rebuildProducts();
-    return products.some((product) => product.name.equals(productName));
+    return Boolean(products[productName.unpack()]);
   }
 
-  async rebuildProducts(): Promise<ProductAggregate[]> {
+  async getProduct(
+    productName: ProductNameValueObject,
+  ): Promise<ProductAggregate> {
+    const products = await this.rebuildProducts();
+    return products[productName.unpack()];
+  }
+
+  async rebuildProducts(): Promise<ProductEventsRebuilded> {
     return this.rebuild();
   }
 
-  async rebuild(): Promise<ProductAggregate[]> {
+  async rebuild() {
     const domainEvents = await this.getAllEvents();
-    const products = domainEvents.map((event) => {
-      const product = new ProductAggregate();
-
+    const products = domainEvents.reduce((products, event) => {
+      const product =
+        products[event.details.name.unpack()] ||
+        new ProductAggregate(event.aggregateId);
       const applyMethod =
         productAggregateApplyEventMethodNamesDocuments[event.eventName];
-
       product.state[applyMethod](event);
-      return product;
-    });
+      products[product.name.unpack()] = product;
+      return products;
+    }, {});
     return products;
   }
 }

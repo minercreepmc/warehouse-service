@@ -13,6 +13,13 @@ import {
   CreateProductValidator,
   createProductValidatorDiToken,
 } from '@driver-ports/use-cases/create-product/orchestration';
+import { ImportProductsHandler } from '@driver-ports/use-cases/import-products/import-products.handler';
+import {
+  importProductMapperDiToken,
+  ImportProductsMapper,
+} from '@driver-ports/use-cases/import-products/orchestration';
+import { ImportProductsBusinessChecker } from '@driver-ports/use-cases/import-products/orchestration/import-products.business-checker';
+import { ImportProductsValidator } from '@driver-ports/use-cases/import-products/orchestration/import-products.validator';
 import { Module, Provider } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { CqrsModule } from '@nestjs/cqrs';
@@ -20,11 +27,15 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 const domainServices = [ProductDomainService];
 const httpControllers = [ProductHttpController];
-const commandHandlers = [CreateProductHandler];
+const commandHandlers = [CreateProductHandler, ImportProductsHandler];
 const mappers: Provider[] = [
   {
     provide: createProductMapperDiToken,
     useClass: CreateProductMapper,
+  },
+  {
+    provide: importProductMapperDiToken,
+    useClass: ImportProductsMapper,
   },
 ];
 const validators: Provider[] = [
@@ -32,12 +43,14 @@ const validators: Provider[] = [
     provide: createProductValidatorDiToken,
     useClass: CreateProductValidator,
   },
+  ImportProductsValidator,
 ];
 const businessChecker: Provider[] = [
   {
     provide: createProductBusinessCheckerDiToken,
     useClass: CreateProductBusinessChecker,
   },
+  ImportProductsBusinessChecker,
 ];
 const repositories: Provider[] = [
   {

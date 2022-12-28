@@ -8,7 +8,7 @@ import {
   ProductQuantityValueObject,
 } from '@value-objects/product';
 import { ProductUnitValueObject } from '@value-objects/product/product-unit.value-object';
-import { AbstractAggregateRoot, UUID } from 'common-base-classes';
+import { AbstractAggregateRoot, ID, UUID } from 'common-base-classes';
 import {
   CreateProductAggegateData,
   ImportProductsAggregateData,
@@ -90,10 +90,10 @@ export class ProductAggregate
     this.details.unit = unitName;
   }
 
-  constructor() {
-    const id = UUID.create();
+  constructor(id?: ID) {
+    const productId = id ? id : UUID.create();
     const details = {};
-    super({ id, details });
+    super({ id: productId, details });
     this.state = new InitialProductState(this);
   }
 }

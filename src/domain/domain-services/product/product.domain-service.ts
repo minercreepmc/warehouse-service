@@ -1,3 +1,4 @@
+import { ProductAggregate } from '@aggregates/product';
 import { ProductDomainError } from '@domain-errors/product';
 import {
   productEventStoreDiToken,
@@ -9,7 +10,10 @@ import {
   CreateProductDomainService,
   CreateProductDomainServiceData,
 } from './services/create-product.domain-service';
-import { ImportProductDomainServiceData } from './services/import-product.domain-service';
+import {
+  ImportProductDomainService,
+  ImportProductDomainServiceData,
+} from './services/import-product.domain-service';
 
 @Injectable()
 export class ProductDomainService {
@@ -18,17 +22,17 @@ export class ProductDomainService {
     private readonly eventStore: ProductEventStorePort,
   ) {}
 
-  // private readonly importProductDomainService = new ImportProductDomainService(
-  //   this.eventStore,
-  // );
+  private readonly importProductDomainService = new ImportProductDomainService(
+    this.eventStore,
+  );
 
   private readonly createProductDomainService = new CreateProductDomainService(
     this.eventStore,
   );
 
   async importProduct(data: ImportProductDomainServiceData) {
-    console.log('implement');
-    //  return this.importProductDomainService.execute(props);
+    const product = await this.getProduct(data.name);
+    return this.importProductDomainService.execute(product, data);
   }
 
   async createProduct(data: CreateProductDomainServiceData) {
@@ -41,5 +45,16 @@ export class ProductDomainService {
 
   async isProductExist(productName: ProductNameValueObject): Promise<boolean> {
     return this.eventStore.isProductExist(productName);
+  }
+
+  async getProduct(
+    productName: ProductNameValueObject,
+  ): Promise<ProductAggregate> {
+    const found = this.isProductExist(productName);
+    if (!found) {
+      throw new ProductDomainError.NameIsNotExist();
+    }
+
+    return this.eventStore.getProduct(productName);
   }
 }

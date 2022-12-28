@@ -7,14 +7,16 @@ export interface ImportProductDomainServiceData
 
 export class ImportProductDomainService {
   constructor(private readonly eventStore: ProductEventStorePort) {}
-  async execute(data: ImportProductDomainServiceData) {
-    //const product = this.eventStore.getProduct(data.name);
-    const product = new ProductAggregate();
+  async execute(
+    product: ProductAggregate,
+    data: ImportProductDomainServiceData,
+  ) {
     const productImported = product.importProducts({
       id: product.id,
       details: data,
     });
     await this.eventStore.save(productImported);
+    // publish event
     return productImported;
   }
 }
