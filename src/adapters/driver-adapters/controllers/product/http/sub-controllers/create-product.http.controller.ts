@@ -3,11 +3,11 @@ import {
   ProductValidationError,
 } from '@domain-errors/product';
 import { CreateProductRequestDto } from '@driver-adapters/dtos/product';
-import { CreateProductUseCaseError } from '@driver-ports/use-cases/create-product/orchestration';
+import { CreateProductUseCaseError } from '@driver-ports/use-cases/create-product/orchestrators';
 import {
   CreateProductCommand,
   CreateProductResponseDto,
-} from '@driver-ports/use-cases/create-product/orchestration/data';
+} from '@driver-ports/use-cases/create-product/orchestrators/data';
 import {
   ConflictException,
   UnprocessableEntityException,

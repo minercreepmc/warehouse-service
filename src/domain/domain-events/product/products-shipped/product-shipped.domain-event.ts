@@ -9,7 +9,15 @@ export class ProductShippedDomainEvent extends DomainEvent<ProductShippedDomainE
     super(data);
   }
 
+  get name() {
+    return this.details.name;
+  }
+
   get quantity() {
     return this.details.quantity;
+  }
+
+  get unit() {
+    return this.details.unit;
   }
 }

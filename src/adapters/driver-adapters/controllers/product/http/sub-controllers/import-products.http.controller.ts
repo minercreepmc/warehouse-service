@@ -7,7 +7,7 @@ import {
   ImportProductsCommand,
   ImportProductsResponseDto,
   ImportProductsUseCaseError,
-} from '@driver-ports/use-cases/import-products/orchestration/data';
+} from '@driver-ports/use-cases/import-products/orchestrators/data';
 import {
   ConflictException,
   UnprocessableEntityException,

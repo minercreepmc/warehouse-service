@@ -13,6 +13,10 @@ export namespace ProductDomainError {
     readonly code = ProductDomainErrorCode.quantityIsNotValid;
     readonly message = 'Product quantity is not valid';
   }
+  export class QuantityIsNotEnough extends ProductBusinessError {
+    readonly code = ProductDomainErrorCode.quantityIsNotEnough;
+    readonly message = 'Product quantity is not enough to ship';
+  }
   export class UnitIsNotValid extends ProductValidationError {
     readonly code = ProductDomainErrorCode.unitIsNotValid;
     readonly message = 'Product unit is not valid';

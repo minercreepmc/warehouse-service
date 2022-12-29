@@ -12,14 +12,20 @@ import {
   createProductMapperDiToken,
   CreateProductValidator,
   createProductValidatorDiToken,
-} from '@driver-ports/use-cases/create-product/orchestration';
+} from '@driver-ports/use-cases/create-product/orchestrators';
 import { ImportProductsHandler } from '@driver-ports/use-cases/import-products/import-products.handler';
 import {
   importProductMapperDiToken,
+  ImportProductsBusinessChecker,
   ImportProductsMapper,
-} from '@driver-ports/use-cases/import-products/orchestration';
-import { ImportProductsBusinessChecker } from '@driver-ports/use-cases/import-products/orchestration/import-products.business-checker';
-import { ImportProductsValidator } from '@driver-ports/use-cases/import-products/orchestration/import-products.validator';
+  ImportProductsValidator,
+} from '@driver-ports/use-cases/import-products/orchestrators';
+import {
+  ShipProductsBusinessChecker,
+  ShipProductsValidator,
+} from '@driver-ports/use-cases/ship-products/orchestrators';
+import { ShipProductsMapper } from '@driver-ports/use-cases/ship-products/orchestrators/ship-products.mapper';
+import { ShipProductsHandler } from '@driver-ports/use-cases/ship-products/ship-products.handler';
 import { Module, Provider } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { CqrsModule } from '@nestjs/cqrs';
@@ -27,7 +33,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 const domainServices = [ProductDomainService];
 const httpControllers = [ProductHttpController];
-const commandHandlers = [CreateProductHandler, ImportProductsHandler];
+const commandHandlers = [
+  CreateProductHandler,
+  ImportProductsHandler,
+  ShipProductsHandler,
+];
 const mappers: Provider[] = [
   {
     provide: createProductMapperDiToken,
@@ -37,6 +47,7 @@ const mappers: Provider[] = [
     provide: importProductMapperDiToken,
     useClass: ImportProductsMapper,
   },
+  ShipProductsMapper,
 ];
 const validators: Provider[] = [
   {
@@ -44,6 +55,7 @@ const validators: Provider[] = [
     useClass: CreateProductValidator,
   },
   ImportProductsValidator,
+  ShipProductsValidator,
 ];
 const businessChecker: Provider[] = [
   {
@@ -51,6 +63,7 @@ const businessChecker: Provider[] = [
     useClass: CreateProductBusinessChecker,
   },
   ImportProductsBusinessChecker,
+  ShipProductsBusinessChecker,
 ];
 const repositories: Provider[] = [
   {

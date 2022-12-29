@@ -5,7 +5,10 @@ import {
   ProductEventStorePort,
 } from '@driven-ports/product/product.repository.port';
 import { Inject, Injectable } from '@nestjs/common';
-import { ProductNameValueObject } from '@value-objects/product';
+import {
+  ProductNameValueObject,
+  ProductQuantityValueObject,
+} from '@value-objects/product';
 import {
   CreateProductDomainService,
   CreateProductDomainServiceData,
@@ -14,6 +17,10 @@ import {
   ImportProductDomainService,
   ImportProductDomainServiceData,
 } from './services/import-products.domain-service';
+import {
+  ShipProductsDomainService,
+  ShipProductsDomainServiceData,
+} from './services/ship-products.domain-service';
 
 @Injectable()
 export class ProductDomainService {
@@ -30,16 +37,20 @@ export class ProductDomainService {
     this.eventStore,
   );
 
-  async importProduct(data: ImportProductDomainServiceData) {
+  private readonly shipProductsDomainService = new ShipProductsDomainService(
+    this.eventStore,
+  );
+
+  async importProducts(data: ImportProductDomainServiceData) {
     return this.importProductDomainService.execute(data);
   }
 
   async createProduct(data: CreateProductDomainServiceData) {
-    const found = await this.isProductExist(data.name);
-    if (found) {
-      throw new ProductDomainError.NameIsExist();
-    }
     return this.createProductDomainService.execute(data);
+  }
+
+  async shipProducts(data: ShipProductsDomainServiceData) {
+    return this.shipProductsDomainService.execute(data);
   }
 
   async isProductExist(productName: ProductNameValueObject): Promise<boolean> {
@@ -55,5 +66,13 @@ export class ProductDomainService {
     }
 
     return this.eventStore.getProduct(productName);
+  }
+
+  async isProductEnoughToShip(
+    productName: ProductNameValueObject,
+    amount: ProductQuantityValueObject,
+  ): Promise<boolean> {
+    const product = await this.getProduct(productName);
+    return product.quantity.unpack() > amount.unpack();
   }
 }

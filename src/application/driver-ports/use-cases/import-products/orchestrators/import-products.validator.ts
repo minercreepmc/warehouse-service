@@ -1,7 +1,7 @@
+import { ProductValidator } from '@application/common-orchestrators/validators';
 import { ProductValidationError } from '@domain-errors/product';
 import { Injectable } from '@nestjs/common';
 import { AbstractNotificationWrapper } from 'common-base-classes';
-import { ProductValidator } from 'src/application/validators/product.validator';
 import { ImportProductsCommand } from './data';
 
 @Injectable()

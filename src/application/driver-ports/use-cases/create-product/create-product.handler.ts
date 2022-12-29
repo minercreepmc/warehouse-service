@@ -8,9 +8,9 @@ import {
   CreateProductResult,
   createProductValidatorDiToken,
   CreateProductValidatorPort,
-} from './orchestration';
+} from './orchestrators';
 import { Ok, Err } from 'oxide.ts';
-import { CreateProductCommand } from './orchestration/data';
+import { CreateProductCommand } from './orchestrators/data';
 import { ProductDomainService } from '@domain-services/product';
 @CommandHandler(CreateProductCommand)
 export class CreateProductHandler

@@ -4,14 +4,14 @@ import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { Err, Ok } from 'oxide.ts';
 import {
   importProductMapperDiToken,
+  ImportProductsBusinessChecker,
   ImportProductsMapperPort,
-} from './orchestration';
+  ImportProductsValidator,
+} from './orchestrators';
 import {
   ImportProductsCommand,
   ImportProductsResult,
-} from './orchestration/data';
-import { ImportProductsBusinessChecker } from './orchestration/import-products.business-checker';
-import { ImportProductsValidator } from './orchestration/import-products.validator';
+} from './orchestrators/data';
 
 @CommandHandler(ImportProductsCommand)
 export class ImportProductsHandler
@@ -38,7 +38,7 @@ export class ImportProductsHandler
       return Err(this.businessChecker.errors);
     }
 
-    const productImportedEvent = await this.domainService.importProduct(
+    const productImportedEvent = await this.domainService.importProducts(
       domainData,
     );
 
