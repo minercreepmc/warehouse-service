@@ -1,20 +1,25 @@
 import {
   CreateProductRequestDto,
+  GetQualityOnHandRequestDto,
   ImportProductsRequestDto,
   ShipProductsRequestDto,
 } from '@driver-adapters/dtos/product';
-import { Body, Controller, Post } from '@nestjs/common';
-import { CommandBus } from '@nestjs/cqrs';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { ApiOperation, ApiParam } from '@nestjs/swagger';
 import {
   CreateProductHttpController,
+  GetQualityOnHandHttpController,
   ImportProductsHttpController,
   ShipProductsHttpController,
 } from './sub-controllers';
 
 @Controller('products')
 export class ProductHttpController {
-  constructor(private readonly commandBus: CommandBus) {}
+  constructor(
+    private readonly commandBus: CommandBus,
+    private readonly queryBus: QueryBus,
+  ) {}
 
   private readonly importProductsHttpController =
     new ImportProductsHttpController(this.commandBus);
@@ -25,6 +30,9 @@ export class ProductHttpController {
 
   private readonly createProductHttpController =
     new CreateProductHttpController(this.commandBus);
+
+  private readonly getQualityOnHandHtppController =
+    new GetQualityOnHandHttpController(this.queryBus);
 
   @Post('create')
   @ApiOperation({ summary: 'Create product' })
@@ -60,5 +68,11 @@ export class ProductHttpController {
   })
   async shipProducts(@Body() dto: ShipProductsRequestDto) {
     return this.shipProductsHttpController.execute(dto);
+  }
+
+  @Get()
+  @ApiOperation({ summary: 'Get quality on hand' })
+  async getQualityOnHand(@Query() dto: GetQualityOnHandRequestDto) {
+    return this.getQualityOnHandHtppController.execute(dto);
   }
 }

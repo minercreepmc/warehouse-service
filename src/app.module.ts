@@ -13,6 +13,12 @@ import {
   CreateProductValidator,
   createProductValidatorDiToken,
 } from '@driver-ports/use-cases/create-product/orchestrators';
+import { GetQualityOnHandHandler } from '@driver-ports/use-cases/get-quality-on-hand';
+import {
+  GetQualityOnHandBusinessChecker,
+  GetQualityOnHandMapper,
+  GetQualityOnHandValidator,
+} from '@driver-ports/use-cases/get-quality-on-hand/orchestrators';
 import { ImportProductsHandler } from '@driver-ports/use-cases/import-products/import-products.handler';
 import {
   importProductMapperDiToken,
@@ -38,6 +44,7 @@ const commandHandlers = [
   ImportProductsHandler,
   ShipProductsHandler,
 ];
+const queryHandlers = [GetQualityOnHandHandler];
 const mappers: Provider[] = [
   {
     provide: createProductMapperDiToken,
@@ -48,6 +55,7 @@ const mappers: Provider[] = [
     useClass: ImportProductsMapper,
   },
   ShipProductsMapper,
+  GetQualityOnHandMapper,
 ];
 const validators: Provider[] = [
   {
@@ -56,6 +64,7 @@ const validators: Provider[] = [
   },
   ImportProductsValidator,
   ShipProductsValidator,
+  GetQualityOnHandValidator,
 ];
 const businessChecker: Provider[] = [
   {
@@ -64,6 +73,7 @@ const businessChecker: Provider[] = [
   },
   ImportProductsBusinessChecker,
   ShipProductsBusinessChecker,
+  GetQualityOnHandBusinessChecker,
 ];
 const repositories: Provider[] = [
   {
@@ -88,6 +98,7 @@ const repositories: Provider[] = [
     ...mappers,
     ...domainServices,
     ...commandHandlers,
+    ...queryHandlers,
     ...repositories,
   ],
 })
