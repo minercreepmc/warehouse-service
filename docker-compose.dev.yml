@@ -12,10 +12,10 @@ services:
       - .:/usr/src/app
     depends_on:
       - postgres
-      #- rabbitmq
+      - rabbitmq
     links:
       - postgres
-      #- rabbitmq
+      - rabbitmq
     env_file:
       - .env
     command: npm run start:dev
@@ -34,17 +34,17 @@ services:
     ports:
       - 8000:5432
 
-  # rabbitmq:
-  #   container_name: warehouse-service-message-broker
-  #   image: rabbitmq:3-management-alpine
-  #   hostname: rabbitmq
-  #   volumes:
-  #     - ./data/messages:/var/lib/rabbitmq
-  #   ports:
-  #     - 5672:5672
-  #     - 15672:15672
-  #   env_file:
-  #     - ./rabbitmq.env
+  rabbitmq:
+    container_name: warehouse-service-message-broker
+    image: rabbitmq:3-management-alpine
+    hostname: rabbitmq
+    volumes:
+      - ./data/messages:/var/lib/rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
+    env_file:
+      - ./rabbitmq.env
 
   adminer:
     container_name: warehouse-service-adminer

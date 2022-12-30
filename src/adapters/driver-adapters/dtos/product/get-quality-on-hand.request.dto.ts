@@ -1,9 +1,9 @@
-import {ApiProperty } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class GetQualityOnHandRequestDto {
   @ApiProperty({
     example: 'Banana',
-    description: 'Product name to get'
+    description: 'Product name to get',
   })
   name: string;
 }

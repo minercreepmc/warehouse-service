@@ -1,12 +1,19 @@
 import { ProductAggregateDetails } from '@aggregates/product/product.aggregate.interface';
 import { ProductDomainError } from '@domain-errors/product';
-import { ProductEventStorePort } from '@driven-ports/product/product.repository.port';
+import { ProductImportedDomainEvent } from '@domain-events/product';
+import { ProductMessageMapper } from '@driven-ports/product/channel';
+import { ProductEventStorePort } from '@driven-ports/product/ports';
+import { ClientProxy } from '@nestjs/microservices';
 
 export interface ImportProductDomainServiceData
   extends ProductAggregateDetails {}
 
 export class ImportProductDomainService {
-  constructor(private readonly eventStore: ProductEventStorePort) {}
+  constructor(
+    private readonly eventStore: ProductEventStorePort,
+    private readonly messageBroker: ClientProxy,
+    private readonly mapper: ProductMessageMapper,
+  ) {}
   async execute(data: ImportProductDomainServiceData) {
     const product = await this.eventStore.getProduct(data.name);
     if (!product) {
@@ -17,7 +24,9 @@ export class ImportProductDomainService {
       details: data,
     });
     await this.eventStore.save(productImported);
-    // publish event
+
+    const message = this.mapper.toMessage(productImported);
+    this.messageBroker.emit(ProductImportedDomainEvent.name, message);
     return productImported;
   }
 }

@@ -1,10 +1,13 @@
 import { ProductAggregate } from '@aggregates/product';
 import { ProductDomainError } from '@domain-errors/product';
+import { ProductMessageMapper } from '@driven-ports/product/channel';
 import {
   productEventStoreDiToken,
   ProductEventStorePort,
-} from '@driven-ports/product/product.repository.port';
+  productRmqDiToken,
+} from '@driven-ports/product/ports';
 import { Inject, Injectable } from '@nestjs/common';
+import { ClientProxy } from '@nestjs/microservices';
 import {
   ProductNameValueObject,
   ProductQuantityValueObject,
@@ -27,12 +30,18 @@ export class ProductDomainService {
   constructor(
     @Inject(productEventStoreDiToken)
     private readonly eventStore: ProductEventStorePort,
+
+    @Inject(productRmqDiToken)
+    private readonly messageBroker: ClientProxy,
+
+    private readonly mapper: ProductMessageMapper,
   ) {}
 
   private readonly importProductDomainService = new ImportProductDomainService(
     this.eventStore,
+    this.messageBroker,
+    this.mapper,
   );
-
   private readonly createProductDomainService = new CreateProductDomainService(
     this.eventStore,
   );

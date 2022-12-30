@@ -1,6 +1,6 @@
 import { ProductAggregate } from '@aggregates/product/product.aggregate';
 import { ProductDomainError } from '@domain-errors/product';
-import { ProductEventStorePort } from '@driven-ports/product/product.repository.port';
+import { ProductEventStorePort } from '@driven-ports/product/ports';
 import type { ProductNameValueObject } from '@value-objects/product';
 
 export interface CreateProductDomainServiceData {
@@ -20,7 +20,7 @@ export class CreateProductDomainService {
       name: data.name,
     });
 
-    this.eventStore.save(productCreatedEvent);
+    await this.eventStore.save(productCreatedEvent);
     // publish event
 
     return productCreatedEvent;

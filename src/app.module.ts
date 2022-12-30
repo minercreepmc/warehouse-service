@@ -1,8 +1,13 @@
 import { ProductDomainService } from '@domain-services/product';
+import { RmqModule } from '@driven-adapters/configs/rmq';
 import { typeormConfig } from '@driven-adapters/configs/typeorm';
 import { ProductEventModel } from '@driven-adapters/database/models';
 import { ProductEventStore } from '@driven-adapters/database/repositories';
-import { productEventStoreDiToken } from '@driven-ports/product/product.repository.port';
+import { ProductMessageMapper } from '@driven-ports/product/channel';
+import {
+  productEventStoreDiToken,
+  productRmqDiToken,
+} from '@driven-ports/product/ports';
 import { ProductHttpController } from '@driver-adapters/controllers/product/http';
 import { CreateProductHandler } from '@driver-ports/use-cases/create-product';
 import {
@@ -56,6 +61,7 @@ const mappers: Provider[] = [
   },
   ShipProductsMapper,
   GetQualityOnHandMapper,
+  ProductMessageMapper,
 ];
 const validators: Provider[] = [
   {
@@ -87,6 +93,7 @@ const repositories: Provider[] = [
     ConfigModule.forRoot({
       isGlobal: true,
     }),
+    RmqModule.register({ name: productRmqDiToken }),
     TypeOrmModule.forRoot(typeormConfig),
     TypeOrmModule.forFeature([ProductEventModel]),
     CqrsModule,

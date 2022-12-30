@@ -38,7 +38,6 @@ export class ImportProductsMapper implements ImportProductsMapperPort {
   }
 
   toResponseDTO(event: ProductImportedDomainEvent): ImportProductsResponseDto {
-    console.log(event);
     const dto = new ImportProductsResponseDto({
       name: event.name.unpack(),
       quantity: event.quantity.unpack(),

@@ -1,4 +1,4 @@
-import { ProductNameValueObject } from "@value-objects/product";
+import { ProductNameValueObject } from '@value-objects/product';
 
 export class GetQualityOnHandDomainData {
   name: ProductNameValueObject;

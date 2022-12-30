@@ -12,13 +12,13 @@ import { Repository } from 'typeorm';
 import { ProductEventTypeOrmMapper } from '../mappers';
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ProductEventStorePort } from '@driven-ports/product/product.repository.port';
 import {
   ProductAggregate,
   productAggregateApplyEventMethodNamesDocuments,
 } from '@aggregates/product';
 import { ProductNameValueObject } from '@value-objects/product';
 import { ProductEventsRebuilded } from './product-event.interface';
+import { ProductEventStorePort } from '@driven-ports/product/ports';
 
 @Injectable()
 export class ProductEventStore

@@ -25,7 +25,6 @@ export class ImportProductsHttpController {
     return match(result, {
       Ok: (response: ImportProductsResponseDto) => response,
       Err: (errors: ImportProductsUseCaseError) => {
-        console.log(errors);
         if (IsArrayContainInstanceOf(errors, ProductValidationError)) {
           throw new UnprocessableEntityException(errors);
         }

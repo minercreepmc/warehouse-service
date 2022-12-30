@@ -6,7 +6,7 @@ import {
 } from '@driver-adapters/dtos/product';
 import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
-import { ApiOperation, ApiParam } from '@nestjs/swagger';
+import { ApiOperation, ApiParam, ApiBody } from '@nestjs/swagger';
 import {
   CreateProductHttpController,
   GetQualityOnHandHttpController,
@@ -36,8 +36,7 @@ export class ProductHttpController {
 
   @Post('create')
   @ApiOperation({ summary: 'Create product' })
-  @ApiParam({
-    name: 'test',
+  @ApiBody({
     required: true,
     description: 'The dto need to create product',
     type: CreateProductRequestDto,
@@ -48,8 +47,7 @@ export class ProductHttpController {
 
   @Post('imports')
   @ApiOperation({ summary: 'Import products' })
-  @ApiParam({
-    name: 'test',
+  @ApiBody({
     required: true,
     description: 'The dto need to import products',
     type: ImportProductsRequestDto,
@@ -60,8 +58,7 @@ export class ProductHttpController {
 
   @Post('ship')
   @ApiOperation({ summary: 'Ship products' })
-  @ApiParam({
-    name: 'test',
+  @ApiBody({
     required: true,
     description: 'The dto need to ship products',
     type: ShipProductsRequestDto,
