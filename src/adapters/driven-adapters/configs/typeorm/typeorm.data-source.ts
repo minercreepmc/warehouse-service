@@ -1,4 +1,4 @@
-import { CreateProductEvent1671798454148 } from '@driven-adapters/database/migrations';
+import { CreateProductEvent1672663446500 } from '@driven-adapters/database/migrations';
 import { ProductEventModel } from '@driven-adapters/database/models';
 import { ConfigService } from '@nestjs/config';
 import { DataSource } from 'typeorm';
@@ -12,7 +12,7 @@ const typeormDataSource = new DataSource({
   password: configService.get('POSTGRES_PASSWORD'),
   database: configService.get('POSTGRES_DB'),
   entities: [ProductEventModel],
-  migrations: [CreateProductEvent1671798454148],
+  migrations: [CreateProductEvent1672663446500],
   //synchronize: true,
 });
 

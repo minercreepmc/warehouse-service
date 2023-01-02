@@ -1,1 +1,1 @@
-export * from './1671798454148-CreateProductEvent';
+export * from './1672663446500-CreateProductEvent';

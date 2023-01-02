@@ -3,3 +3,7 @@ export interface ProductDomainEventMessageDto {
   quantity?: number;
   unit?: string;
 }
+
+export interface ProductCreatedDomainEventMessageDto {
+  name: string;
+}

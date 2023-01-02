@@ -12,6 +12,7 @@ import {
   ProductNameValueObject,
   ProductQuantityValueObject,
 } from '@value-objects/product';
+import { ID } from 'common-base-classes';
 import {
   CreateProductDomainService,
   CreateProductDomainServiceData,
@@ -44,18 +45,20 @@ export class ProductDomainService {
   );
   private readonly createProductDomainService = new CreateProductDomainService(
     this.eventStore,
+    this.messageBroker,
+    this.mapper,
   );
 
   private readonly shipProductsDomainService = new ShipProductsDomainService(
     this.eventStore,
   );
 
-  async importProducts(data: ImportProductDomainServiceData) {
-    return this.importProductDomainService.execute(data);
-  }
-
   async createProduct(data: CreateProductDomainServiceData) {
     return this.createProductDomainService.execute(data);
+  }
+
+  async importProducts(data: ImportProductDomainServiceData) {
+    return this.importProductDomainService.execute(data);
   }
 
   async shipProducts(data: ShipProductsDomainServiceData) {

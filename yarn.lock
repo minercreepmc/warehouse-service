@@ -2003,10 +2003,10 @@ commander@^2.20.0:
   resolved "https://registry.npmjs.org/commander/-/commander-2.20.3.tgz"
   integrity sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==
 
-common-base-classes@0.14.25:
-  version "0.14.25"
-  resolved "https://registry.yarnpkg.com/common-base-classes/-/common-base-classes-0.14.25.tgz#9ddc93236c1d8168d8fbfa260a9d3348bd5d8750"
-  integrity sha512-jAN6e5I7XLN2nC4FJcof2a6uFtVaShkCk5nlfMIobWAfEPrrKe6ImEgJUP5U+RjVrYL93QiDI+4btFHSqiqPyQ==
+common-base-classes@0.15.10:
+  version "0.15.10"
+  resolved "https://registry.yarnpkg.com/common-base-classes/-/common-base-classes-0.15.10.tgz#d208459ec6536c4cd1a2ca08f07126a36a4e0e40"
+  integrity sha512-EOdfwSym963pBz67JFNlpzTlIszYL2zGavLZYeOqs0e6JfJ9u08zbGUTnNvz3A5u6FTrRAlt1yMaJXiNIdYDiw==
   dependencies:
     common-errors "^1.2.0"
     guarder "^0.9.0"

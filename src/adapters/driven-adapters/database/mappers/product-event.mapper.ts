@@ -9,7 +9,11 @@ import {
   ProductUnitValueObject,
 } from '@value-objects/product';
 import { AbstractEventTypeOrmMapper } from 'common-base-classes';
-import { ProductEventModel, ProductEventModelDetails } from '../models';
+import {
+  ProductEventModel,
+  ProductEventModelDetails,
+  ProductEventModelIndex,
+} from '../models';
 
 export class ProductEventTypeOrmMapper extends AbstractEventTypeOrmMapper<
   ProductDomainEvent,
@@ -18,6 +22,15 @@ export class ProductEventTypeOrmMapper extends AbstractEventTypeOrmMapper<
   ProductEventModelDetails
 > {
   protected eventConstructorDocuments = productDomainEventConstructorDocuments;
+
+  protected toPersistentIndexColumns(
+    event: ProductDomainEvent,
+  ): ProductEventModelIndex {
+    const productName = event.details.name.unpack();
+    return {
+      productName,
+    };
+  }
 
   protected toDomainDetails(
     ormDetails: ProductEventModelDetails,

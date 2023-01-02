@@ -13,6 +13,9 @@
       "@entities": [
         "./src/domain/entities"
       ],
+      "@models/*": [
+        "./src/domain/models/*"
+      ],
       "@domain-events/*": [
         "./src/domain/domain-events/*"
       ],

@@ -5,8 +5,6 @@ import {
 } from './products-imported.domain-event.interface';
 
 export class ProductImportedDomainEvent extends DomainEvent<ProductsImportedDomainEventDetails> {
-  static readonly pattern = this.name;
-
   constructor(data: ProductsImportedDomainEventData) {
     super(data);
   }

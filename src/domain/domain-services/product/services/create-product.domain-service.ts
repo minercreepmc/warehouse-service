@@ -1,6 +1,9 @@
 import { ProductAggregate } from '@aggregates/product/product.aggregate';
 import { ProductDomainError } from '@domain-errors/product';
+import { ProductCreatedDomainEvent } from '@domain-events/product';
+import { ProductMessageMapper } from '@driven-ports/product/channel';
 import { ProductEventStorePort } from '@driven-ports/product/ports';
+import { ClientProxy } from '@nestjs/microservices';
 import type { ProductNameValueObject } from '@value-objects/product';
 
 export interface CreateProductDomainServiceData {
@@ -8,7 +11,11 @@ export interface CreateProductDomainServiceData {
 }
 
 export class CreateProductDomainService {
-  constructor(private readonly eventStore: ProductEventStorePort) {}
+  constructor(
+    private readonly eventStore: ProductEventStorePort,
+    private readonly messageBroker: ClientProxy,
+    private readonly mapper: ProductMessageMapper,
+  ) {}
 
   async execute(data: CreateProductDomainServiceData) {
     const found = await this.eventStore.isProductExist(data.name);
@@ -21,7 +28,9 @@ export class CreateProductDomainService {
     });
 
     await this.eventStore.save(productCreatedEvent);
-    // publish event
+
+    const message = this.mapper.toMessage(productCreatedEvent);
+    this.messageBroker.emit(ProductCreatedDomainEvent.name, message);
 
     return productCreatedEvent;
   }
