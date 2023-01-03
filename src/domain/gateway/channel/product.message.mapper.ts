@@ -6,7 +6,10 @@ export class ProductMessageMapper
   implements MessageMapper<ProductDomainEvent, ProductDomainEventMessageDto>
 {
   toMessage(event: ProductDomainEvent): ProductDomainEventMessageDto {
-    const message: ProductDomainEventMessageDto = {};
+    const message: ProductDomainEventMessageDto = {
+      productId: event.aggregateId.unpack(),
+    };
+
     if (event.details.name) {
       message.name = event.details.name.unpack();
     }

@@ -1,7 +1,7 @@
 import { ShipProductsAggregateData } from '@aggregates/product';
 import { ProductDomainError } from '@domain-errors/product';
 import type { ProductShippedDomainEvent } from '@domain-events/product';
-import { ProductEventStorePort } from '@driven-ports/product/ports';
+import { ProductEventStorePort } from '@gateway/driven-ports/product';
 
 export interface ShipProductsDomainServiceData
   extends ShipProductsAggregateData {}

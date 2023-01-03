@@ -13,8 +13,8 @@
       "@entities": [
         "./src/domain/entities"
       ],
-      "@models/*": [
-        "./src/domain/models/*"
+      "@views/*": [
+        "./src/domain/views/*"
       ],
       "@domain-events/*": [
         "./src/domain/domain-events/*"
@@ -25,8 +25,8 @@
       "@domain-errors/*": [
         "./src/domain/domain-errors/*"
       ],
-      "@driven-ports/*": [
-        "./src/domain/driven-ports/*"
+      "@gateway/*": [
+        "./src/domain/gateway/*"
       ],
       "@driver-ports/*": [
         "./src/application/driver-ports/*"

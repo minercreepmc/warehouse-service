@@ -1,7 +1,7 @@
 import type { ProductAggregate } from '@aggregates/product';
 import type { ProductDomainEvent } from '@domain-events/product';
 import { ProductNameValueObject } from '@value-objects/product';
-import { EventStorePort, ID } from 'common-base-classes';
+import { EventStorePort } from 'common-base-classes';
 
 export interface ProductEventStorePort
   extends EventStorePort<ProductDomainEvent> {

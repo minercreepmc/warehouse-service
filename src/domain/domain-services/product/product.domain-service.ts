@@ -1,18 +1,17 @@
 import { ProductAggregate } from '@aggregates/product';
 import { ProductDomainError } from '@domain-errors/product';
-import { ProductMessageMapper } from '@driven-ports/product/channel';
+import { ProductMessageMapper } from '@gateway/channel';
 import {
   productEventStoreDiToken,
   ProductEventStorePort,
   productRmqDiToken,
-} from '@driven-ports/product/ports';
+} from '@gateway/driven-ports/product';
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import {
   ProductNameValueObject,
   ProductQuantityValueObject,
 } from '@value-objects/product';
-import { ID } from 'common-base-classes';
 import {
   CreateProductDomainService,
   CreateProductDomainServiceData,

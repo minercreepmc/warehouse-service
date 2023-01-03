@@ -1,13 +1,14 @@
 import { ProductDomainService } from '@domain-services/product';
 import { RmqModule } from '@driven-adapters/configs/rmq';
 import { typeormConfig } from '@driven-adapters/configs/typeorm';
-import { ProductEventModel } from '@driven-adapters/database/models';
-import { ProductEventStore } from '@driven-adapters/database/repositories';
-import { ProductMessageMapper } from '@driven-ports/product/channel';
 import {
-  productEventStoreDiToken,
-  productRmqDiToken,
-} from '@driven-ports/product/ports';
+  ProductEventModel,
+  ProductInfoOrmModel,
+} from '@driven-adapters/database/models';
+import {
+  ProductEventStore,
+  ProductInfoRepository,
+} from '@driven-adapters/database/repositories';
 import { ProductHttpController } from '@driver-adapters/controllers/product/http';
 import { CreateProductHandler } from '@driver-ports/use-cases/create-product';
 import {
@@ -37,19 +38,27 @@ import {
 } from '@driver-ports/use-cases/ship-products/orchestrators';
 import { ShipProductsMapper } from '@driver-ports/use-cases/ship-products/orchestrators/ship-products.mapper';
 import { ShipProductsHandler } from '@driver-ports/use-cases/ship-products/ship-products.handler';
+import { ProductMessageMapper } from '@gateway/channel';
+import {
+  productEventStoreDiToken,
+  productInfoRepositoryDiToken,
+  productRmqDiToken,
+} from '@gateway/driven-ports/product';
 import { Module, Provider } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { CqrsModule } from '@nestjs/cqrs';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ProductInfoProjector } from '@views/products/projectors';
 
-const domainServices = [ProductDomainService];
+const domainServices: Provider[] = [ProductDomainService];
 const httpControllers = [ProductHttpController];
-const commandHandlers = [
+const projectors = [ProductInfoProjector];
+const commandHandlers: Provider[] = [
   CreateProductHandler,
   ImportProductsHandler,
   ShipProductsHandler,
 ];
-const queryHandlers = [GetQualityOnHandHandler];
+const queryHandlers: Provider[] = [GetQualityOnHandHandler];
 const mappers: Provider[] = [
   {
     provide: createProductMapperDiToken,
@@ -86,6 +95,10 @@ const repositories: Provider[] = [
     provide: productEventStoreDiToken,
     useClass: ProductEventStore,
   },
+  {
+    provide: productInfoRepositoryDiToken,
+    useClass: ProductInfoRepository,
+  },
 ];
 
 @Module({
@@ -95,10 +108,10 @@ const repositories: Provider[] = [
     }),
     RmqModule.register({ name: productRmqDiToken }),
     TypeOrmModule.forRoot(typeormConfig),
-    TypeOrmModule.forFeature([ProductEventModel]),
+    TypeOrmModule.forFeature([ProductEventModel, ProductInfoOrmModel]),
     CqrsModule,
   ],
-  controllers: [...httpControllers],
+  controllers: [...httpControllers, ...projectors],
   providers: [
     ...validators,
     ...businessChecker,

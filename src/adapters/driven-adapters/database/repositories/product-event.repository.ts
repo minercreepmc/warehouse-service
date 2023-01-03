@@ -17,7 +17,7 @@ import {
   productAggregateApplyEventMethodNamesDocuments,
 } from '@aggregates/product';
 import { ProductNameValueObject } from '@value-objects/product';
-import { ProductEventStorePort } from '@driven-ports/product/ports';
+import { ProductEventStorePort } from '@gateway/driven-ports/product';
 
 @Injectable()
 export class ProductEventStore

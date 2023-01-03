@@ -1,8 +1,8 @@
 import { ProductAggregate } from '@aggregates/product/product.aggregate';
 import { ProductDomainError } from '@domain-errors/product';
 import { ProductCreatedDomainEvent } from '@domain-events/product';
-import { ProductMessageMapper } from '@driven-ports/product/channel';
-import { ProductEventStorePort } from '@driven-ports/product/ports';
+import { ProductMessageMapper } from '@gateway/channel';
+import { ProductEventStorePort } from '@gateway/driven-ports/product';
 import { ClientProxy } from '@nestjs/microservices';
 import type { ProductNameValueObject } from '@value-objects/product';
 
