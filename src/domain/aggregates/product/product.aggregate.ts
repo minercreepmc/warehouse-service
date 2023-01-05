@@ -1,6 +1,6 @@
 import {
-  ProductImportedDomainEvent,
-  ProductShippedDomainEvent,
+  ProductsImportedDomainEvent,
+  ProductsShippedDomainEvent,
   ProductCreatedDomainEvent,
 } from '@domain-events/product';
 import {
@@ -40,22 +40,22 @@ export class ProductAggregate
 
   importProducts(
     data: ImportProductsAggregateData,
-  ): ProductImportedDomainEvent {
-    const event = new ProductImportedDomainEvent({
+  ): ProductsImportedDomainEvent {
+    const event = new ProductsImportedDomainEvent({
       aggregateId: this.id,
       aggregateType: this.constructor.name,
-      eventName: ProductImportedDomainEvent.name,
+      eventName: ProductsImportedDomainEvent.name,
       details: data.details,
     });
     this.state.applyImportProducts(event);
     return event;
   }
 
-  shipProducts(data: ShipProductsAggregateData): ProductShippedDomainEvent {
-    const event = new ProductShippedDomainEvent({
+  shipProducts(data: ShipProductsAggregateData): ProductsShippedDomainEvent {
+    const event = new ProductsShippedDomainEvent({
       aggregateId: this.id,
       aggregateType: this.constructor.name,
-      eventName: ProductShippedDomainEvent.name,
+      eventName: ProductsShippedDomainEvent.name,
       details: data,
     });
     this.state.applyShipProducts(event);

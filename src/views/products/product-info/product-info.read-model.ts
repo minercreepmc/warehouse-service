@@ -2,7 +2,7 @@ import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 import { AbstractReadModel } from 'common-base-classes';
 
 export interface ProductInfoReadModelData {
-  productId: string;
+  id: string;
   name: string;
   quantity: number;
   unit?: string;
@@ -13,11 +13,11 @@ export class ProductInfoReadModel extends AbstractReadModel {
   @IsString()
   readonly name: string;
 
-  readonly quantity: number;
+  quantity: number;
 
-  readonly unit?: string;
+  unit?: string;
   constructor(data: ProductInfoReadModelData) {
-    super({ id: data.productId });
+    super({ id: data.id });
     this.name = data.name;
     this.quantity = data.quantity || 0;
     this.unit = data.unit || '';

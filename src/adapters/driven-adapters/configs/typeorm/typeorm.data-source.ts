@@ -1,4 +1,7 @@
-import { CreateProductEvent1672746560005, CreateProductInfo1672746630795 } from '@driven-adapters/database/migrations';
+import {
+  CreateProductEvent1672746560005,
+  CreateProductInfo1672746630795,
+} from '@driven-adapters/database/migrations';
 import {
   ProductEventModel,
   ProductInfoOrmModel,

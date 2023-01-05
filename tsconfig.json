@@ -14,7 +14,7 @@
         "./src/domain/entities"
       ],
       "@views/*": [
-        "./src/domain/views/*"
+        "./src/views/*"
       ],
       "@domain-events/*": [
         "./src/domain/domain-events/*"

@@ -4,7 +4,7 @@ import {
   ProductShippedDomainEventDetails,
 } from './product-shipped.domain-event.interface';
 
-export class ProductShippedDomainEvent extends DomainEvent<ProductShippedDomainEventDetails> {
+export class ProductsShippedDomainEvent extends DomainEvent<ProductShippedDomainEventDetails> {
   constructor(data: ProductShippedDomainEventData) {
     super(data);
   }

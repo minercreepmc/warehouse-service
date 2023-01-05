@@ -1,6 +1,6 @@
 import { ShipProductsAggregateData } from '@aggregates/product';
 import { ProductDomainError } from '@domain-errors/product';
-import type { ProductShippedDomainEvent } from '@domain-events/product';
+import type { ProductsShippedDomainEvent } from '@domain-events/product';
 import { ProductEventStorePort } from '@gateway/driven-ports/product';
 
 export interface ShipProductsDomainServiceData
@@ -11,7 +11,7 @@ export class ShipProductsDomainService {
 
   async execute(
     data: ShipProductsDomainServiceData,
-  ): Promise<ProductShippedDomainEvent> {
+  ): Promise<ProductsShippedDomainEvent> {
     const product = await this.eventStore.getProduct(data.name);
     if (!product) {
       throw new ProductDomainError.NameIsNotExist();

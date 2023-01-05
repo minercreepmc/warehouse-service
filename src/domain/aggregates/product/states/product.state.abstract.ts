@@ -1,7 +1,7 @@
 import {
   ProductCreatedDomainEvent,
-  ProductImportedDomainEvent,
-  ProductShippedDomainEvent,
+  ProductsImportedDomainEvent,
+  ProductsShippedDomainEvent,
 } from '@domain-events/product';
 import { IState } from 'common-base-classes';
 import { ProductAggregate } from '../product.aggregate';
@@ -25,11 +25,11 @@ export abstract class ProductState implements IProductState {
     return;
   }
 
-  applyImportProducts(event: ProductImportedDomainEvent): void {
+  applyImportProducts(event: ProductsImportedDomainEvent): void {
     return;
   }
 
-  applyShipProducts(event: ProductShippedDomainEvent): void {
+  applyShipProducts(event: ProductsShippedDomainEvent): void {
     return;
   }
   // abstract pendingImportProduct(state: ProductState): void;

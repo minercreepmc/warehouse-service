@@ -2,9 +2,9 @@ import { DomainEventData } from 'common-base-classes';
 import { ProductCreatedDomainEventDetails } from './product-created';
 import { ProductCreatedDomainEvent } from './product-created/product-created.domain-event';
 import { ProductsImportedDomainEventDetails } from './products-imported';
-import { ProductImportedDomainEvent } from './products-imported/products-imported.domain-event';
+import { ProductsImportedDomainEvent } from './products-imported/products-imported.domain-event';
 import { ProductShippedDomainEventDetails } from './products-shipped';
-import { ProductShippedDomainEvent } from './products-shipped/product-shipped.domain-event';
+import { ProductsShippedDomainEvent } from './products-shipped/product-shipped.domain-event';
 
 export type ProductDomainEventDetails = Partial<
   ProductCreatedDomainEventDetails &
@@ -17,8 +17,8 @@ export interface ProductDomainEventProps
 
 export const productDomainEventConstructorDocuments = {
   ProductCreatedDomainEvent: ProductCreatedDomainEvent,
-  ProductImportedDomainEvent: ProductImportedDomainEvent,
-  ProductShippedDomainEvent: ProductShippedDomainEvent,
+  ProductImportedDomainEvent: ProductsImportedDomainEvent,
+  ProductShippedDomainEvent: ProductsShippedDomainEvent,
 };
 
 export enum productDomainEventNames {

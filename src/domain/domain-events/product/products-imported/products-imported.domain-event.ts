@@ -4,7 +4,7 @@ import {
   ProductsImportedDomainEventDetails,
 } from './products-imported.domain-event.interface';
 
-export class ProductImportedDomainEvent extends DomainEvent<ProductsImportedDomainEventDetails> {
+export class ProductsImportedDomainEvent extends DomainEvent<ProductsImportedDomainEventDetails> {
   constructor(data: ProductsImportedDomainEventData) {
     super(data);
   }

@@ -1,10 +1,10 @@
-import { ProductShippedDomainEvent } from '@domain-events/product';
+import { ProductsShippedDomainEvent } from '@domain-events/product';
 import { ArgumentInvalidExeception } from '@tinphamm/common-exceptions';
 import { ProductQuantityValueObject } from '@value-objects/product';
 import { ProductState } from './product.state.abstract';
 
 export class ProductInStockState extends ProductState {
-  override applyShipProducts(event: ProductShippedDomainEvent): void {
+  override applyShipProducts(event: ProductsShippedDomainEvent): void {
     this.product.addEvent(event);
     this.shipAmountOfProducts(event.quantity);
   }

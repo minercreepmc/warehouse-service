@@ -1,5 +1,5 @@
-import { ProductInfoReadModel } from '@views/products/read-models';
 import { ProjectionRepositoryPort } from 'common-base-classes';
+import { ProductInfoReadModel } from './product-info.read-model';
 
 export interface ProductInfoRepositoryPort
   extends ProjectionRepositoryPort<ProductInfoReadModel> {}

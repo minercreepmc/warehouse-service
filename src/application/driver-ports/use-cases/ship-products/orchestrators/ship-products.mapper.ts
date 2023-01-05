@@ -1,4 +1,4 @@
-import { ProductShippedDomainEvent } from '@domain-events/product';
+import { ProductsShippedDomainEvent } from '@domain-events/product';
 import { Injectable } from '@nestjs/common';
 import {
   ProductNameValueObject,
@@ -32,7 +32,7 @@ export class ShipProductsMapper implements IShipProductsMapper {
     return data;
   }
 
-  toResponseDTO(event: ProductShippedDomainEvent): ShipProductsResponseDto {
+  toResponseDTO(event: ProductsShippedDomainEvent): ShipProductsResponseDto {
     const dto = new ShipProductsResponseDto({
       name: event.name.unpack(),
       quantity: event.quantity.unpack(),

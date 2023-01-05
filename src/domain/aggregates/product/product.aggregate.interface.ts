@@ -1,7 +1,7 @@
 import type {
   ProductCreatedDomainEvent,
-  ProductImportedDomainEvent,
-  ProductShippedDomainEvent,
+  ProductsImportedDomainEvent,
+  ProductsShippedDomainEvent,
 } from '@domain-events/product';
 import type {
   ProductNameValueObject,
@@ -13,14 +13,16 @@ import { productDomainEventNames } from '@domain-events/product';
 
 export interface ProductAggregateProcess {
   createProduct(data: CreateProductAggegateData): ProductCreatedDomainEvent;
-  importProducts(data: ImportProductsAggregateData): ProductImportedDomainEvent;
-  shipProducts(data: ShipProductsAggregateData): ProductShippedDomainEvent;
+  importProducts(
+    data: ImportProductsAggregateData,
+  ): ProductsImportedDomainEvent;
+  shipProducts(data: ShipProductsAggregateData): ProductsShippedDomainEvent;
 }
 
 export interface ProductAggregateApply {
   applyCreateProduct(event: ProductCreatedDomainEvent): void;
-  applyImportProducts(event: ProductImportedDomainEvent): void;
-  applyShipProducts(event: ProductShippedDomainEvent): void;
+  applyImportProducts(event: ProductsImportedDomainEvent): void;
+  applyShipProducts(event: ProductsShippedDomainEvent): void;
 }
 
 export interface ProductAggregateDetails {

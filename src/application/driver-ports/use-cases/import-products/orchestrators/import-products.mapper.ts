@@ -1,4 +1,4 @@
-import { ProductImportedDomainEvent } from '@domain-events/product';
+import { ProductsImportedDomainEvent } from '@domain-events/product';
 import { Injectable } from '@nestjs/common';
 import {
   ProductNameValueObject,
@@ -37,7 +37,7 @@ export class ImportProductsMapper implements ImportProductsMapperPort {
     return domainData;
   }
 
-  toResponseDTO(event: ProductImportedDomainEvent): ImportProductsResponseDto {
+  toResponseDTO(event: ProductsImportedDomainEvent): ImportProductsResponseDto {
     const dto = new ImportProductsResponseDto({
       name: event.name.unpack(),
       quantity: event.quantity.unpack(),

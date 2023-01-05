@@ -1,13 +1,9 @@
-import { Inject } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import {
-  createProductBusinessCheckerDiToken,
-  CreateProductBusinessCheckerPort,
-  createProductMapperDiToken,
-  CreateProductMapperPort,
+  CreateProductBusinessChecker,
+  CreateProductMapper,
   CreateProductResult,
-  createProductValidatorDiToken,
-  CreateProductValidatorPort,
+  CreateProductValidator,
 } from './orchestrators';
 import { Ok, Err } from 'oxide.ts';
 import { CreateProductCommand } from './orchestrators/data';
@@ -17,12 +13,9 @@ export class CreateProductHandler
   implements ICommandHandler<CreateProductCommand, CreateProductResult>
 {
   constructor(
-    @Inject(createProductMapperDiToken)
-    private readonly mapper: CreateProductMapperPort,
-    @Inject(createProductValidatorDiToken)
-    private readonly validator: CreateProductValidatorPort,
-    @Inject(createProductBusinessCheckerDiToken)
-    private readonly businessChecker: CreateProductBusinessCheckerPort,
+    private readonly mapper: CreateProductMapper,
+    private readonly validator: CreateProductValidator,
+    private readonly businessChecker: CreateProductBusinessChecker,
     private readonly domainService: ProductDomainService,
   ) {}
 
