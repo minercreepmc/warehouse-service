@@ -1,40 +1,43 @@
-import { Controller, Inject } from '@nestjs/common';
-import { EventPattern, Payload } from '@nestjs/microservices';
+import { Controller } from '@nestjs/common';
+import { Ctx, EventPattern, Payload, RmqContext } from '@nestjs/microservices';
 import {
   ProductCreatedDomainEventMessageDto,
   ProductEvent,
-  ProductImportedDomainEventMessageDto,
+  ProductsImportedDomainEventMessageDto,
 } from '@views/products/gateway/channel';
-import {
-  ProductInfoReadModel,
-  productInfoRepositoryDiToken,
-  ProductInfoRepositoryPort,
-} from '@views/products/product-info';
+import { ProductInfoService } from '@views/products/product-info';
 
 @Controller()
 export class ProductInfoProjector {
-  constructor(
-    @Inject(productInfoRepositoryDiToken)
-    private readonly repository: ProductInfoRepositoryPort,
-  ) {}
+  constructor(private readonly service: ProductInfoService) {}
 
   @EventPattern(ProductEvent.productCreated)
-  async create(@Payload() data: ProductCreatedDomainEventMessageDto) {
-    const readModel = new ProductInfoReadModel({
-      id: data.productId,
-      name: data.name,
-      quantity: 0,
-    });
-
-    await this.repository.save(readModel);
+  async create(
+    @Payload() data: ProductCreatedDomainEventMessageDto,
+    @Ctx() context: RmqContext,
+  ) {
+    try {
+      await this.service.create(data);
+      const channel = context.getChannelRef();
+      const originalMsg = context.getMessage();
+      channel.ack(originalMsg);
+    } catch (err) {
+      throw err;
+    }
   }
 
-  @EventPattern(ProductEvent.productImported)
-  async update(@Payload() data: ProductImportedDomainEventMessageDto) {
-    const productInfo = await this.repository.findOneById(data.productId);
-    productInfo.quantity += data.quantity;
-
-    await this.repository.update(data.productId, productInfo);
-    // Add unit calculating
+  @EventPattern(ProductEvent.productsImported)
+  async update(
+    @Payload() data: ProductsImportedDomainEventMessageDto,
+    @Ctx() context: RmqContext,
+  ) {
+    try {
+      await this.service.update(data);
+      const channel = context.getChannelRef();
+      const originalMsg = context.getMessage();
+      channel.ack(originalMsg);
+    } catch (err) {
+      throw err;
+    }
   }
 }

@@ -10,5 +10,5 @@ export interface ProductCreatedDomainEventMessageDto {
   name: string;
 }
 
-export type ProductImportedDomainEventMessageDto =
+export type ProductsImportedDomainEventMessageDto =
   Required<ProductDomainEventMessageDto>;

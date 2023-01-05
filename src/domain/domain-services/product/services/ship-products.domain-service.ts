@@ -21,10 +21,10 @@ export class ShipProductsDomainService {
       throw new ProductDomainError.QuantityIsNotEnough();
     }
 
-    const productShippedEvent = product.shipProducts(data);
-    this.eventStore.save(productShippedEvent);
+    const productsShippedEvent = product.shipProducts(data);
+    this.eventStore.save(productsShippedEvent);
     // publish event;
 
-    return productShippedEvent;
+    return productsShippedEvent;
   }
 }

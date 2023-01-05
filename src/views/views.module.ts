@@ -18,9 +18,7 @@ const repositories: Provider[] = [
 ];
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([ProductInfoOrmModel]),
-  ],
+  imports: [TypeOrmModule.forFeature([ProductInfoOrmModel])],
   controllers: [...controllers],
   providers: [...services, ...repositories],
   exports: [...services],

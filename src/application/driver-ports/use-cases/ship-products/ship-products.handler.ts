@@ -31,10 +31,10 @@ export class ShipProductsHandler
       return Err(this.businessChecker.errors);
     }
 
-    const productShippedEvent = await this.domainService.shipProducts(
+    const productsShippedEvent = await this.domainService.shipProducts(
       shipDomainData,
     );
 
-    return Ok(this.mapper.toResponseDTO(productShippedEvent));
+    return Ok(this.mapper.toResponseDTO(productsShippedEvent));
   }
 }

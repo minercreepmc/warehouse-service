@@ -19,14 +19,14 @@ export class ImportProductDomainService {
     if (!product) {
       throw new ProductDomainError.NameIsNotExist();
     }
-    const productImported = product.importProducts({
+    const productsImported = product.importProducts({
       id: product.id,
       details: data,
     });
-    await this.eventStore.save(productImported);
+    await this.eventStore.save(productsImported);
 
-    const message = this.mapper.toMessage(productImported);
+    const message = this.mapper.toMessage(productsImported);
     this.messageBroker.emit(ProductsImportedDomainEvent.name, message);
-    return productImported;
+    return productsImported;
   }
 }

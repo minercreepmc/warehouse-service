@@ -35,10 +35,10 @@ export class ImportProductsHandler
       return Err(this.businessChecker.errors);
     }
 
-    const productImportedEvent = await this.domainService.importProducts(
+    const productsImportedEvent = await this.domainService.importProducts(
       domainData,
     );
 
-    return Ok(this.mapper.toResponseDTO(productImportedEvent));
+    return Ok(this.mapper.toResponseDTO(productsImportedEvent));
   }
 }

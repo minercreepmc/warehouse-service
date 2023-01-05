@@ -1,11 +1,11 @@
 import { DomainEvent } from 'common-base-classes';
 import {
-  ProductShippedDomainEventData,
-  ProductShippedDomainEventDetails,
+  ProductsShippedDomainEventData,
+  ProductsShippedDomainEventDetails,
 } from './product-shipped.domain-event.interface';
 
-export class ProductsShippedDomainEvent extends DomainEvent<ProductShippedDomainEventDetails> {
-  constructor(data: ProductShippedDomainEventData) {
+export class ProductsShippedDomainEvent extends DomainEvent<ProductsShippedDomainEventDetails> {
+  constructor(data: ProductsShippedDomainEventData) {
     super(data);
   }
 

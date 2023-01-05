@@ -4,7 +4,7 @@ import { AbstractReadModel } from 'common-base-classes';
 export interface ProductInfoReadModelData {
   id: string;
   name: string;
-  quantity: number;
+  quantity?: number;
   unit?: string;
 }
 
