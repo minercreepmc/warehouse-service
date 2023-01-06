@@ -21,15 +21,15 @@ export class CreateProductHandler
 
   async execute(command: CreateProductCommand): Promise<CreateProductResult> {
     //validate
-    const isValidCommand = this.validator.isValid(command);
-    if (!isValidCommand) {
+    this.validator.clearNoteAndCheck(command);
+    if (!this.validator.isValid()) {
       return Err(this.validator.errors);
     }
 
     const domainData = this.mapper.toDomain(command);
-    const isValidDomainData = await this.businessChecker.isValid(domainData);
+    await this.businessChecker.clearNoteAndCheck(domainData);
 
-    if (!isValidDomainData) {
+    if (!this.businessChecker.isValid()) {
       return Err(this.businessChecker.errors);
     }
 

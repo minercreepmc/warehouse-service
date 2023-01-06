@@ -1,46 +1,26 @@
-import {
-  ProductBusinessError,
-  ProductDomainError,
-} from '@domain-errors/product';
+import { ProductBusinessChecker } from '@application/common-orchestrators/business-checker';
+import { ProductBusinessError } from '@domain-errors/product';
 import { ProductDomainService } from '@domain-services/product';
 import { Injectable } from '@nestjs/common';
-import { ProductNameValueObject } from '@value-objects/product';
-import { Notification } from 'common-base-classes';
+import { AbstractNotificationWrapper } from 'common-base-classes';
 import { CreateProductDomainData } from './data';
 
-export interface CreateProductBusinessCheckerPort {
-  isValid(domainData: CreateProductDomainData): Promise<boolean>;
-  get errors(): ProductBusinessError[];
-}
-
-export const createProductBusinessCheckerDiToken = Symbol(
-  'CREATE_PRODUCT_BUSINESS_CHECKER',
-);
-
 @Injectable()
-export class CreateProductBusinessChecker
-  implements CreateProductBusinessCheckerPort
-{
-  private readonly note = new Notification<ProductBusinessError>();
-  constructor(private readonly productDomainService: ProductDomainService) {}
-
-  async isValid(domainData: CreateProductDomainData): Promise<boolean> {
-    await this.checkNameExistence(domainData.name);
-
-    return !this.note.hasNote();
+export class CreateProductBusinessChecker extends AbstractNotificationWrapper<ProductBusinessError> {
+  private readonly businessChecker = new ProductBusinessChecker(
+    this.productDomainService,
+    this.note,
+  );
+  constructor(private readonly productDomainService: ProductDomainService) {
+    super();
   }
 
-  private async checkNameExistence(name: ProductNameValueObject) {
-    const found = await this.productDomainService.isProductExist(name);
-    if (found) {
-      this.note.addNote(new ProductDomainError.NameIsExist());
-    }
+  async check(domainData: CreateProductDomainData): Promise<void> {
+    await this.businessChecker.checkProductMustNotExist(domainData.name);
   }
 
-  get errors(): ProductBusinessError[] {
-    if (!this.note.hasNote()) {
-      throw new Error(`Cannot get errors of success domain data`);
-    }
-    return this.note.getNotes();
+  async clearNoteAndCheck(domainData: CreateProductDomainData) {
+    super.clearNote();
+    return this.check(domainData);
   }
 }

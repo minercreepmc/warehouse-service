@@ -50,6 +50,8 @@ export class ProductDomainService {
 
   private readonly shipProductsDomainService = new ShipProductsDomainService(
     this.eventStore,
+    this.messageBroker,
+    this.mapper
   );
 
   async createProduct(data: CreateProductDomainServiceData) {
@@ -84,6 +86,6 @@ export class ProductDomainService {
     amount: ProductQuantityValueObject,
   ): Promise<boolean> {
     const product = await this.getProduct(productName);
-    return product.quantity.unpack() > amount.unpack();
+    return product.quantity.unpack() >= amount.unpack();
   }
 }

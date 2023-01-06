@@ -4,6 +4,7 @@ import {
   ProductCreatedDomainEventMessageDto,
   ProductEvent,
   ProductsImportedDomainEventMessageDto,
+  ProductsShippedDomainEventMessageDto,
 } from '@views/products/gateway/channel';
 import { ProductInfoService } from '@views/products/product-info';
 
@@ -27,12 +28,27 @@ export class ProductInfoProjector {
   }
 
   @EventPattern(ProductEvent.productsImported)
-  async update(
+  async import(
     @Payload() data: ProductsImportedDomainEventMessageDto,
     @Ctx() context: RmqContext,
   ) {
     try {
-      await this.service.update(data);
+      await this.service.addQuantity(data);
+      const channel = context.getChannelRef();
+      const originalMsg = context.getMessage();
+      channel.ack(originalMsg);
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  @EventPattern(ProductEvent.productsShipped)
+  async ship(
+    @Payload() data: ProductsShippedDomainEventMessageDto,
+    @Ctx() context: RmqContext,
+  ) {
+    try {
+      await this.service.removeQuantity(data);
       const channel = context.getChannelRef();
       const originalMsg = context.getMessage();
       channel.ack(originalMsg);

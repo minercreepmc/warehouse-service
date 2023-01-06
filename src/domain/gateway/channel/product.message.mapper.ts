@@ -8,6 +8,7 @@ export class ProductMessageMapper
   toMessage(event: ProductDomainEvent): ProductDomainEventMessageDto {
     const message: ProductDomainEventMessageDto = {
       productId: event.aggregateId.unpack(),
+      eventName: event.eventName,
     };
 
     if (event.details.name) {

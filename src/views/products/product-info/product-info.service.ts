@@ -19,12 +19,19 @@ export class ProductInfoService {
       id: data.productId,
       name: data.name,
     });
-    return this.repository.save(productInfo);
+    this.repository.save(productInfo);
   }
 
-  async update(data: ProductInfoServiceUpdateData) {
+  async addQuantity(data: ProductInfoServiceUpdateData) {
     const productInfo = await this.repository.findOneById(data.productId);
     productInfo.quantity += data.quantity;
+
+    return this.repository.update(data.productId, productInfo);
+  }
+
+  async removeQuantity(data: ProductInfoServiceUpdateData) {
+    const productInfo = await this.repository.findOneById(data.productId);
+    productInfo.quantity -= data.quantity;
 
     return this.repository.update(data.productId, productInfo);
   }

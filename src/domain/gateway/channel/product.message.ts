@@ -1,4 +1,6 @@
-export interface ProductDomainEventMessageDto {
+import { AbstractMessageDto } from 'common-base-classes';
+
+export interface ProductDomainEventMessageDto extends AbstractMessageDto {
   productId: string;
   name?: string;
   quantity?: number;
