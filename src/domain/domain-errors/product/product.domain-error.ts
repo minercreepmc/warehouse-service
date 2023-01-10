@@ -29,4 +29,9 @@ export namespace ProductDomainError {
     readonly code = ProductDomainErrorCode.nameIsNotExist;
     readonly message = 'Product name is not exist';
   }
+
+  export class ThumbnailIsNotValid extends ProductValidationError {
+    readonly code = ProductDomainErrorCode.thumbnailIsNotValid;
+    readonly message = 'Product thumbnail is not valid';
+  }
 }

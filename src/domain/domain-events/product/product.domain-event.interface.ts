@@ -5,11 +5,13 @@ import { ProductsImportedDomainEventDetails } from './products-imported';
 import { ProductsImportedDomainEvent } from './products-imported/products-imported.domain-event';
 import { ProductsShippedDomainEventDetails } from './products-shipped';
 import { ProductsShippedDomainEvent } from './products-shipped/product-shipped.domain-event';
+import { ProductThumbnailsAddedDomainEvent } from './thumbnail-added/thumbnail-added.domain-event';
 
 export type ProductDomainEventDetails = Partial<
   ProductCreatedDomainEventDetails &
     ProductsImportedDomainEventDetails &
-    ProductsShippedDomainEventDetails
+    ProductsShippedDomainEventDetails &
+    ProductThumbnailsAddedDomainEvent
 >;
 
 export interface ProductDomainEventProps
@@ -19,12 +21,14 @@ export const productDomainEventConstructorDocuments = {
   ProductCreatedDomainEvent: ProductCreatedDomainEvent,
   ProductsImportedDomainEvent: ProductsImportedDomainEvent,
   ProductsShippedDomainEvent: ProductsShippedDomainEvent,
+  ProductThumbnailsAddedDomainEvent: ProductThumbnailsAddedDomainEvent,
 };
 
 export enum productDomainEventNames {
   PRODUCT_CREATED = 'ProductCreatedDomainEvent',
   PRODUCTS_IMPORTED = 'ProductsImportedDomainEvent',
   PRODUCTS_SHIPPED = 'ProductsShippedDomainEvent',
+  PRODUCT_THUMBNAIL_ADDED = 'ProductThumbnailsAddedDomainEvent',
 }
 
 export enum ProductDomainEventClasses {

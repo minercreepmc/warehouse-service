@@ -5,6 +5,7 @@ export interface ProductDomainEventMessageDto extends AbstractMessageDto {
   name?: string;
   quantity?: number;
   unit?: string;
+  thumbnails?: string[];
 }
 
 export interface ProductCreatedDomainEventMessageDto {
@@ -12,5 +13,16 @@ export interface ProductCreatedDomainEventMessageDto {
   name: string;
 }
 
-export type ProductsImportedDomainEventMessageDto =
-  Required<ProductDomainEventMessageDto>;
+export interface ProductsImportedDomainEventMessageDto {
+  productId: string;
+  name: string;
+  quantity: number;
+  unit: string;
+}
+
+export interface ProductShippedDomainEventMessageDto {
+  productId: string;
+  name: string;
+  quantity: number;
+  unit: string;
+}

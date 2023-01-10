@@ -21,4 +21,5 @@ export type ProductEventModelDetails = Partial<{
   name: string;
   quantity: number;
   unit: string;
+  thumbnails: string[];
 }>;

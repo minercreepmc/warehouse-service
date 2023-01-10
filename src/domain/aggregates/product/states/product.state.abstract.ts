@@ -3,6 +3,7 @@ import {
   ProductsImportedDomainEvent,
   ProductsShippedDomainEvent,
 } from '@domain-events/product';
+import { ProductThumbnailsAddedDomainEvent } from '@domain-events/product/thumbnail-added/thumbnail-added.domain-event';
 import { IState } from 'common-base-classes';
 import { ProductAggregate } from '../product.aggregate';
 import { ProductAggregateApply } from '../product.aggregate.interface';
@@ -31,6 +32,11 @@ export abstract class ProductState implements IProductState {
 
   applyShipProducts(event: ProductsShippedDomainEvent): void {
     return;
+  }
+
+  applyThumbnailsProduct(event: ProductThumbnailsAddedDomainEvent): void {
+    this.product.addEvent(event);
+    this.product.thumbnails = event.thumbnails;
   }
   // abstract pendingImportProduct(state: ProductState): void;
   // abstract cancelPendingImportProduct(state: ProductState): void;

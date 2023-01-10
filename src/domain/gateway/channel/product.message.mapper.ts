@@ -23,6 +23,12 @@ export class ProductMessageMapper
       message.unit = event.details.unit.unpack();
     }
 
+    if (event.details.thumbnails) {
+      message.thumbnails = event.details.thumbnails.map((thumbnail) =>
+        thumbnail.unpack(),
+      );
+    }
+
     return message;
   }
 }

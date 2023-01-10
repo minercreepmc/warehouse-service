@@ -5,4 +5,5 @@ export enum ProductDomainErrorCode {
   quantityIsNotValid = 'PRODUCT.QUANTITY.IS_NOT_VALID',
   quantityIsNotEnough = 'PRODUCT.QUANTITY.IS_NOT_ENOUGH',
   unitIsNotValid = 'PRODUCT.UNIT.IS_NOT_VALID',
+  thumbnailIsNotValid = 'PRODUCT.THUMBNAIL.IS_NOT_VALID',
 }

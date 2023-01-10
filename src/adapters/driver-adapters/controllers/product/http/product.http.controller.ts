@@ -4,6 +4,7 @@ import {
   ImportProductsRequestDto,
   ShipProductsRequestDto,
 } from '@driver-adapters/dtos/product';
+import { AddProductThumbnailsRequestDto } from '@driver-adapters/dtos/product/add-product-thumbnails.request.dto';
 import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { ApiOperation, ApiParam, ApiBody } from '@nestjs/swagger';
@@ -13,6 +14,7 @@ import {
   ImportProductsHttpController,
   ShipProductsHttpController,
 } from './sub-controllers';
+import { AddProductThumbnailsHttpController } from './sub-controllers/add-product-thumbnail.http.controller';
 
 @Controller('products')
 export class ProductHttpController {
@@ -31,8 +33,11 @@ export class ProductHttpController {
   private readonly createProductHttpController =
     new CreateProductHttpController(this.commandBus);
 
-  private readonly getQualityOnHandHtppController =
+  private readonly getQualityOnHandHttpController =
     new GetQualityOnHandHttpController(this.queryBus);
+
+  private readonly addProductThumbnailsHttpController =
+    new AddProductThumbnailsHttpController(this.commandBus);
 
   @Post('create')
   @ApiOperation({ summary: 'Create product' })
@@ -67,9 +72,20 @@ export class ProductHttpController {
     return this.shipProductsHttpController.execute(dto);
   }
 
+  @Post('thumbnails')
+  @ApiOperation({ summary: 'Add product thumbnails' })
+  @ApiBody({
+    required: true,
+    description: 'The dto need to add product thumbnails',
+    type: AddProductThumbnailsRequestDto,
+  })
+  async addProductThumbnails(@Body() dto: AddProductThumbnailsRequestDto) {
+    return this.addProductThumbnailsHttpController.execute(dto);
+  }
+
   @Get()
   @ApiOperation({ summary: 'Get quality on hand' })
   async getQualityOnHand(@Query() dto: GetQualityOnHandRequestDto) {
-    return this.getQualityOnHandHtppController.execute(dto);
+    return this.getQualityOnHandHttpController.execute(dto);
   }
 }

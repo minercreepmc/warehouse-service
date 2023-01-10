@@ -1069,7 +1069,7 @@
     "@types/qs" "*"
     "@types/range-parser" "*"
 
-"@types/express@^4.17.13":
+"@types/express@*", "@types/express@^4.17.13":
   version "4.17.15"
   resolved "https://registry.npmjs.org/@types/express/-/express-4.17.15.tgz"
   integrity sha512-Yv0k4bXGOH+8a+7bELd2PqHQsuiANB+A8a4gnQrkRWzrkKlb6KHaVvyXhqs04sVW/OWlbPyYxRgYlIXLfrufMQ==
@@ -1122,6 +1122,13 @@
   version "3.0.1"
   resolved "https://registry.npmjs.org/@types/mime/-/mime-3.0.1.tgz"
   integrity sha512-Y4XFY5VJAuw0FgAqPNd6NNoV44jbq9Bz2L7Rh/J6jLTiHBSBJa9fxqQIvkIld4GsoDOcCbvzOUAbLPsSKKg+uA==
+
+"@types/multer@^1.4.7":
+  version "1.4.7"
+  resolved "https://registry.yarnpkg.com/@types/multer/-/multer-1.4.7.tgz#89cf03547c28c7bbcc726f029e2a76a7232cc79e"
+  integrity sha512-/SNsDidUFCvqqcWDwxv2feww/yqhNeTRL5CVoL3jU4Goc4kKEL10T7Eye65ZqPNi4HRx8sAEX59pV1aEH7drNA==
+  dependencies:
+    "@types/express" "*"
 
 "@types/node@*", "@types/node@^16.0.0":
   version "16.18.10"
@@ -2003,10 +2010,10 @@ commander@^2.20.0:
   resolved "https://registry.npmjs.org/commander/-/commander-2.20.3.tgz"
   integrity sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==
 
-common-base-classes@0.15.19:
-  version "0.15.19"
-  resolved "https://registry.yarnpkg.com/common-base-classes/-/common-base-classes-0.15.19.tgz#124f20dc1e02ddf8cbf5fff8ef046095708ba817"
-  integrity sha512-kIJxyEF1LWnPWM3G7aBIcGytYNHpZF2AlJOT8y+EbswMrao2fbWrK12+gIgrC7p7buC+eLC29g7Gf3YIlKdr/Q==
+common-base-classes@0.16.0:
+  version "0.16.0"
+  resolved "https://registry.yarnpkg.com/common-base-classes/-/common-base-classes-0.16.0.tgz#8b52c86f82f8d4a91d07ee18afa16a675e178c7e"
+  integrity sha512-NxYIBjhzloxVYut9IVYqRtlqSbwE3/6iJZkCcL1x8byw7regS2tbWnu+Sn8LHZDO31ogvpcEWisvkQMlqCYPpw==
   dependencies:
     common-errors "^1.2.0"
     guarder "^0.9.0"
@@ -3836,6 +3843,19 @@ multer@1.4.4-lts.1:
   version "1.4.4-lts.1"
   resolved "https://registry.npmjs.org/multer/-/multer-1.4.4-lts.1.tgz"
   integrity sha512-WeSGziVj6+Z2/MwQo3GvqzgR+9Uc+qt8SwHKh3gvNPiISKfsMfG4SvCOFYlxxgkXt7yIV2i1yczehm0EOKIxIg==
+  dependencies:
+    append-field "^1.0.0"
+    busboy "^1.0.0"
+    concat-stream "^1.5.2"
+    mkdirp "^0.5.4"
+    object-assign "^4.1.1"
+    type-is "^1.6.4"
+    xtend "^4.0.0"
+
+multer@^1.4.5-lts.1:
+  version "1.4.5-lts.1"
+  resolved "https://registry.yarnpkg.com/multer/-/multer-1.4.5-lts.1.tgz#803e24ad1984f58edffbc79f56e305aec5cfd1ac"
+  integrity sha512-ywPWvcDMeH+z9gQq5qYHCCy+ethsk4goepZ45GLD63fOu0YcNecQxi64nDs3qluZB+murG3/D4dJ7+dGctcCQQ==
   dependencies:
     append-field "^1.0.0"
     busboy "^1.0.0"

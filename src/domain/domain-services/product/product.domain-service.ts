@@ -13,6 +13,10 @@ import {
   ProductQuantityValueObject,
 } from '@value-objects/product';
 import {
+  AddProductThumbnailsDomainService,
+  AddProductThumbnailsDomainServiceData,
+} from './services/add-product-thumbnails.domain-service';
+import {
   CreateProductDomainService,
   CreateProductDomainServiceData,
 } from './services/create-product.domain-service';
@@ -51,8 +55,13 @@ export class ProductDomainService {
   private readonly shipProductsDomainService = new ShipProductsDomainService(
     this.eventStore,
     this.messageBroker,
-    this.mapper
+    this.mapper,
   );
+
+  private readonly addProductThumbnailsDomainService =
+    new AddProductThumbnailsDomainService(
+      this.eventStore,
+    );
 
   async createProduct(data: CreateProductDomainServiceData) {
     return this.createProductDomainService.execute(data);
@@ -64,6 +73,10 @@ export class ProductDomainService {
 
   async shipProducts(data: ShipProductsDomainServiceData) {
     return this.shipProductsDomainService.execute(data);
+  }
+
+  async addProductThumbnails(data: AddProductThumbnailsDomainServiceData) {
+    return this.addProductThumbnailsDomainService.execute(data);
   }
 
   async isProductExist(productName: ProductNameValueObject): Promise<boolean> {

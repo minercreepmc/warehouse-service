@@ -5,6 +5,7 @@ import {
 import {
   ProductNameValueObject,
   ProductQuantityValueObject,
+  ProductThumbnailPathValueObject,
   ProductUnitValueObject,
 } from '@value-objects/product';
 import { Notification } from 'common-base-classes';
@@ -38,6 +39,12 @@ export class ProductValidator {
   checkUnit(unit: string) {
     if (!ProductUnitValueObject.isValid(unit)) {
       this.note.addNote(new ProductDomainError.UnitIsNotValid());
+    }
+  }
+
+  checkThumbnail(path: string) {
+    if (!ProductThumbnailPathValueObject.isValid(path)) {
+      this.note.addNote(new ProductDomainError.ThumbnailIsNotValid());
     }
   }
 }

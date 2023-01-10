@@ -6,6 +6,7 @@ import type {
 import type {
   ProductNameValueObject,
   ProductQuantityValueObject,
+  ProductThumbnailPathValueObject,
   ProductUnitValueObject,
 } from '@value-objects/product';
 import { IEntityData } from 'common-base-classes';
@@ -29,6 +30,7 @@ export interface ProductAggregateDetails {
   name: ProductNameValueObject;
   quantity: ProductQuantityValueObject;
   unit: ProductUnitValueObject;
+  thumbnails?: ProductThumbnailPathValueObject[];
 }
 
 export interface CreateProductAggegateData {
@@ -40,11 +42,17 @@ export interface ImportProductsAggregateData
 
 export interface ShipProductsAggregateData extends ProductAggregateDetails {}
 
+export interface AddThumbnailsAggregateData {
+  name: ProductNameValueObject;
+  thumbnails: ProductNameValueObject[];
+}
+
 // type productInstance = InstanceType<typeof ProductAggregate>;
 export enum ProductAggregateApplyEventMethodNames {
   CREATE_PRODUCT = 'applyCreateProduct',
   IMPORT_PRODUCTS = 'applyImportProducts',
   SHIP_PRODUCTS = 'applyShipProducts',
+  THUMBNAIL_PRODUCTS = 'applyThumbnailsProduct',
 }
 
 export const productAggregateApplyEventMethodNamesDocuments = {
@@ -54,4 +62,6 @@ export const productAggregateApplyEventMethodNamesDocuments = {
     ProductAggregateApplyEventMethodNames.IMPORT_PRODUCTS,
   [productDomainEventNames.PRODUCTS_SHIPPED]:
     ProductAggregateApplyEventMethodNames.SHIP_PRODUCTS,
+  [productDomainEventNames.PRODUCT_THUMBNAIL_ADDED]:
+    ProductAggregateApplyEventMethodNames.THUMBNAIL_PRODUCTS,
 };

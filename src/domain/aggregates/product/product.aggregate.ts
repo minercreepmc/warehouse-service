@@ -3,13 +3,16 @@ import {
   ProductsShippedDomainEvent,
   ProductCreatedDomainEvent,
 } from '@domain-events/product';
+import { ProductThumbnailsAddedDomainEvent } from '@domain-events/product/thumbnail-added/thumbnail-added.domain-event';
 import {
   ProductNameValueObject,
   ProductQuantityValueObject,
+  ProductThumbnailPathValueObject,
 } from '@value-objects/product';
 import { ProductUnitValueObject } from '@value-objects/product/product-unit.value-object';
 import { AbstractAggregateRoot, ID, UUID } from 'common-base-classes';
 import {
+  AddThumbnailsAggregateData,
   CreateProductAggegateData,
   ImportProductsAggregateData,
   ProductAggregateDetails,
@@ -25,6 +28,17 @@ export class ProductAggregate
   state: InitialProductState;
   changeState(newState: ProductState): void {
     this.state = newState;
+  }
+
+  addThumbnails(data: AddThumbnailsAggregateData) {
+    const event = new ProductThumbnailsAddedDomainEvent({
+      aggregateId: this.id,
+      aggregateType: this.constructor.name,
+      eventName: ProductThumbnailsAddedDomainEvent.name,
+      details: data,
+    });
+    this.state.applyThumbnailsProduct(event);
+    return event;
   }
 
   createProduct(data: CreateProductAggegateData): ProductCreatedDomainEvent {
@@ -88,6 +102,14 @@ export class ProductAggregate
 
   set unit(unitName: ProductUnitValueObject) {
     this.details.unit = unitName;
+  }
+
+  get thumbnails() {
+    return this.details.thumbnails;
+  }
+
+  set thumbnails(newThumbnails: ProductThumbnailPathValueObject[]) {
+    this.details.thumbnails = newThumbnails;
   }
 
   constructor(id?: ID) {

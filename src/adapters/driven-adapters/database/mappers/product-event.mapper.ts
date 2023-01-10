@@ -6,6 +6,7 @@ import {
 import {
   ProductNameValueObject,
   ProductQuantityValueObject,
+  ProductThumbnailPathValueObject,
   ProductUnitValueObject,
 } from '@value-objects/product';
 import { AbstractEventTypeOrmMapper } from 'common-base-classes';
@@ -51,6 +52,12 @@ export class ProductEventTypeOrmMapper extends AbstractEventTypeOrmMapper<
       domainDetails.unit = ProductUnitValueObject.create(ormDetails.unit);
     }
 
+    if (ormDetails.thumbnails) {
+      domainDetails.thumbnails = ProductThumbnailPathValueObject.createMany(
+        ormDetails.thumbnails,
+      );
+    }
+
     return domainDetails;
   }
 
@@ -69,6 +76,12 @@ export class ProductEventTypeOrmMapper extends AbstractEventTypeOrmMapper<
 
     if (domainDetails.unit) {
       ormDetails.unit = domainDetails.unit.unpack();
+    }
+
+    if (domainDetails.thumbnails) {
+      ormDetails.thumbnails = domainDetails.thumbnails.map((thumbnail) =>
+        thumbnail.unpack(),
+      );
     }
 
     return ormDetails;

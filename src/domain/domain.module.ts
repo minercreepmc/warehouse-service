@@ -1,5 +1,6 @@
 import { ProductHttpController } from '@driver-adapters/controllers/product/http';
 import {
+  AddProductThumbnailsHandler,
   CreateProductHandler,
   ImportProductsHandler,
   ShipProductsHandler,
@@ -38,6 +39,10 @@ import { ProductEventModel } from '@driven-adapters/database/models';
 import { ProductDomainService } from '@domain-services/product';
 import { RmqModule } from '@driven-adapters/configs/rmq';
 import { CqrsModule } from '@nestjs/cqrs';
+import {
+  AddProductThumbnailsMapper,
+  AddProductThumbnailsValidator,
+} from '@driver-ports/use-cases/add-product-thumbnails/orchestrators';
 
 const httpControllers = [ProductHttpController];
 const domainServices: Provider[] = [ProductDomainService];
@@ -45,6 +50,7 @@ const commandHandlers: Provider[] = [
   CreateProductHandler,
   ImportProductsHandler,
   ShipProductsHandler,
+  AddProductThumbnailsHandler,
 ];
 const queryHandlers: Provider[] = [GetQualityOnHandHandler];
 
@@ -54,12 +60,14 @@ const mappers: Provider[] = [
   ShipProductsMapper,
   GetQualityOnHandMapper,
   ProductMessageMapper,
+  AddProductThumbnailsMapper,
 ];
 const validators: Provider[] = [
   CreateProductValidator,
   ImportProductsValidator,
   ShipProductsValidator,
   GetQualityOnHandValidator,
+  AddProductThumbnailsValidator,
 ];
 const businessChecker: Provider[] = [
   CreateProductBusinessChecker,
