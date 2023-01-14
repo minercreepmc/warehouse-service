@@ -1,3 +1,4 @@
+import { ProductBusinessRules } from '@business-rules/product.business-rules';
 import {
   ProductBusinessError,
   ProductDomainError,
@@ -11,19 +12,19 @@ import { Notification } from 'common-base-classes';
 
 export class ProductBusinessChecker {
   constructor(
-    private readonly domainService: ProductDomainService,
+    private readonly businessRules: ProductBusinessRules,
     private readonly note: Notification<ProductBusinessError>,
   ) {}
 
   async checkProductMustExist(productName: ProductNameValueObject) {
-    const found = await this.domainService.isProductExist(productName);
+    const found = await this.businessRules.isProductNameExist(productName);
     if (!found) {
       this.note.addNote(new ProductDomainError.NameIsNotExist());
     }
   }
 
   async checkProductMustNotExist(productName: ProductNameValueObject) {
-    const found = await this.domainService.isProductExist(productName);
+    const found = await this.businessRules.isProductNameExist(productName);
     if (found) {
       this.note.addNote(new ProductDomainError.NameIsExist());
     }
@@ -33,7 +34,7 @@ export class ProductBusinessChecker {
     productName: ProductNameValueObject,
     productQuantity: ProductQuantityValueObject,
   ) {
-    const isEnough = await this.domainService.isProductEnoughToShip(
+    const isEnough = await this.businessRules.isEnoughToShip(
       productName,
       productQuantity,
     );

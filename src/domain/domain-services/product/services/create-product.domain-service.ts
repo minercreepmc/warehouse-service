@@ -1,4 +1,5 @@
 import { ProductAggregate } from '@aggregates/product/product.aggregate';
+import { ProductBusinessRules } from '@business-rules/product.business-rules';
 import { ProductDomainError } from '@domain-errors/product';
 import { ProductCreatedDomainEvent } from '@domain-events/product';
 import { ProductMessageMapper } from '@gateway/channel';
@@ -12,16 +13,17 @@ export interface CreateProductDomainServiceData {
 
 export class CreateProductDomainService {
   constructor(
+    private readonly businessRules: ProductBusinessRules,
     private readonly eventStore: ProductEventStorePort,
     private readonly messageBroker: ClientProxy,
     private readonly mapper: ProductMessageMapper,
   ) {}
 
   async execute(data: CreateProductDomainServiceData) {
-    const found = await this.eventStore.isProductExist(data.name);
-    if (found) {
+    if(!this.businessRules.isProductNameExist(data.name)) {
       throw new ProductDomainError.NameIsExist();
     }
+
     const product = new ProductAggregate();
     const productCreatedEvent = product.createProduct({
       name: data.name,

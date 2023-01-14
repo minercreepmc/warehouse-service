@@ -43,9 +43,11 @@ import {
   AddProductThumbnailsMapper,
   AddProductThumbnailsValidator,
 } from '@driver-ports/use-cases/add-product-thumbnails/orchestrators';
+import { ProductBusinessRules } from './business-rules';
 
 const httpControllers = [ProductHttpController];
 const domainServices: Provider[] = [ProductDomainService];
+const businessRules: Provider[] = [ProductBusinessRules];
 const commandHandlers: Provider[] = [
   CreateProductHandler,
   ImportProductsHandler,
@@ -91,6 +93,7 @@ const repositories: Provider[] = [
   controllers: [...httpControllers],
   providers: [
     ...domainServices,
+    ...businessRules,
     ...commandHandlers,
     ...queryHandlers,
     ...mappers,

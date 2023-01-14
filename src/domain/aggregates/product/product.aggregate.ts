@@ -32,8 +32,8 @@ export class ProductAggregate
 
   addThumbnails(data: AddThumbnailsAggregateData) {
     const event = new ProductThumbnailsAddedDomainEvent({
-      aggregateId: this.id,
-      aggregateType: this.constructor.name,
+      entityId: this.id,
+      entityType: this.constructor.name,
       eventName: ProductThumbnailsAddedDomainEvent.name,
       details: data,
     });
@@ -43,8 +43,8 @@ export class ProductAggregate
 
   createProduct(data: CreateProductAggegateData): ProductCreatedDomainEvent {
     const event = new ProductCreatedDomainEvent({
-      aggregateId: this.id,
-      aggregateType: this.constructor.name,
+      entityId: this.id,
+      entityType: this.constructor.name,
       eventName: ProductCreatedDomainEvent.name,
       details: data,
     });
@@ -56,8 +56,8 @@ export class ProductAggregate
     data: ImportProductsAggregateData,
   ): ProductsImportedDomainEvent {
     const event = new ProductsImportedDomainEvent({
-      aggregateId: this.id,
-      aggregateType: this.constructor.name,
+      entityId: this.id,
+      entityType: this.constructor.name,
       eventName: ProductsImportedDomainEvent.name,
       details: data.details,
     });
@@ -67,8 +67,8 @@ export class ProductAggregate
 
   shipProducts(data: ShipProductsAggregateData): ProductsShippedDomainEvent {
     const event = new ProductsShippedDomainEvent({
-      aggregateId: this.id,
-      aggregateType: this.constructor.name,
+      entityId: this.id,
+      entityType: this.constructor.name,
       eventName: ProductsShippedDomainEvent.name,
       details: data,
     });

@@ -13,13 +13,13 @@ export interface IProductState
     ProductAggregateApply {}
 
 export abstract class ProductState implements IProductState {
-  aggregate: ProductAggregate;
+  entity: ProductAggregate;
   constructor(product: ProductAggregate) {
-    this.aggregate = product;
+    this.entity = product;
   }
 
   get product() {
-    return this.aggregate;
+    return this.entity;
   }
 
   applyCreateProduct(event: ProductCreatedDomainEvent): void {

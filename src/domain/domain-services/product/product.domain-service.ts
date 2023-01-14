@@ -1,4 +1,5 @@
 import { ProductAggregate } from '@aggregates/product';
+import { ProductBusinessRules } from '@business-rules/product.business-rules';
 import { ProductDomainError } from '@domain-errors/product';
 import { ProductMessageMapper } from '@gateway/channel';
 import {
@@ -8,10 +9,7 @@ import {
 } from '@gateway/driven-ports/product';
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
-import {
-  ProductNameValueObject,
-  ProductQuantityValueObject,
-} from '@value-objects/product';
+import { ProductNameValueObject } from '@value-objects/product';
 import {
   AddProductThumbnailsDomainService,
   AddProductThumbnailsDomainServiceData,
@@ -32,6 +30,7 @@ import {
 @Injectable()
 export class ProductDomainService {
   constructor(
+    private readonly businessRules: ProductBusinessRules,
     @Inject(productEventStoreDiToken)
     private readonly eventStore: ProductEventStorePort,
 
@@ -42,26 +41,27 @@ export class ProductDomainService {
   ) {}
 
   private readonly importProductDomainService = new ImportProductDomainService(
+    this.businessRules,
     this.eventStore,
     this.messageBroker,
     this.mapper,
   );
   private readonly createProductDomainService = new CreateProductDomainService(
+    this.businessRules,
     this.eventStore,
     this.messageBroker,
     this.mapper,
   );
 
   private readonly shipProductsDomainService = new ShipProductsDomainService(
+    this.businessRules,
     this.eventStore,
     this.messageBroker,
     this.mapper,
   );
 
   private readonly addProductThumbnailsDomainService =
-    new AddProductThumbnailsDomainService(
-      this.eventStore,
-    );
+    new AddProductThumbnailsDomainService(this.eventStore);
 
   async createProduct(data: CreateProductDomainServiceData) {
     return this.createProductDomainService.execute(data);
@@ -79,26 +79,14 @@ export class ProductDomainService {
     return this.addProductThumbnailsDomainService.execute(data);
   }
 
-  async isProductExist(productName: ProductNameValueObject): Promise<boolean> {
-    return this.eventStore.isProductExist(productName);
-  }
-
   async getProduct(
     productName: ProductNameValueObject,
   ): Promise<ProductAggregate> {
-    const found = this.isProductExist(productName);
+    const found = this.businessRules.isProductNameExist(productName);
     if (!found) {
       throw new ProductDomainError.NameIsNotExist();
     }
 
     return this.eventStore.getProduct(productName);
-  }
-
-  async isProductEnoughToShip(
-    productName: ProductNameValueObject,
-    amount: ProductQuantityValueObject,
-  ): Promise<boolean> {
-    const product = await this.getProduct(productName);
-    return product.quantity.unpack() >= amount.unpack();
   }
 }

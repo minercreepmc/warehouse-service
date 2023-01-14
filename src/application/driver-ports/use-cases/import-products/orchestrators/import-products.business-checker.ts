@@ -1,6 +1,6 @@
 import { ProductBusinessChecker } from '@application/common-orchestrators/business-checker';
+import { ProductBusinessRules } from '@business-rules/product.business-rules';
 import { ProductBusinessError } from '@domain-errors/product';
-import { ProductDomainService } from '@domain-services/product';
 import { Injectable } from '@nestjs/common';
 import { AbstractNotificationWrapper } from 'common-base-classes';
 import { ImportProductsDomainData } from './data';
@@ -8,10 +8,10 @@ import { ImportProductsDomainData } from './data';
 @Injectable()
 export class ImportProductsBusinessChecker extends AbstractNotificationWrapper<ProductBusinessError> {
   private readonly businessChecker = new ProductBusinessChecker(
-    this.domainService,
+    this.businessRules,
     this.note,
   );
-  constructor(private readonly domainService: ProductDomainService) {
+  constructor(private readonly businessRules: ProductBusinessRules) {
     super();
   }
 

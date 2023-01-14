@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class CreateProductEvent1672746560005 implements MigrationInterface {
-  name = 'CreateProductEvent1672746560005';
+export class AddProduct1673658469968 implements MigrationInterface {
+  name = 'AddProduct1673658469968';
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
@@ -13,9 +13,13 @@ export class CreateProductEvent1672746560005 implements MigrationInterface {
     await queryRunner.query(
       `CREATE INDEX "IDX_f08c911c9d93b202daa061017c" ON "product-event" ("productName") `,
     );
+    await queryRunner.query(
+      `CREATE TABLE "product-info" ("id" character varying NOT NULL, "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "name" character varying NOT NULL, "quantity" integer NOT NULL, "unit" character varying NOT NULL, CONSTRAINT "PK_d679efee3463c5d063be01f51f1" PRIMARY KEY ("id"))`,
+    );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.query(`DROP TABLE "product-info"`);
     await queryRunner.query(
       `DROP INDEX "public"."IDX_f08c911c9d93b202daa061017c"`,
     );

@@ -1,7 +1,4 @@
-import {
-  CreateProductEvent1672746560005,
-  CreateProductInfo1672746630795,
-} from '@driven-adapters/database/migrations';
+import { AddProduct1673658469968 } from '@driven-adapters/database/migrations';
 import {
   ProductEventModel,
   ProductInfoOrmModel,
@@ -18,7 +15,7 @@ const typeormDataSource = new DataSource({
   password: configService.get('POSTGRES_PASSWORD'),
   database: configService.get('POSTGRES_DB'),
   entities: [ProductEventModel, ProductInfoOrmModel],
-  migrations: [CreateProductEvent1672746560005, CreateProductInfo1672746630795],
+  migrations: [AddProduct1673658469968],
   //synchronize: true,
 });
 

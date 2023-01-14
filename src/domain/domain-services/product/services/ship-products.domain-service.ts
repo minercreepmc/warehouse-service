@@ -1,4 +1,5 @@
 import { ShipProductsAggregateData } from '@aggregates/product';
+import { ProductBusinessRules } from '@business-rules';
 import { ProductDomainError } from '@domain-errors/product';
 import { ProductsShippedDomainEvent } from '@domain-events/product';
 import { ProductMessageMapper } from '@gateway/channel';
@@ -10,6 +11,7 @@ export interface ShipProductsDomainServiceData
 
 export class ShipProductsDomainService {
   constructor(
+    private readonly businessRules: ProductBusinessRules,
     private readonly eventStore: ProductEventStorePort,
     private readonly messageBroker: ClientProxy,
     private readonly mapper: ProductMessageMapper,
@@ -23,7 +25,7 @@ export class ShipProductsDomainService {
       throw new ProductDomainError.NameIsNotExist();
     }
 
-    if (product.quantity.unpack() < data.quantity.unpack()) {
+    if (!this.businessRules.isEnoughToShip(data.name, data.quantity)) {
       throw new ProductDomainError.QuantityIsNotEnough();
     }
 
