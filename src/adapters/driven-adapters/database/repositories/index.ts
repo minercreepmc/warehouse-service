@@ -1,2 +1,2 @@
-export * from './product-event.repository';
+export * from './product.event-store';
 export * from './product-info.repository';

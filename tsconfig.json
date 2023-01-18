@@ -2,40 +2,40 @@
   "compilerOptions": {
     "paths": {
       "@value-objects/*": [
-        "./src/domain/value-objects/*"
+        "./src/core/domain/value-objects/*"
       ],
       "@aggregates/*": [
-        "./src/domain/aggregates/*"
+        "./src/core/domain/aggregates/*"
       ],
       "@entities/*": [
-        "./src/domain/entities/*"
+        "./src/core/domain/entities/*"
       ],
       "@entities": [
-        "./src/domain/entities"
+        "./src/core/domain/entities"
       ],
       "@business-rules/*": [
-        "./src/domain/business-rules/*"
+        "./src/core/domain/business-rules/*"
       ],
       "@business-rules": [
-        "./src/domain/business-rules"
-      ],
-      "@views/*": [
-        "./src/views/*"
+        "./src/core/domain/business-rules"
       ],
       "@domain-events/*": [
-        "./src/domain/domain-events/*"
+        "./src/core/domain/domain-events/*"
       ],
       "@domain-services/*": [
-        "./src/domain/domain-services/*"
+        "./src/core/domain/domain-services/*"
       ],
       "@domain-errors/*": [
-        "./src/domain/domain-errors/*"
+        "./src/core/domain/domain-errors/*"
       ],
       "@gateway/*": [
-        "./src/domain/gateway/*"
+        "./src/core/domain/gateway/*"
       ],
       "@driver-ports/*": [
-        "./src/application/driver-ports/*"
+        "./src/core/application/driver-ports/*"
+      ],
+      "@application/*": [
+        "./src/core/application/*"
       ],
       "@driver-adapters/*": [
         "./src/adapters/driver-adapters/*"
@@ -43,11 +43,11 @@
       "@driven-adapters/*": [
         "./src/adapters/driven-adapters/*"
       ],
-      "@application/*": [
-        "./src/application/*"
-      ],
       "@configs/*": [
         "./src/adapters/driven-adapters/configs/*"
+      ],
+      "@views/*": [
+        "./src/views/*"
       ]
     },
     "module": "CommonJS",

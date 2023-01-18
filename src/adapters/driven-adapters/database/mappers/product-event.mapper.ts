@@ -3,11 +3,11 @@ import {
   ProductDomainEventDetails,
   productDomainEventConstructorDocuments,
 } from '@domain-events/product';
+import { ProductContainerEntity } from '@entities/product';
 import {
   ProductNameValueObject,
   ProductQuantityValueObject,
   ProductThumbnailPathValueObject,
-  ProductUnitValueObject,
 } from '@value-objects/product';
 import { AbstractEventTypeOrmMapper } from 'common-base-classes';
 import {
@@ -42,14 +42,8 @@ export class ProductEventTypeOrmMapper extends AbstractEventTypeOrmMapper<
       domainDetails.name = ProductNameValueObject.create(ormDetails.name);
     }
 
-    if (ormDetails.quantity) {
-      domainDetails.quantity = ProductQuantityValueObject.create(
-        ormDetails.quantity,
-      );
-    }
-
-    if (ormDetails.unit) {
-      domainDetails.unit = ProductUnitValueObject.create(ormDetails.unit);
+    if(ormDetails.quantity) {
+      domainDetails.quantity = ProductQuantityValueObject.create(ormDetails.quantity);
     }
 
     if (ormDetails.thumbnails) {
@@ -72,10 +66,6 @@ export class ProductEventTypeOrmMapper extends AbstractEventTypeOrmMapper<
 
     if (domainDetails.quantity) {
       ormDetails.quantity = domainDetails.quantity.unpack();
-    }
-
-    if (domainDetails.unit) {
-      ormDetails.unit = domainDetails.unit.unpack();
     }
 
     if (domainDetails.thumbnails) {

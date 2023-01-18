@@ -2010,10 +2010,10 @@ commander@^2.20.0:
   resolved "https://registry.npmjs.org/commander/-/commander-2.20.3.tgz"
   integrity sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==
 
-common-base-classes@0.16.0:
-  version "0.16.0"
-  resolved "https://registry.yarnpkg.com/common-base-classes/-/common-base-classes-0.16.0.tgz#8b52c86f82f8d4a91d07ee18afa16a675e178c7e"
-  integrity sha512-NxYIBjhzloxVYut9IVYqRtlqSbwE3/6iJZkCcL1x8byw7regS2tbWnu+Sn8LHZDO31ogvpcEWisvkQMlqCYPpw==
+common-base-classes@0.16.5:
+  version "0.16.5"
+  resolved "https://registry.yarnpkg.com/common-base-classes/-/common-base-classes-0.16.5.tgz#3ca14d49d54254b56dc5c19d81fe4628f8002b04"
+  integrity sha512-RCXQUALXdl2PdRp51bSCRhlrMVKnZBzNYam5shFZzJ0KpY8sw4qEW7MAr95CUHCCPXycqmVkMN4T3T7xLdYskA==
   dependencies:
     common-errors "^1.2.0"
     guarder "^0.9.0"
@@ -5104,6 +5104,11 @@ typeorm@^0.3.10, typeorm@^0.3.11:
     uuid "^8.3.2"
     xml2js "^0.4.23"
     yargs "^17.3.1"
+
+typescript-collections@^1.3.3:
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/typescript-collections/-/typescript-collections-1.3.3.tgz#62d50d93c018c094d425eabee649f00ec5cc0fea"
+  integrity sha512-7sI4e/bZijOzyURng88oOFZCISQPTHozfE2sUu5AviFYk5QV7fYGb6YiDl+vKjF/pICA354JImBImL9XJWUvdQ==
 
 typescript@4.8.4:
   version "4.8.4"

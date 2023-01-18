@@ -8,7 +8,4 @@ export class ProductInfoOrmModel extends AbstractTypeOrmModel {
 
   @Column()
   quantity: number;
-
-  @Column()
-  unit: string;
 }

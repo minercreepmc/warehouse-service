@@ -12,10 +12,10 @@ export class ImportProductsRequestDto {
   })
   readonly quantity: number;
 
-  @ApiProperty({
-    example: 'kg',
-    description: 'Unit of the product',
-    enum: ['kg', 'g'],
-  })
-  readonly unit: string;
+  // @ApiProperty({
+  //   example: 'kg',
+  //   description: 'Unit of the product',
+  //   enum: ['kg', 'g'],
+  // })
+  // readonly unit: string;
 }

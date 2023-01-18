@@ -7,5 +7,4 @@ export interface ProductInfoServiceUpdateData {
   productId: string;
   name: string;
   quantity: number;
-  unit: string;
 }

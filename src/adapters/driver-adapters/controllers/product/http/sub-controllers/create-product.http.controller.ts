@@ -3,7 +3,7 @@ import {
   ProductValidationError,
 } from '@domain-errors/product';
 import { CreateProductRequestDto } from '@driver-adapters/dtos/product';
-import { CreateProductUseCaseError } from '@driver-ports/use-cases/create-product/orchestrators';
+import { CreateProductUseCaseError } from '@driver-ports/use-cases';
 import {
   CreateProductCommand,
   CreateProductResponseDto,

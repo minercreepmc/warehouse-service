@@ -11,6 +11,5 @@ export class AddProductThumbnailsRequestDto {
     description: 'Thumbnails for product',
     example: ['https://picsum.photos/200/300'],
   })
-
   thumbnailPaths: string[];
 }

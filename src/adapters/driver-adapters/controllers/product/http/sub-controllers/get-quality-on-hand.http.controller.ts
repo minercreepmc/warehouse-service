@@ -1,19 +1,12 @@
-import {
-  ProductBusinessError,
-  ProductValidationError,
-} from '@domain-errors/product';
 import { GetQualityOnHandRequestDto } from '@driver-adapters/dtos/product';
+import { ConflictException } from '@nestjs/common';
+import { IQueryBus } from '@nestjs/cqrs';
+import { ProductInfoLogicError } from '@views/products/product-info';
 import {
   GetQualityOnHandQuery,
   GetQualityOnHandResponseDto,
   GetQualityOnHandUseCaseError,
-} from '@driver-ports/use-cases/get-quality-on-hand/orchestrators/data';
-import {
-  ConflictException,
-  UnprocessableEntityException,
-} from '@nestjs/common';
-import { IQueryBus } from '@nestjs/cqrs';
-import { IsArrayContainInstanceOf } from 'common-base-classes';
+} from '@views/products/product-info/use-cases/get-quality-on-hand/data';
 import { match } from 'oxide.ts';
 
 export class GetQualityOnHandHttpController {
@@ -24,15 +17,11 @@ export class GetQualityOnHandHttpController {
 
     return match(result, {
       Ok: (response: GetQualityOnHandResponseDto) => response,
-      Err: (errors: GetQualityOnHandUseCaseError) => {
-        if (IsArrayContainInstanceOf(errors, ProductValidationError)) {
-          throw new UnprocessableEntityException(errors);
+      Err: (error: GetQualityOnHandUseCaseError) => {
+        if (error instanceof ProductInfoLogicError) {
+          throw new ConflictException(error);
         }
-
-        if (IsArrayContainInstanceOf(errors, ProductBusinessError)) {
-          throw new ConflictException(errors);
-        }
-        throw errors;
+        throw error;
       },
     });
   }
