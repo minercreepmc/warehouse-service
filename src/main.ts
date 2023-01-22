@@ -19,6 +19,8 @@ async function bootstrap() {
   const rmqService = app.get<RmqService>(RmqService);
   app.connectMicroservice(rmqService.getOptions());
 
+  app.enableCors();
+
   await app.listen(3000);
   await app.startAllMicroservices();
 }

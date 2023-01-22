@@ -1,20 +1,22 @@
 import {
   CreateProductRequestDto,
+  GetProductsRequestDto,
   GetQualityOnHandRequestDto,
   ImportProductsRequestDto,
   ShipProductsRequestDto,
 } from '@driver-adapters/dtos/product';
 import { AddProductThumbnailsRequestDto } from '@driver-adapters/dtos/product/add-product-thumbnails.request.dto';
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
-import { ApiOperation, ApiBody } from '@nestjs/swagger';
+import { ApiOperation, ApiBody, ApiParam } from '@nestjs/swagger';
 import {
   CreateProductHttpController,
   GetQualityOnHandHttpController,
   ImportProductsHttpController,
   ShipProductsHttpController,
+  AddProductThumbnailsHttpController,
 } from './sub-controllers';
-import { AddProductThumbnailsHttpController } from './sub-controllers/add-product-thumbnail.http.controller';
+import { GetProductsHttpController } from './sub-controllers/get-products.http.controller';
 
 @Controller('products')
 export class ProductHttpController {
@@ -35,6 +37,10 @@ export class ProductHttpController {
 
   private readonly getQualityOnHandHttpController =
     new GetQualityOnHandHttpController(this.queryBus);
+
+  private readonly getProductsHttpController = new GetProductsHttpController(
+    this.queryBus,
+  );
 
   private readonly addProductThumbnailsHttpController =
     new AddProductThumbnailsHttpController(this.commandBus);
@@ -84,8 +90,14 @@ export class ProductHttpController {
   }
 
   @Get()
+  @ApiOperation({ summary: 'Get list of product' })
+  async getProducts(@Query() dto: GetProductsRequestDto) {
+    return this.getProductsHttpController.execute(dto);
+  }
+
+  @Get(':name')
   @ApiOperation({ summary: 'Get quality on hand' })
-  async getQualityOnHand(@Query() dto: GetQualityOnHandRequestDto) {
-    return this.getQualityOnHandHttpController.execute(dto);
+  async getQualityOnHand(@Param() param: GetQualityOnHandRequestDto) {
+    return this.getQualityOnHandHttpController.execute(param.name);
   }
 }

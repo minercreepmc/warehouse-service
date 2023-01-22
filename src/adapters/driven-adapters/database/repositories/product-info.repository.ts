@@ -16,6 +16,9 @@ export class ProductInfoRepository
   ) {
     super(repository, new Logger(ProductInfoRepository.name));
   }
+  async getProducts(): Promise<ProductInfoOrmModel[]> {
+    return this.repository.find({});
+  }
 
   async getProductByName(name: string) {
     return this.repository.findOne({ where: { name } });

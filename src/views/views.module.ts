@@ -8,12 +8,14 @@ import {
   productInfoRepositoryDiToken,
   ProductInfoService,
 } from './products/product-info';
-import { GetQualityOnHandHandler } from './products/product-info/use-cases';
+import {
+  GetProductsHandler,
+  GetQualityOnHandHandler,
+} from './products/product-info/use-cases';
 
 const services = [ProductInfoService];
 const controllers = [ProductInfoProjector];
-const queryHandlers: Provider[] = [GetQualityOnHandHandler];
-const validators: Provider[] = [GetQualityOnHandHandler];
+const queryHandlers: Provider[] = [GetQualityOnHandHandler, GetProductsHandler];
 const repositories: Provider[] = [
   {
     provide: productInfoRepositoryDiToken,
@@ -24,7 +26,7 @@ const repositories: Provider[] = [
 @Module({
   imports: [TypeOrmModule.forFeature([ProductInfoOrmModel]), CqrsModule],
   controllers: [...controllers],
-  providers: [...services, ...queryHandlers, ...validators, ...repositories],
+  providers: [...services, ...queryHandlers, ...repositories],
   exports: [...services],
 })
 export class ViewsModule {}

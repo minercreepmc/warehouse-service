@@ -1,4 +1,3 @@
-import { GetQualityOnHandRequestDto } from '@driver-adapters/dtos/product';
 import { ConflictException } from '@nestjs/common';
 import { IQueryBus } from '@nestjs/cqrs';
 import { ProductInfoLogicError } from '@views/products/product-info';
@@ -11,8 +10,8 @@ import { match } from 'oxide.ts';
 
 export class GetQualityOnHandHttpController {
   constructor(private readonly queryBus: IQueryBus) {}
-  async execute(dto: GetQualityOnHandRequestDto) {
-    const query = new GetQualityOnHandQuery(dto.name);
+  async execute(dto: string) {
+    const query = new GetQualityOnHandQuery(dto);
     const result = await this.queryBus.execute(query);
 
     return match(result, {
