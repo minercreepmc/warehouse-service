@@ -37,7 +37,7 @@ import { ProductEventModel } from '@driven-adapters/database/models';
 import { ProductDomainService } from '@domain-services/product';
 import { RmqModule } from '@driven-adapters/configs/rmq';
 import { CqrsModule } from '@nestjs/cqrs';
-import { ProductBusinessRules } from './business-rules';
+import { ProductBusinessRules } from '@business-rules/product.business-rules';
 
 const httpControllers = [ProductHttpController];
 const domainServices: Provider[] = [ProductDomainService];

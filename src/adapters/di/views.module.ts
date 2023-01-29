@@ -4,14 +4,15 @@ import { ProductInfoProjector } from '@driver-adapters/controllers/product/proje
 import { Module, Provider } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { GraphQLModule } from '@nestjs/graphql';
 import {
   productInfoRepositoryDiToken,
   ProductInfoService,
-} from './products/product-info';
+} from '@views/products/product-info';
 import {
   GetProductsHandler,
   GetQualityOnHandHandler,
-} from './products/product-info/use-cases';
+} from '@views/products/product-info/use-cases';
 
 const services = [ProductInfoService];
 const controllers = [ProductInfoProjector];
