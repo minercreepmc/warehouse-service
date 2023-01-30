@@ -1,22 +1,23 @@
 import { ProductInfoOrmModel } from '@driven-adapters/database/models';
 import { ProductInfoRepository } from '@driven-adapters/database/repositories';
 import { ProductInfoProjector } from '@driver-adapters/controllers/product/projectors';
+import { ProductResolver } from '@driver-adapters/resolvers/product';
 import { Module, Provider } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { GraphQLModule } from '@nestjs/graphql';
 import {
   productInfoRepositoryDiToken,
   ProductInfoService,
 } from '@views/products/product-info';
 import {
+  GetProductHandler,
   GetProductsHandler,
-  GetQualityOnHandHandler,
 } from '@views/products/product-info/use-cases';
 
 const services = [ProductInfoService];
 const controllers = [ProductInfoProjector];
-const queryHandlers: Provider[] = [GetQualityOnHandHandler, GetProductsHandler];
+const resolvers = [ProductResolver];
+const queryHandlers: Provider[] = [GetProductsHandler, GetProductHandler];
 const repositories: Provider[] = [
   {
     provide: productInfoRepositoryDiToken,
@@ -27,7 +28,7 @@ const repositories: Provider[] = [
 @Module({
   imports: [TypeOrmModule.forFeature([ProductInfoOrmModel]), CqrsModule],
   controllers: [...controllers],
-  providers: [...services, ...queryHandlers, ...repositories],
+  providers: [...services, ...queryHandlers, ...repositories, ...resolvers],
   exports: [...services],
 })
 export class ViewsModule {}

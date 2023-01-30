@@ -1,17 +1,17 @@
 import {
   CreateProductRequestDto,
-  GetProductsRequestDto,
-  GetQualityOnHandRequestDto,
   ImportProductsRequestDto,
   ShipProductsRequestDto,
 } from '@driver-adapters/dtos/product';
 import { AddProductThumbnailsRequestDto } from '@driver-adapters/dtos/product/add-product-thumbnails.request.dto';
+import { GetProductRequestDto } from '@driver-adapters/dtos/product/get-product';
+import { GetProductsRequestDto } from '@driver-adapters/dtos/product/get-products';
 import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
-import { ApiOperation, ApiBody, ApiParam } from '@nestjs/swagger';
+import { ApiOperation, ApiBody } from '@nestjs/swagger';
 import {
   CreateProductHttpController,
-  GetQualityOnHandHttpController,
+  GetProductHttpController,
   ImportProductsHttpController,
   ShipProductsHttpController,
   AddProductThumbnailsHttpController,
@@ -36,7 +36,7 @@ export class ProductHttpController {
     new CreateProductHttpController(this.commandBus);
 
   private readonly getQualityOnHandHttpController =
-    new GetQualityOnHandHttpController(this.queryBus);
+    new GetProductHttpController(this.queryBus);
 
   private readonly getProductsHttpController = new GetProductsHttpController(
     this.queryBus,
@@ -97,7 +97,7 @@ export class ProductHttpController {
 
   @Get(':name')
   @ApiOperation({ summary: 'Get quality on hand' })
-  async getQualityOnHand(@Param() param: GetQualityOnHandRequestDto) {
+  async getQualityOnHand(@Param() param: GetProductRequestDto) {
     return this.getQualityOnHandHttpController.execute(param.name);
   }
 }

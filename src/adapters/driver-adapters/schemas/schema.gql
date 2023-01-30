@@ -1,0 +1,12 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type GetProductResponseDto {
+  name: String!
+  quantity: Float!
+}
+
+type Query {
+  products: [GetProductResponseDto!]!
+}

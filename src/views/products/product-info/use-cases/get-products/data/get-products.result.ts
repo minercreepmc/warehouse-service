@@ -1,4 +1,15 @@
-import { Ok } from 'oxide.ts';
-import { GetProductsResponseDto } from './get-products.response.dto';
+import {
+  ProductInfoLogicError,
+  ProductInfoValidationError,
+} from '@views/products/product-info/product-info.error';
+import { Result } from 'oxide.ts';
+import { GetProductsResponse } from './get-products.response';
 
-export type GetProductsResult = Ok<GetProductsResponseDto>;
+export type GetProductsUseCaseError =
+  | ProductInfoValidationError[]
+  | ProductInfoLogicError[];
+
+export type GetProductsResult = Result<
+  GetProductsResponse,
+  GetProductsUseCaseError
+>;

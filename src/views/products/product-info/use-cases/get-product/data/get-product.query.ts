@@ -1,7 +1,7 @@
 import { IQuery } from '@nestjs/cqrs';
 import { IsNotEmpty, IsString } from 'class-validator';
 
-export class GetQualityOnHandQuery implements IQuery {
+export class GetProductQuery implements IQuery {
   @IsNotEmpty()
   @IsString()
   name: string;

@@ -1,2 +1,2 @@
-export * from './get-quality-on-hand';
+export * from './get-product';
 export * from './get-products';

@@ -6,22 +6,18 @@ import {
   ProductInfoRepositoryPort,
 } from '@views/products/product-info';
 import { Err, Ok } from 'oxide.ts';
-import {
-  GetQualityOnHandQuery,
-  GetQualityOnHandResponseDto,
-  GetQualityOnHandResult,
-} from './data';
+import { GetProductResponse, GetProductResult, GetProductQuery } from './data';
 
-@QueryHandler(GetQualityOnHandQuery)
-export class GetQualityOnHandHandler
-  implements IQueryHandler<GetQualityOnHandQuery, GetQualityOnHandResult>
+@QueryHandler(GetProductQuery)
+export class GetProductHandler
+  implements IQueryHandler<GetProductQuery, GetProductResult>
 {
   constructor(
     @Inject(productInfoRepositoryDiToken)
     private readonly productInfoRepository: ProductInfoRepositoryPort,
   ) {}
 
-  async execute(query: GetQualityOnHandQuery): Promise<GetQualityOnHandResult> {
+  async execute(query: GetProductQuery): Promise<GetProductResult> {
     const product = await this.productInfoRepository.getProductByName(
       query.name,
     );
@@ -31,7 +27,7 @@ export class GetQualityOnHandHandler
     }
 
     return Ok(
-      new GetQualityOnHandResponseDto({
+      new GetProductResponse({
         name: product.name,
         quantity: product.quantity,
       }),
