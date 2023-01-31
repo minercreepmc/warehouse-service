@@ -1,45 +1,35 @@
 import {
-  Body,
   ConflictException,
-  Controller,
-  Post,
   UnprocessableEntityException,
 } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
-import { ApiBody, ApiOperation } from '@nestjs/swagger';
+import { Args, Mutation, Resolver } from '@nestjs/graphql';
 import {
   ProductBusinessError,
   ProductValidationError,
 } from '@product-domain-errors';
-import { CreateProductUseCaseError } from '@product-use-case/create-product';
+import { CreateProductUseCaseError } from '@product-use-case/create-product/orchestrators';
 import {
   CreateProductCommand,
   CreateProductResponse,
 } from '@product-use-case/create-product/orchestrators/data';
 import { IsArrayContainInstanceOf } from 'common-base-classes';
 import { match } from 'oxide.ts';
-import { CreateProductHttpRequest } from './create-product.http.request';
-import { CreateProductHttpResponse } from './create-product.http.response';
+import { CreateProductGraphQlRequest } from './create-product.graphql.request';
+import { CreateProductGraphQlResponse } from './create-product.graphql.response';
 
-@Controller('products')
-export class CreateProductHttpController {
+@Resolver()
+export class CreateProductGraphQlResolver {
   constructor(private readonly commandBus: CommandBus) {}
 
-  @Post('create')
-  @ApiOperation({ summary: 'Create product' })
-  @ApiBody({
-    required: true,
-    description: 'The dto need to create product',
-    type: CreateProductHttpRequest,
-  })
-  async execute(@Body() dto: CreateProductHttpRequest) {
-    const command = new CreateProductCommand(dto);
+  @Mutation(() => CreateProductGraphQlResponse, { name: 'createProduct' })
+  async execute(@Args('dto') args: CreateProductGraphQlRequest) {
+    const command = new CreateProductCommand(args);
 
     const result = await this.commandBus.execute(command);
-
     return match(result, {
       Ok: (response: CreateProductResponse) =>
-        new CreateProductHttpResponse(response),
+        new CreateProductGraphQlResponse(response),
       Err: (errors: CreateProductUseCaseError) => {
         if (IsArrayContainInstanceOf(errors, ProductValidationError)) {
           throw new UnprocessableEntityException(errors);

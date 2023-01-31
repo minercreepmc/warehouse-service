@@ -1,5 +1,5 @@
 import { ConflictException, Controller, Get, Param } from '@nestjs/common';
-import { IQueryBus } from '@nestjs/cqrs';
+import { IQueryBus, QueryBus } from '@nestjs/cqrs';
 import { ApiOperation } from '@nestjs/swagger';
 import {
   GetProductQuery,
@@ -14,7 +14,7 @@ import { GetProductHttpRequest } from './get-product.http.request';
 
 @Controller('products')
 export class GetProductHttpController {
-  constructor(private readonly queryBus: IQueryBus) {}
+  constructor(private readonly queryBus: QueryBus) {}
 
   @Get(':name')
   @ApiOperation({ summary: 'Get quality on hand' })

@@ -3,8 +3,10 @@ import { CqrsModule } from '@nestjs/cqrs';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { GetProductHandler } from '@product-use-case/get-product';
 import { GetProductGraphQlResolver } from '@product-use-case/get-product/adapters/graphql/get-product.graphql.resolver';
+import { GetProductHttpController } from '@product-use-case/get-product/adapters/http';
 import { GetProductsHandler } from '@product-use-case/get-products';
 import { GetProductsGraphQlResolver } from '@product-use-case/get-products/adapters/graphql';
+import { GetProductsHttpController } from '@product-use-case/get-products/adapters/http';
 import {
   ProductInfoProjector,
   productInfoRepositoryDiToken,
@@ -16,7 +18,11 @@ import {
 } from '../database/repositories/product-info';
 
 const services = [ProductInfoService];
-const controllers = [ProductInfoProjector];
+const controllers = [
+  ProductInfoProjector,
+  GetProductHttpController,
+  GetProductsHttpController,
+];
 const resolvers = [GetProductsGraphQlResolver, GetProductGraphQlResolver];
 const queryHandlers: Provider[] = [GetProductsHandler, GetProductHandler];
 const repositories: Provider[] = [

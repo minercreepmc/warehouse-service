@@ -5,14 +5,14 @@ import { OrchestrateMapper } from 'common-base-classes';
 import {
   CreateProductCommand,
   CreateProductDomainData,
-  CreateProductResponseDto,
+  CreateProductResponse,
 } from './data';
 
 export interface CreateProductMapperPort
   extends OrchestrateMapper<
     CreateProductDomainData,
     CreateProductCommand,
-    CreateProductResponseDto
+    CreateProductResponse
   > {}
 
 export const createProductMapperDiToken = Symbol('CREATE_PRODUCT_MAPPER');
@@ -28,8 +28,8 @@ export class CreateProductMapper implements CreateProductMapperPort {
     return domainData;
   }
 
-  toResponseDTO(domain: ProductCreatedDomainEvent): CreateProductResponseDto {
-    const dto = new CreateProductResponseDto(domain.name.unpack());
+  toResponseDTO(domain: ProductCreatedDomainEvent): CreateProductResponse {
+    const dto = new CreateProductResponse(domain.name.unpack());
 
     return dto;
   }

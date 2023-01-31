@@ -27,6 +27,15 @@ export class ProductInfoModel extends AbstractReadModel {
   })
   quantity: number;
 
+  @Field()
+  id: string;
+
+  @Field()
+  createdAt: Date;
+
+  @Field()
+  updatedAt: Date;
+
   constructor(data: ProductInfoModelData) {
     super({ id: data.id });
     this.name = data.name;

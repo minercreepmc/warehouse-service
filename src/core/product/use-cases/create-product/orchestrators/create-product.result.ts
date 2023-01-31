@@ -3,13 +3,13 @@ import {
   ProductValidationError,
 } from '@product-domain-errors';
 import { Result } from 'oxide.ts';
-import { CreateProductResponseDto } from './data';
+import { CreateProductResponse } from './data';
 
 export type CreateProductUseCaseError =
   | ProductValidationError[]
   | ProductBusinessError[];
 
 export type CreateProductResult = Result<
-  CreateProductResponseDto,
+  CreateProductResponse,
   CreateProductUseCaseError
 >;

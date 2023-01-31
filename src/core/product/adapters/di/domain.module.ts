@@ -21,6 +21,7 @@ import {
   CreateProductMapper,
   CreateProductValidator,
 } from '@product-use-case/create-product';
+import { CreateProductGraphQlResolver } from '@product-use-case/create-product/adapters/graphql/create-product.graphql.resolver';
 import { CreateProductHttpController } from '@product-use-case/create-product/adapters/http';
 import {
   ImportProductsBusinessChecker,
@@ -44,6 +45,7 @@ const httpControllers = [
   ShipProductsHttpController,
   AddProductThumbnailsHttpController,
 ];
+const graphQlResolvers = [CreateProductGraphQlResolver];
 const domainServices: Provider[] = [ProductDomainService];
 const businessRules: Provider[] = [ProductBusinessRules];
 const commandHandlers: Provider[] = [
@@ -86,6 +88,7 @@ const repositories: Provider[] = [
   ],
   controllers: [...httpControllers],
   providers: [
+    ...graphQlResolvers,
     ...domainServices,
     ...businessRules,
     ...commandHandlers,
