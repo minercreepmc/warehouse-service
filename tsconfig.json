@@ -1,53 +1,74 @@
 {
   "compilerOptions": {
     "paths": {
-      "@value-objects/*": [
-        "./src/core/domain/value-objects/*"
+      "@product-value-object": [
+        "./src/core/product/domain/value-objects"
       ],
-      "@aggregates/*": [
-        "./src/core/domain/aggregates/*"
+      "@product-aggregate": [
+        "./src/core/product/domain/aggregate"
       ],
-      "@entities/*": [
-        "./src/core/domain/entities/*"
+      "@product-aggregate/*": [
+        "./src/core/product/domain/aggregate/*"
       ],
-      "@entities": [
-        "./src/core/domain/entities"
+      "@product-entities": [
+        "./src/core/product/domain/entities"
       ],
-      "@business-rules/*": [
-        "./src/core/domain/business-rules/*"
+      "@product-business-rules": [
+        "./src/core/product/domain/business-rules"
       ],
-      "@business-rules": [
-        "./src/core/domain/business-rules"
+      "@product-business-rules/*": [
+        "./src/core/product/domain/business-rules/*"
       ],
-      "@domain-events/*": [
-        "./src/core/domain/domain-events/*"
+      "@product-domain-events": [
+        "./src/core/product/domain/domain-events"
       ],
-      "@domain-services/*": [
-        "./src/core/domain/domain-services/*"
+      "@product-domain-events/*": [
+        "./src/core/product/domain/domain-events/*"
       ],
-      "@domain-errors/*": [
-        "./src/core/domain/domain-errors/*"
+      "@product-domain-services": [
+        "./src/core/product/domain/domain-services"
       ],
-      "@gateway/*": [
-        "./src/core/domain/gateway/*"
+      "@product-domain-services/*": [
+        "./src/core/product/domain/domain-services/*"
       ],
-      "@driver-ports/*": [
-        "./src/core/application/driver-ports/*"
+      "@product-domain-errors": [
+        "./src/core/product/domain/domain-errors"
       ],
-      "@application/*": [
-        "./src/core/application/*"
+      "@product-domain-errors/*": [
+        "./src/core/product/domain/domain-errors/*"
       ],
-      "@driver-adapters/*": [
-        "./src/adapters/driver-adapters/*"
+      "@product-gateway/*": [
+        "./src/core/product/domain/gateway/*"
       ],
-      "@driven-adapters/*": [
-        "./src/adapters/driven-adapters/*"
+      "@product-use-case/*": [
+        "./src/core/product/use-cases/*"
       ],
-      "@configs/*": [
-        "./src/adapters/driven-adapters/configs/*"
+      "@product-dtos": [
+        "./src/core/product/adapters/driver-adapters/dtos"
       ],
-      "@views/*": [
-        "./src/views/*"
+      "@product-common/*": [
+        "./src/core/product/common/*"
+      ],
+      "@product-views/*": [
+        "./src/core/product/views/*"
+      ],
+      "@product-database": [
+        "./src/core/product/adapters/database"
+      ],
+      "@product-database/*": [
+        "./src/core/product/adapters/database/*"
+      ],
+      "@product-controllers/*": [
+        "./src/core/product/adapters/driver-adapters/controllers/*"
+      ],
+      "@product-projectors": [
+        "./src/core/product/adapters/driver-adapters/projectors"
+      ],
+      "@product-configs": [
+        "./src/configs"
+      ],
+      "@product-configs/*": [
+        "./src/configs/*"
       ]
     },
     "module": "CommonJS",

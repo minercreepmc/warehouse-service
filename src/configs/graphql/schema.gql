@@ -1,0 +1,13 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type ProductInfoModel {
+  name: String!
+  quantity: Float!
+}
+
+type Query {
+  products: [ProductInfoModel!]!
+  sayHello: String!
+}
