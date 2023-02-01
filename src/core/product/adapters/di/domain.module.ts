@@ -29,6 +29,7 @@ import {
   ImportProductsMapper,
   ImportProductsValidator,
 } from '@product-use-case/import-products';
+import { ImportProductsGraphQlResolver } from '@product-use-case/import-products/controllers/graphql';
 import { ImportProductsHttpController } from '@product-use-case/import-products/controllers/http';
 import {
   ShipProductsBusinessChecker,
@@ -36,6 +37,7 @@ import {
   ShipProductsMapper,
   ShipProductsValidator,
 } from '@product-use-case/ship-products';
+import { ShipProductsGraphQlResolver } from '@product-use-case/ship-products/controllers/graphql';
 import { ShipProductsHttpController } from '@product-use-case/ship-products/controllers/http';
 import { ProductEventModel, ProductEventStore } from '../database/event-store';
 
@@ -45,7 +47,11 @@ const httpControllers = [
   ShipProductsHttpController,
   AddProductThumbnailsHttpController,
 ];
-const graphQlResolvers = [CreateProductGraphQlResolver];
+const graphQlResolvers = [
+  CreateProductGraphQlResolver,
+  ImportProductsGraphQlResolver,
+  ShipProductsGraphQlResolver,
+];
 const domainServices: Provider[] = [ProductDomainService];
 const businessRules: Provider[] = [ProductBusinessRules];
 const commandHandlers: Provider[] = [

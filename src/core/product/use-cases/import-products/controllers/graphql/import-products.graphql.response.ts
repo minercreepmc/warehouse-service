@@ -1,0 +1,18 @@
+import { Field, ObjectType } from '@nestjs/graphql';
+import { ImportProductsResponse } from '../import-products.response';
+
+@ObjectType()
+export class ImportProductsGraphQlResponse implements ImportProductsResponse {
+  @Field()
+  message: 'Product imported successfully';
+
+  @Field()
+  name: string;
+
+  @Field()
+  quantity: number;
+  constructor(data: ImportProductsGraphQlResponse) {
+    this.name = data.name;
+    this.quantity = data.quantity;
+  }
+}
