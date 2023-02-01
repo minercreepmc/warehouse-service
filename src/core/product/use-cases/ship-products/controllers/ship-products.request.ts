@@ -3,12 +3,12 @@ import { ShipProductsCommand } from '../orchestrators/data';
 
 export class ShipProductsRequest implements ShipProductsCommand {
   @ApiProperty({
-    example: 'Coconut'
+    example: 'Coconut',
   })
   name: string;
 
   @ApiProperty({
-    example: 10
+    example: 10,
   })
   quantity: number;
 }
