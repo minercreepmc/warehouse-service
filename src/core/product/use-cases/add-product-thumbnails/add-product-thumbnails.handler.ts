@@ -6,14 +6,14 @@ import {
   AddProductThumbnailsValidator,
 } from './orchestrators';
 import {
-  AddProductThumbnailsCommand,
+  AddProductsThumbnailsCommand,
   AddProductThumbnailsResult,
 } from './orchestrators/data';
 
-@CommandHandler(AddProductThumbnailsCommand)
+@CommandHandler(AddProductsThumbnailsCommand)
 export class AddProductThumbnailsHandler
   implements
-    ICommandHandler<AddProductThumbnailsCommand, AddProductThumbnailsResult>
+    ICommandHandler<AddProductsThumbnailsCommand, AddProductThumbnailsResult>
 {
   constructor(
     private readonly validator: AddProductThumbnailsValidator,
@@ -21,7 +21,7 @@ export class AddProductThumbnailsHandler
     private readonly domainService: ProductDomainService,
   ) {}
   async execute(
-    command: AddProductThumbnailsCommand,
+    command: AddProductsThumbnailsCommand,
   ): Promise<AddProductThumbnailsResult> {
     this.validator.clearNoteAndCheck(command);
     if (!this.validator.isValid()) {

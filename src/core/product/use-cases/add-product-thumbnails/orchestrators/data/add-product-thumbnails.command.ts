@@ -1,7 +1,7 @@
 import { ICommand } from '@nestjs/cqrs';
 import { IsNotEmpty, IsString } from 'class-validator';
 
-export class AddProductThumbnailsCommand implements ICommand {
+export class AddProductsThumbnailsCommand implements ICommand {
   @IsNotEmpty()
   @IsString({ each: true })
   readonly thumbnailPaths: string[];

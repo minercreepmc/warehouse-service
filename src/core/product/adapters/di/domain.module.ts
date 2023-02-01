@@ -10,7 +10,7 @@ import {
   productRmqDiToken,
 } from '@product-gateway/driven-ports';
 import { AddProductThumbnailsHandler } from '@product-use-case/add-product-thumbnails';
-import { AddProductThumbnailsHttpController } from '@product-use-case/add-product-thumbnails/adapters/http';
+import { AddProductThumbnailsHttpController } from '@product-use-case/add-product-thumbnails/controllers/http';
 import {
   AddProductThumbnailsMapper,
   AddProductThumbnailsValidator,
@@ -21,22 +21,22 @@ import {
   CreateProductMapper,
   CreateProductValidator,
 } from '@product-use-case/create-product';
-import { CreateProductGraphQlResolver } from '@product-use-case/create-product/adapters/graphql/create-product.graphql.resolver';
-import { CreateProductHttpController } from '@product-use-case/create-product/adapters/http';
+import { CreateProductGraphQlResolver } from '@product-use-case/create-product/controllers/graphql/create-product.graphql.resolver';
+import { CreateProductHttpController } from '@product-use-case/create-product/controllers/http';
 import {
   ImportProductsBusinessChecker,
   ImportProductsHandler,
   ImportProductsMapper,
   ImportProductsValidator,
 } from '@product-use-case/import-products';
-import { ImportProductsHttpController } from '@product-use-case/import-products/adapters/http';
+import { ImportProductsHttpController } from '@product-use-case/import-products/controllers/http';
 import {
   ShipProductsBusinessChecker,
   ShipProductsHandler,
   ShipProductsMapper,
   ShipProductsValidator,
 } from '@product-use-case/ship-products';
-import { ShipProductsHttpController } from '@product-use-case/ship-products/adapters/http';
+import { ShipProductsHttpController } from '@product-use-case/ship-products/controllers/http';
 import { ProductEventModel, ProductEventStore } from '../database/event-store';
 
 const httpControllers = [

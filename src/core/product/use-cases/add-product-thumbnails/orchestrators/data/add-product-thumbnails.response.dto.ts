@@ -1,8 +1,8 @@
 export class AddProductThumbnailsResponseDto {
-  readonly paths: string[];
+  readonly thumbnailPaths: string[];
   readonly productName: string;
   constructor(params: AddProductThumbnailsResponseDto) {
-    this.paths = params.paths;
+    this.thumbnailPaths = params.thumbnailPaths;
     this.productName = params.productName;
   }
 }

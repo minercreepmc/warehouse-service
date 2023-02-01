@@ -21,10 +21,10 @@ scalar DateTime
 
 type Query {
   products: [ProductInfoModel!]!
-  product(data: GetProductGraphQlInput!): ProductInfoModel
+  product(data: GetProductGraphQlRequest!): ProductInfoModel
 }
 
-input GetProductGraphQlInput {
+input GetProductGraphQlRequest {
   name: String!
 }
 

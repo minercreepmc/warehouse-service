@@ -1,6 +1,12 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import {
+  IsDate,
+  IsNotEmpty,
+  IsNumber,
+  IsString,
+  IsUUID,
+} from 'class-validator';
 import { AbstractReadModel } from 'common-base-classes';
 
 export interface ProductInfoModelData {
@@ -27,14 +33,29 @@ export class ProductInfoModel extends AbstractReadModel {
   })
   quantity: number;
 
+  @IsNotEmpty()
+  @IsUUID()
   @Field()
+  @ApiProperty({
+    example: '6ba7b810-9dad-11d1-80b4-00c04fd430c8',
+  })
   id: string;
 
+  @IsNotEmpty()
+  @IsDate()
   @Field()
-  createdAt: Date;
+  @ApiProperty({
+    example: 'Sun Jan 01 2022 12:30:00 GMT-0700',
+  })
+  createdAt?: Date;
 
+  @IsNotEmpty()
+  @IsDate()
   @Field()
-  updatedAt: Date;
+  @ApiProperty({
+    example: 'Sun Jan 01 2022 12:30:00 GMT-0700',
+  })
+  updatedAt?: Date;
 
   constructor(data: ProductInfoModelData) {
     super({ id: data.id });

@@ -5,7 +5,7 @@ import {
 } from '@product-value-object';
 import { OrchestrateMapper } from 'common-base-classes';
 import {
-  AddProductThumbnailsCommand,
+  AddProductsThumbnailsCommand,
   AddProductThumbnailsDomainData,
   AddProductThumbnailsResponseDto,
 } from './data';
@@ -14,12 +14,12 @@ export class AddProductThumbnailsMapper
   implements
     OrchestrateMapper<
       AddProductThumbnailsDomainData,
-      AddProductThumbnailsCommand,
+      AddProductsThumbnailsCommand,
       AddProductThumbnailsResponseDto
     >
 {
   toDomain(
-    command: AddProductThumbnailsCommand,
+    command: AddProductsThumbnailsCommand,
   ): AddProductThumbnailsDomainData {
     const productName = ProductNameValueObject.create(command.productName);
     const productThumbnails = command.thumbnailPaths.map((thumbnail) =>
@@ -38,7 +38,7 @@ export class AddProductThumbnailsMapper
   ): AddProductThumbnailsResponseDto {
     const dto = new AddProductThumbnailsResponseDto({
       productName: domain.productName.unpack(),
-      paths: domain.thumbnails.map((thumbnail) => thumbnail.unpack()),
+      thumbnailPaths: domain.thumbnails.map((thumbnail) => thumbnail.unpack()),
     });
 
     return dto;
