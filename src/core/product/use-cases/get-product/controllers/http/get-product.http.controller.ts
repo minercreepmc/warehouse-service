@@ -17,7 +17,7 @@ export class GetProductHttpController {
   @Get(':name')
   @ApiOperation({ summary: 'Get quality on hand' })
   async execute(@Param() param: GetProductHttpRequest) {
-    const query = new GetProductQuery({ name: param.name });
+    const query = new GetProductQuery(param.name);
     const result = await this.queryBus.execute(query);
 
     return match(result, {

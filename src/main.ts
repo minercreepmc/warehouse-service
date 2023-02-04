@@ -4,6 +4,7 @@ import { AppModule } from './app.module';
 import { SwaggerModule } from '@nestjs/swagger';
 import { swaggerOption } from '@product-configs';
 import { RmqService } from '@product-configs/rmq';
+import { typeormDataSource } from '@product-configs/typeorm';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -15,6 +16,8 @@ async function bootstrap() {
       forbidUnknownValues: false,
     }),
   );
+
+  await typeormDataSource.initialize();
 
   const rmqService = app.get<RmqService>(RmqService);
   app.connectMicroservice(rmqService.getOptions());

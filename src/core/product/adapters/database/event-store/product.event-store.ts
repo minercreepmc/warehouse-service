@@ -15,6 +15,7 @@ import { ProductEventStorePort } from '@product-gateway/driven-ports';
 import { ProductEventTypeOrmMapper } from './product-event.mapper';
 import { ProductAggregate, productApplyEventMethods } from '@product-aggregate';
 import { ProductNameValueObject } from '@product-value-object';
+import { typeormDataSource } from '@product-configs/typeorm/typeorm.data-source';
 
 @Injectable()
 export class ProductEventStore
@@ -34,37 +35,13 @@ export class ProductEventStore
       typeOrmRepository,
       new ProductEventTypeOrmMapper(ProductEventModel),
       new Logger(ProductEventStore.name),
+      typeormDataSource,
     );
   }
 
   protected relations = [productEventRelation];
   protected static aggregate: ProductAggregate;
-
-  // async getProduct(
-  //   productName: ProductNameValueObject,
-  // ): Promise<ProductAggregate> {
-  //   const products = await this.rebuildProducts();
-  //   return products[productName.unpack()];
-  // }
-  //
-  // async rebuildProducts(): Promise<ProductEventsRebuilded> {
-  //   return this.rebuild();
-  // }
-  //
-  // async rebuild() {
-  //   const domainEvents = await this.getAllEvents();
-  //   const products = domainEvents.reduce((products, event) => {
-  //     const product =
-  //       products[event.details.name.unpack()] ||
-  //       new ProductAggregate(event.aggregateId);
-  //     const applyMethod =
-  //       productAggregateApplyEventMethodNamesDocuments[event.eventName];
-  //     product.state[applyMethod](event);
-  //     products[product.name.unpack()] = product;
-  //     return products;
-  //   }, {});
-  //   return products;
-  // }
+  modelClass = ProductEventModel;
 
   getDomainEvents(databaseStream: ProductEventModel[]) {
     return databaseStream.map((event) => this.typeOrmMapper.toDomain(event));

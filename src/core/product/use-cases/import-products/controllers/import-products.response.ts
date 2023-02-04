@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { ImportProductsResponseDto } from '../orchestrators/data';
 
 export class ImportProductsResponse implements ImportProductsResponseDto {
-  readonly message =  'Product imported successfully';
+  readonly message = 'Product imported successfully';
 
   @ApiProperty({
     example: 'Egg',

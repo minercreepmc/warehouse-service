@@ -4,7 +4,11 @@ import { ProductAggregate } from '@product-aggregate';
 import { ProductBusinessRules } from '@product-business-rules';
 import { ProductDomainError } from '@product-domain-errors';
 import { ProductMessageMapper } from '@product-gateway/channel';
-import { productEventStoreDiToken, ProductEventStorePort, productRmqDiToken } from '@product-gateway/driven-ports';
+import {
+  productEventStoreDiToken,
+  ProductEventStorePort,
+  productRmqDiToken,
+} from '@product-gateway/driven-ports';
 import { ProductNameValueObject } from '@product-value-object';
 import {
   AddProductThumbnailsDomainService,

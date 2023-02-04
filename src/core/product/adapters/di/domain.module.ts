@@ -39,6 +39,7 @@ import {
 } from '@product-use-case/ship-products';
 import { ShipProductsGraphQlResolver } from '@product-use-case/ship-products/controllers/graphql';
 import { ShipProductsHttpController } from '@product-use-case/ship-products/controllers/http';
+import { OutboxModule, OutboxService } from 'nestjs-outbox-pattern';
 import { ProductEventModel, ProductEventStore } from '../database/event-store';
 
 const httpControllers = [

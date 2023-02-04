@@ -21,16 +21,23 @@ export class ShipProductsDomainService {
     data: ShipProductsDomainServiceData,
   ): Promise<ProductsShippedDomainEvent> {
     this.checkForError(data);
+    let productsShippedEvent: ProductsShippedDomainEvent;
 
-    const product = await this.eventStore.getProduct(data.name);
+    this.eventStore.startTransaction();
+    try {
+      const product = await this.eventStore.getProduct(data.name);
+      const productsShippedEvent = product.shipProducts(data);
 
-    const productsShippedEvent = product.shipProducts(data);
+      this.eventStore.save(productsShippedEvent);
 
-    this.eventStore.save(productsShippedEvent);
+      const message = this.mapper.toMessage(productsShippedEvent);
+      this.messageBroker.emit(ProductsShippedDomainEvent.name, message);
 
-    const message = this.mapper.toMessage(productsShippedEvent);
-    this.messageBroker.emit(ProductsShippedDomainEvent.name, message);
-
+      this.eventStore.commitTransaction();
+    } catch (error) {
+      this.eventStore.rollbackTransaction();
+      throw error;
+    }
     return productsShippedEvent;
   }
 

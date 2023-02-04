@@ -21,13 +21,19 @@ export class ImportProductDomainService {
       throw new ProductDomainError.NameIsNotExist();
     }
 
-    const product = await this.eventStore.getProduct(data.name);
-
-    const productsImported = product.importProducts(data);
-    await this.eventStore.save(productsImported);
-
-    const message = this.mapper.toMessage(productsImported);
-    this.messageBroker.emit(ProductsImportedDomainEvent.name, message);
+    await this.eventStore.startTransaction();
+    let productsImported: ProductsImportedDomainEvent;
+    try {
+      const product = await this.eventStore.getProduct(data.name);
+      productsImported = product.importProducts(data);
+      await this.eventStore.save(productsImported);
+      const message = this.mapper.toMessage(productsImported);
+      this.messageBroker.emit(ProductsImportedDomainEvent.name, message);
+      await this.eventStore.commitTransaction();
+    } catch (error) {
+      await this.eventStore.rollbackTransaction();
+      throw error;
+    }
     return productsImported;
   }
 }

@@ -23,16 +23,28 @@ export class CreateProductDomainService {
     if (!this.businessRules.isProductNameExist(data.name)) {
       throw new ProductDomainError.NameIsExist();
     }
+    let productCreatedEvent: ProductCreatedDomainEvent;
 
-    const product = new ProductAggregate();
-    const productCreatedEvent = product.createProduct({
-      name: data.name,
-    });
+    await this.eventStore.startTransaction();
+    try {
+      const product = new ProductAggregate();
+      productCreatedEvent = product.createProduct({
+        name: data.name,
+      });
+      await this.eventStore.save(productCreatedEvent);
+      const message = this.mapper.toMessage(productCreatedEvent);
+      this.messageBroker.emit(ProductCreatedDomainEvent.name, message);
+      // await this.outboxService.addMessage(
+      //   message,
+      //   ProductCreatedDomainEvent.name,
+      // );
 
-    await this.eventStore.save(productCreatedEvent);
-
-    const message = this.mapper.toMessage(productCreatedEvent);
-    this.messageBroker.emit(ProductCreatedDomainEvent.name, message);
+      await this.eventStore.commitTransaction();
+    } catch (error) {
+      await this.eventStore.rollbackTransaction();
+      throw error;
+    }
+    //this.outboxService.sendMessages$().subscribe();
 
     return productCreatedEvent;
   }
