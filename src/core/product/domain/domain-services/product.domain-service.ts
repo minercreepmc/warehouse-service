@@ -7,7 +7,7 @@ import { ProductMessageMapper } from '@product-gateway/channel';
 import {
   productEventStoreDiToken,
   ProductEventStorePort,
-  productRmqDiToken,
+  productMessageBrokerDiToken,
 } from '@product-gateway/driven-ports';
 import { ProductNameValueObject } from '@product-value-object';
 import {
@@ -34,7 +34,7 @@ export class ProductDomainService {
     @Inject(productEventStoreDiToken)
     private readonly eventStore: ProductEventStorePort,
 
-    @Inject(productRmqDiToken)
+    @Inject(productMessageBrokerDiToken)
     private readonly messageBroker: ClientProxy,
 
     private readonly mapper: ProductMessageMapper,

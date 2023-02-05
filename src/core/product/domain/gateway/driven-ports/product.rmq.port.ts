@@ -1,1 +1,1 @@
-export const productRmqDiToken = Symbol('PRODUCT_RMQ');
+export const productMessageBrokerDiToken = Symbol('PRODUCT_MESSAGE_BROKER');

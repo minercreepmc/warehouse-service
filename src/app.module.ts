@@ -3,7 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriverConfig } from '@nestjs/apollo';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { productRmqDiToken } from '@product-gateway/driven-ports';
+import { productMessageBrokerDiToken } from '@product-gateway/driven-ports';
 import { typeOrmConfig } from '@product-configs/typeorm';
 import { gplModuleOptions } from '@product-configs/graphql';
 import { DomainModule, ViewsModule } from './core/product/adapters/di';
@@ -17,7 +17,7 @@ import { rmqConfig } from '@product-configs';
     }),
     //RmqModule.register({ name: productRmqDiToken }),
     ClientDynamicModule.register({
-      name: productRmqDiToken,
+      name: productMessageBrokerDiToken,
       config: rmqConfig,
     }),
     TypeOrmModule.forRoot(typeOrmConfig),
