@@ -15,7 +15,7 @@ import {
   ImportProductsCommand,
   ImportProductsResponseDto,
   ImportProductsUseCaseError,
-} from '@product-use-case/import-products/orchestrators/data';
+} from '@product-use-case/import-products/application-services/orchestrators/data';
 import { IsArrayContainInstanceOf } from 'common-base-classes';
 import { match } from 'oxide.ts';
 import { ImportProductsHttpRequest } from './import-products.http.request';

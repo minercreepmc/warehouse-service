@@ -3,7 +3,10 @@ import { CqrsModule } from '@nestjs/cqrs';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ProductBusinessRules } from '@product-business-rules';
 import { RmqModule } from '@product-configs/rmq';
-import { ProductEventModel, ProductEventStore } from '@product-database/event-store';
+import {
+  ProductEventModel,
+  ProductEventStore,
+} from '@product-database/event-store';
 import { ProductDomainService } from '@product-domain-services';
 import { ProductMessageMapper } from '@product-gateway/channel';
 import {
@@ -17,12 +20,7 @@ import {
   AddProductThumbnailsValidator,
 } from '@product-use-case/add-product-thumbnails/orchestrators';
 import { CreateProductUseCaseModule } from '@product-use-case/create-product/create-product.use-case.module';
-import {
-  ImportProductsBusinessChecker,
-  ImportProductsHandler,
-  ImportProductsMapper,
-  ImportProductsValidator,
-} from '@product-use-case/import-products';
+import { ImportProductUseCaseModule } from '@product-use-case/import-products';
 import { ImportProductsGraphQlResolver } from '@product-use-case/import-products/controllers/graphql';
 import { ImportProductsHttpController } from '@product-use-case/import-products/controllers/http';
 import {
@@ -46,26 +44,20 @@ const graphQlResolvers = [
 const domainServices: Provider[] = [ProductDomainService];
 const businessRules: Provider[] = [ProductBusinessRules];
 const commandHandlers: Provider[] = [
-  ImportProductsHandler,
   ShipProductsHandler,
   AddProductThumbnailsHandler,
 ];
 
 const mappers: Provider[] = [
-  ImportProductsMapper,
   ShipProductsMapper,
   ProductMessageMapper,
   AddProductThumbnailsMapper,
 ];
 const validators: Provider[] = [
-  ImportProductsValidator,
   ShipProductsValidator,
   AddProductThumbnailsValidator,
 ];
-const businessChecker: Provider[] = [
-  ImportProductsBusinessChecker,
-  ShipProductsBusinessChecker,
-];
+const businessChecker: Provider[] = [ShipProductsBusinessChecker];
 const repositories: Provider[] = [
   {
     provide: productEventStoreDiToken,
@@ -79,6 +71,7 @@ const repositories: Provider[] = [
     TypeOrmModule.forFeature([ProductEventModel]),
     RmqModule.register({ name: productMessageBrokerDiToken }),
     CreateProductUseCaseModule,
+    ImportProductUseCaseModule,
   ],
   controllers: [...httpControllers],
   providers: [

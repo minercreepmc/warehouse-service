@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { ImportProductsResponseDto } from '../orchestrators/data';
+import { ImportProductsResponseDto } from '../application-services/orchestrators/data';
 
 export class ImportProductsResponse implements ImportProductsResponseDto {
   readonly message = 'Product imported successfully';

@@ -12,7 +12,7 @@ import {
   ImportProductsCommand,
   ImportProductsResponseDto,
   ImportProductsUseCaseError,
-} from '@product-use-case/import-products/orchestrators/data';
+} from '@product-use-case/import-products/application-services/orchestrators/data';
 import { IsArrayContainInstanceOf } from 'common-base-classes';
 import { match } from 'oxide.ts';
 import { ImportProductsGraphQlRequest } from './import-products.graphql.request';
