@@ -1,6 +1,10 @@
 import { Module, Provider } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import {
+  ProductInfoOrmModel,
+  ProductInfoRepository,
+} from '@product-database/repositories/product-info';
 import { GetProductHandler } from '@product-use-case/get-product';
 import { GetProductGraphQlResolver } from '@product-use-case/get-product/controllers/graphql';
 import { GetProductHttpController } from '@product-use-case/get-product/controllers/http';
@@ -12,10 +16,6 @@ import {
   productInfoRepositoryDiToken,
   ProductInfoService,
 } from '@product-views/product-info';
-import {
-  ProductInfoOrmModel,
-  ProductInfoRepository,
-} from '../database/repositories/product-info';
 
 const services = [ProductInfoService];
 const controllers = [

@@ -6,9 +6,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { productMessageBrokerDiToken } from '@product-gateway/driven-ports';
 import { typeOrmConfig } from '@product-configs/typeorm';
 import { gplModuleOptions } from '@product-configs/graphql';
-import { DomainModule, ViewsModule } from './core/product/adapters/di';
 import { ClientDynamicModule } from '@product-configs/client';
 import { rmqConfig } from '@product-configs';
+import { DomainModule, ViewsModule } from './core/product/adapters/di/module';
 
 @Module({
   imports: [

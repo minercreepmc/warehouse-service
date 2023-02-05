@@ -3,6 +3,7 @@ import { CqrsModule } from '@nestjs/cqrs';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ProductBusinessRules } from '@product-business-rules';
 import { RmqModule } from '@product-configs/rmq';
+import { ProductEventModel, ProductEventStore } from '@product-database/event-store';
 import { ProductDomainService } from '@product-domain-services';
 import { ProductMessageMapper } from '@product-gateway/channel';
 import {
@@ -32,7 +33,6 @@ import {
 } from '@product-use-case/ship-products';
 import { ShipProductsGraphQlResolver } from '@product-use-case/ship-products/controllers/graphql';
 import { ShipProductsHttpController } from '@product-use-case/ship-products/controllers/http';
-import { ProductEventModel, ProductEventStore } from '../database/event-store';
 
 const httpControllers = [
   ImportProductsHttpController,
