@@ -1,4 +1,4 @@
-import { CreateProductResponseDto } from '../orchestrators/data';
+import { CreateProductResponseDto } from '../application-services/orchestrators/data';
 
 export abstract class CreateProductResponse
   implements CreateProductResponseDto

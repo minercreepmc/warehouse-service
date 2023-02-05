@@ -14,14 +14,14 @@ import {
   productEventStoreDiToken,
   productMessageBrokerDiToken,
 } from '@product-gateway/driven-ports';
-import { CreateProductGraphQlResolver } from './controllers/graphql';
-import { CreateProductHttpController } from './controllers/http';
-import { CreateProductHandler } from './create-product.handler';
 import {
   CreateProductBusinessChecker,
+  CreateProductHandler,
   CreateProductMapper,
   CreateProductValidator,
-} from './orchestrators';
+} from './application-services';
+import { CreateProductGraphQlResolver } from './controllers/graphql';
+import { CreateProductHttpController } from './controllers/http';
 
 const controllers = [CreateProductHttpController];
 const resolvers: Provider[] = [CreateProductGraphQlResolver];

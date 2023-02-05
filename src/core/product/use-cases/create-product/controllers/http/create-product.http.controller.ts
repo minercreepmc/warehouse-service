@@ -11,11 +11,11 @@ import {
   ProductBusinessError,
   ProductValidationError,
 } from '@product-domain-errors';
-import { CreateProductUseCaseError } from '@product-use-case/create-product';
+import { CreateProductUseCaseError } from '@product-use-case/create-product/application-services';
 import {
   CreateProductCommand,
   CreateProductResponseDto,
-} from '@product-use-case/create-product/orchestrators/data';
+} from '@product-use-case/create-product/application-services/orchestrators/data';
 import { IsArrayContainInstanceOf } from 'common-base-classes';
 import { match } from 'oxide.ts';
 import { CreateProductHttpRequest } from './create-product.http.request';

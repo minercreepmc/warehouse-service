@@ -19,19 +19,13 @@ import {
   AddProductThumbnailsMapper,
   AddProductThumbnailsValidator,
 } from '@product-use-case/add-product-thumbnails/orchestrators';
-import { CreateProductUseCaseModule } from '@product-use-case/create-product/create-product.use-case.module';
+import { CreateProductUseCaseModule } from '@product-use-case/create-product';
 import { ImportProductUseCaseModule } from '@product-use-case/import-products';
 import { ImportProductsGraphQlResolver } from '@product-use-case/import-products/controllers/graphql';
-import { ImportProductsHttpController } from '@product-use-case/import-products/controllers/http';
 import { ShipProductsUseCaseModule } from '@product-use-case/ship-products';
 import { ShipProductsGraphQlResolver } from '@product-use-case/ship-products/controllers/graphql';
-import { ShipProductsHttpController } from '@product-use-case/ship-products/controllers/http';
 
-const httpControllers = [
-  ImportProductsHttpController,
-  ShipProductsHttpController,
-  AddProductThumbnailsHttpController,
-];
+const httpControllers = [AddProductThumbnailsHttpController];
 const graphQlResolvers = [
   ImportProductsGraphQlResolver,
   ShipProductsGraphQlResolver,
