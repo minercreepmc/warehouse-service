@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { AddProductThumbnailsResponseDto } from '../orchestrators/data';
+import { AddProductThumbnailsResponseDto } from '../application-services/orchestrators/data';
 
 export class AddProductThumbnailsResponse
   implements AddProductThumbnailsResponseDto

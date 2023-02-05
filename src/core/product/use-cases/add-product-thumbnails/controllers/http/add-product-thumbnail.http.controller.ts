@@ -11,7 +11,7 @@ import {
   AddProductsThumbnailsCommand,
   AddProductThumbnailsResponseDto,
   AddProductThumbnailsUseCaseError,
-} from '@product-use-case/add-product-thumbnails/orchestrators/data';
+} from '@product-use-case/add-product-thumbnails/application-services/orchestrators/data';
 import { IsArrayContainInstanceOf } from 'common-base-classes';
 import { match } from 'oxide.ts';
 import { AddProductThumbnailsHttpRequest } from './add-product-thumbnails.http.request';

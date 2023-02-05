@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { AddProductsThumbnailsCommand } from '../orchestrators/data';
+import { AddProductsThumbnailsCommand } from '../application-services/orchestrators/data';
 
 export class AddProductThumbnailsRequest
   implements AddProductsThumbnailsCommand

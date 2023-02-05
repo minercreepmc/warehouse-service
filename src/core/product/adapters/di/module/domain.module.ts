@@ -1,47 +1,13 @@
-import { Module, Provider } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ProductBusinessRules } from '@product-business-rules';
 import { RmqModule } from '@product-configs/rmq';
-import {
-  ProductEventModel,
-  ProductEventStore,
-} from '@product-database/event-store';
-import { ProductDomainService } from '@product-domain-services';
-import { ProductMessageMapper } from '@product-gateway/channel';
-import {
-  productEventStoreDiToken,
-  productMessageBrokerDiToken,
-} from '@product-gateway/driven-ports';
-import { AddProductThumbnailsHandler } from '@product-use-case/add-product-thumbnails';
-import { AddProductThumbnailsHttpController } from '@product-use-case/add-product-thumbnails/controllers/http';
-import {
-  AddProductThumbnailsMapper,
-  AddProductThumbnailsValidator,
-} from '@product-use-case/add-product-thumbnails/orchestrators';
+import { ProductEventModel } from '@product-database/event-store';
+import { productMessageBrokerDiToken } from '@product-gateway/driven-ports';
+import { AddProductThumbnailsUseCaseModule } from '@product-use-case/add-product-thumbnails/add-product-thumbnails.use-case.module';
 import { CreateProductUseCaseModule } from '@product-use-case/create-product';
 import { ImportProductUseCaseModule } from '@product-use-case/import-products';
-import { ImportProductsGraphQlResolver } from '@product-use-case/import-products/controllers/graphql';
 import { ShipProductsUseCaseModule } from '@product-use-case/ship-products';
-import { ShipProductsGraphQlResolver } from '@product-use-case/ship-products/controllers/graphql';
-
-const httpControllers = [AddProductThumbnailsHttpController];
-const graphQlResolvers = [
-  ImportProductsGraphQlResolver,
-  ShipProductsGraphQlResolver,
-];
-const domainServices: Provider[] = [ProductDomainService];
-const businessRules: Provider[] = [ProductBusinessRules];
-const commandHandlers: Provider[] = [AddProductThumbnailsHandler];
-
-const mappers: Provider[] = [ProductMessageMapper, AddProductThumbnailsMapper];
-const validators: Provider[] = [AddProductThumbnailsValidator];
-const repositories: Provider[] = [
-  {
-    provide: productEventStoreDiToken,
-    useClass: ProductEventStore,
-  },
-];
 
 @Module({
   imports: [
@@ -51,16 +17,7 @@ const repositories: Provider[] = [
     CreateProductUseCaseModule,
     ImportProductUseCaseModule,
     ShipProductsUseCaseModule,
-  ],
-  controllers: [...httpControllers],
-  providers: [
-    ...graphQlResolvers,
-    ...domainServices,
-    ...businessRules,
-    ...commandHandlers,
-    ...mappers,
-    ...validators,
-    ...repositories,
+    AddProductThumbnailsUseCaseModule,
   ],
 })
 export class DomainModule {}
