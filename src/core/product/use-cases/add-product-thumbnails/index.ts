@@ -1,1 +1,1 @@
-export * from './add-product-thumbnails.handler';
+export * from './add-product-thumbnails.use-case.module';
