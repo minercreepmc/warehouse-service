@@ -23,12 +23,7 @@ import { CreateProductUseCaseModule } from '@product-use-case/create-product/cre
 import { ImportProductUseCaseModule } from '@product-use-case/import-products';
 import { ImportProductsGraphQlResolver } from '@product-use-case/import-products/controllers/graphql';
 import { ImportProductsHttpController } from '@product-use-case/import-products/controllers/http';
-import {
-  ShipProductsBusinessChecker,
-  ShipProductsHandler,
-  ShipProductsMapper,
-  ShipProductsValidator,
-} from '@product-use-case/ship-products';
+import { ShipProductsUseCaseModule } from '@product-use-case/ship-products';
 import { ShipProductsGraphQlResolver } from '@product-use-case/ship-products/controllers/graphql';
 import { ShipProductsHttpController } from '@product-use-case/ship-products/controllers/http';
 
@@ -43,21 +38,10 @@ const graphQlResolvers = [
 ];
 const domainServices: Provider[] = [ProductDomainService];
 const businessRules: Provider[] = [ProductBusinessRules];
-const commandHandlers: Provider[] = [
-  ShipProductsHandler,
-  AddProductThumbnailsHandler,
-];
+const commandHandlers: Provider[] = [AddProductThumbnailsHandler];
 
-const mappers: Provider[] = [
-  ShipProductsMapper,
-  ProductMessageMapper,
-  AddProductThumbnailsMapper,
-];
-const validators: Provider[] = [
-  ShipProductsValidator,
-  AddProductThumbnailsValidator,
-];
-const businessChecker: Provider[] = [ShipProductsBusinessChecker];
+const mappers: Provider[] = [ProductMessageMapper, AddProductThumbnailsMapper];
+const validators: Provider[] = [AddProductThumbnailsValidator];
 const repositories: Provider[] = [
   {
     provide: productEventStoreDiToken,
@@ -72,6 +56,7 @@ const repositories: Provider[] = [
     RmqModule.register({ name: productMessageBrokerDiToken }),
     CreateProductUseCaseModule,
     ImportProductUseCaseModule,
+    ShipProductsUseCaseModule,
   ],
   controllers: [...httpControllers],
   providers: [
@@ -81,7 +66,6 @@ const repositories: Provider[] = [
     ...commandHandlers,
     ...mappers,
     ...validators,
-    ...businessChecker,
     ...repositories,
   ],
 })

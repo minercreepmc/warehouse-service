@@ -1,2 +1,1 @@
-export * from './ship-products.handler';
-export * from './orchestrators';
+export * from './ship-products.use-case.module';

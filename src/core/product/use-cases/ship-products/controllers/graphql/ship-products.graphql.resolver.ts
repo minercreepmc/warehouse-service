@@ -8,11 +8,7 @@ import {
   ProductBusinessError,
   ProductValidationError,
 } from '@product-domain-errors';
-import {
-  ShipProductsCommand,
-  ShipProductsResponseDto,
-  ShipProductsUseCaseError,
-} from '@product-use-case/ship-products/orchestrators/data';
+import { ShipProductsCommand, ShipProductsResponseDto, ShipProductsUseCaseError } from '@product-use-case/ship-products/application-services/orchestrators/data';
 import { IsArrayContainInstanceOf } from 'common-base-classes';
 import { match } from 'oxide.ts';
 import { ShipProductsGraphQlRequest } from './ship-products.graphql.request';

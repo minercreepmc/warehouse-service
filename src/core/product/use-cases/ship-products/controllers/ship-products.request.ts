@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { ShipProductsCommand } from '../orchestrators/data';
+import { ShipProductsCommand } from '../application-services/orchestrators/data';
 
 export class ShipProductsRequest implements ShipProductsCommand {
   @ApiProperty({

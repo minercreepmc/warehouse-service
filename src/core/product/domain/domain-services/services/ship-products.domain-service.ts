@@ -26,7 +26,7 @@ export class ShipProductsDomainService {
     this.eventStore.startTransaction();
     try {
       const product = await this.eventStore.getProduct(data.name);
-      const productsShippedEvent = product.shipProducts(data);
+      productsShippedEvent = product.shipProducts(data);
 
       this.eventStore.save(productsShippedEvent);
 
