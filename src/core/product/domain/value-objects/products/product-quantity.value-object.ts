@@ -1,4 +1,4 @@
-import { ArgumentInvalidExeception } from '@tinphamm/common-exceptions';
+import { ArgumentInvalidExeception } from 'ts-common-exceptions';
 import { AbstractValueObject } from 'common-base-classes';
 
 export class ProductQuantityValueObject extends AbstractValueObject<number> {

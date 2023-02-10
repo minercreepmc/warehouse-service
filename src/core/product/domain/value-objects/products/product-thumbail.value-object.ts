@@ -1,4 +1,4 @@
-import { ArgumentInvalidExeception } from '@tinphamm/common-exceptions';
+import { ArgumentInvalidExeception } from 'ts-common-exceptions';
 import {
   AbstractValueObject,
   urlRegex,

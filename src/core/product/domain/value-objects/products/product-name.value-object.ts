@@ -2,7 +2,7 @@ import {
   AbstractValueObject,
   isStringBetweenLength,
 } from 'common-base-classes';
-import { ArgumentInvalidExeception } from '@tinphamm/common-exceptions';
+import { ArgumentInvalidExeception } from 'ts-common-exceptions';
 
 export class ProductNameValueObject extends AbstractValueObject<string> {
   private static readonly MIN_LENGTH = 1;

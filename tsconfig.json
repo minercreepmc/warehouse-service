@@ -2,7 +2,16 @@
   "compilerOptions": {
     "paths": {
       "@product-value-object": [
-        "./src/core/product/domain/value-objects"
+        "./src/core/product/domain/value-objects/products"
+      ],
+      "@product-value-object/*": [
+        "./src/core/product/domain/value-objects/products/*"
+      ],
+      "@admin-value-object": [
+        "./src/core/product/domain/value-objects/admin"
+      ],
+      "@admin-value-object/*": [
+        "./src/core/product/domain/value-objects/admin/*"
       ],
       "@product-aggregate": [
         "./src/core/product/domain/aggregate"
