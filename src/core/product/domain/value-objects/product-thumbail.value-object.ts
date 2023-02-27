@@ -1,4 +1,4 @@
-import { ArgumentInvalidExeception } from '@tinphamm/common-exceptions';
+import { ArgumentInvalidException } from 'ts-common-exceptions';
 import {
   AbstractValueObject,
   urlRegex,
@@ -8,7 +8,7 @@ import {
 export class ProductThumbnailPathValueObject extends AbstractValueObject<string> {
   static create(path: string) {
     if (!this.isValid(path)) {
-      throw new ArgumentInvalidExeception('Product thumbnail path invalid');
+      throw new ArgumentInvalidException('Product thumbnail path invalid');
     }
     return new ProductThumbnailPathValueObject(path);
   }

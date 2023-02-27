@@ -4,28 +4,27 @@ import {
   ProductsShippedDomainEvent,
   ProductThumbnailsAddedDomainEvent,
 } from '@product-domain-events';
-import type { ProductContainerEntity } from '@product-entities';
+import type { ProductLoadEntity } from '@product-entities';
 import type {
   ProductNameValueObject,
   ProductQuantityValueObject,
   ProductThumbnailPathValueObject,
 } from '@product-value-object';
-import { AbstractAggregateRoot, ID, UUID } from 'common-base-classes';
+import { AbstractAggregateRoot, UUID } from 'common-base-classes';
 import { Queue } from 'typescript-collections';
+import { ProductIdValueObject } from '../value-objects/product-id.value-object';
 import type {
   AddThumbnailsAggregateData,
   CreateProductAggegateData,
   ImportProductsAggregateData,
   ProductAggregateDetails,
-  ProductAggregateProcess,
   ShipProductsAggregateData,
 } from './product.aggregate.interface';
 import { InitialProductState, ProductState } from './states';
 
-export class ProductAggregate
-  extends AbstractAggregateRoot<Partial<ProductAggregateDetails>>
-  implements ProductAggregateProcess
-{
+export class ProductAggregate extends AbstractAggregateRoot<
+  Partial<ProductAggregateDetails>
+> {
   state: InitialProductState;
   changeState(newState: ProductState): void {
     this.state = newState;
@@ -89,11 +88,11 @@ export class ProductAggregate
     this.details.name = newName;
   }
 
-  get containers(): Queue<ProductContainerEntity> {
+  get containers(): Queue<ProductLoadEntity> {
     return this.details.containers;
   }
 
-  set containers(newContainers: Queue<ProductContainerEntity>) {
+  set containers(newContainers: Queue<ProductLoadEntity>) {
     this.details.containers = newContainers;
   }
 
@@ -113,7 +112,7 @@ export class ProductAggregate
     this.details.thumbnails = newThumbnails;
   }
 
-  constructor(id?: ID) {
+  constructor(id?: ProductIdValueObject) {
     const productId = id ? id : UUID.create();
     const details = {};
     super({ id: productId, details });

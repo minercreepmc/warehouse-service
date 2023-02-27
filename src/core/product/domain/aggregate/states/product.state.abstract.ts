@@ -4,7 +4,7 @@ import type {
   ProductsShippedDomainEvent,
   ProductThumbnailsAddedDomainEvent,
 } from '@product-domain-events';
-import { ProductContainerEntity } from '@product-entities';
+import { ProductLoadEntity } from '@product-entities';
 import type { ProductQuantityValueObject } from '@product-value-object';
 import { IState, UUID } from 'common-base-classes';
 import type { ProductAggregate } from '../product.aggregate';
@@ -46,11 +46,11 @@ export abstract class ProductState implements IProductState {
 
   makeContainerFromQuantity(
     quantity: ProductQuantityValueObject,
-  ): ProductContainerEntity {
-    return new ProductContainerEntity(UUID.create(), { quantity });
+  ): ProductLoadEntity {
+    return new ProductLoadEntity(UUID.create(), { quantity });
   }
 
-  addContainer(container: ProductContainerEntity) {
+  addContainer(container: ProductLoadEntity) {
     this.product.containers.enqueue(container);
   }
 

@@ -15,7 +15,7 @@ import { ProductEventStorePort } from '@product-gateway/driven-ports';
 import { ProductEventTypeOrmMapper } from './product-event.mapper';
 import { ProductAggregate, productApplyEventMethods } from '@product-aggregate';
 import { ProductNameValueObject } from '@product-value-object';
-import { typeormDataSource } from '@product-configs/typeorm/typeorm.data-source';
+import { typeormDataSource } from '@configs/typeorm/typeorm.data-source';
 
 @Injectable()
 export class ProductEventStore

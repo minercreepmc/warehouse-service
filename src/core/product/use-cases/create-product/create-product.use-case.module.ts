@@ -2,8 +2,8 @@ import { Module, Provider } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ProductBusinessRules } from '@product-business-rules';
-import { rmqConfig } from '@product-configs';
-import { ClientDynamicModule } from '@product-configs/client';
+import { rmqConfig } from '@configs';
+import { ClientDynamicModule } from '@configs/client';
 import {
   ProductEventModel,
   ProductEventStore,

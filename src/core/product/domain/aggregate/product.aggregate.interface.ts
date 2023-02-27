@@ -4,21 +4,13 @@ import type {
   ProductsShippedDomainEvent,
 } from '@product-domain-events';
 import { productDomainEventNames } from '@product-domain-events';
-import type { ProductContainerEntity } from '@product-entities';
+import type { ProductLoadEntity } from '@product-entities';
 import type {
   ProductNameValueObject,
   ProductQuantityValueObject,
   ProductThumbnailPathValueObject,
 } from '@product-value-object';
 import { Queue } from 'typescript-collections';
-
-export interface ProductAggregateProcess {
-  createProduct(data: CreateProductAggegateData): ProductCreatedDomainEvent;
-  importProducts(
-    data: ImportProductsAggregateData,
-  ): ProductsImportedDomainEvent;
-  shipProducts(data: ShipProductsAggregateData): ProductsShippedDomainEvent;
-}
 
 export interface ProductAggregateApply {
   applyCreateProduct(event: ProductCreatedDomainEvent): void;
@@ -31,7 +23,7 @@ export interface ProductAggregateDetails {
   // quantities: ProductQuantityValueObject;
   // unit: ProductUnitValueObject;
   totalQuantity: ProductQuantityValueObject;
-  containers: Queue<ProductContainerEntity>;
+  containers: Queue<ProductLoadEntity>;
   thumbnails?: ProductThumbnailPathValueObject[];
 }
 

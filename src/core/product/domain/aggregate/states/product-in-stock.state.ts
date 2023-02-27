@@ -1,6 +1,6 @@
 import type { ProductsShippedDomainEvent } from '@product-domain-events';
 import type { ProductQuantityValueObject } from '@product-value-object';
-import { ArgumentInvalidExeception } from '@tinphamm/common-exceptions';
+import { ArgumentInvalidException } from 'ts-common-exceptions';
 import { ProductState } from './product.state.abstract';
 
 export class ProductInStockState extends ProductState {
@@ -13,7 +13,7 @@ export class ProductInStockState extends ProductState {
 
   private shipAmountOfProducts(amount: ProductQuantityValueObject): void {
     if (!this.product.isEnoughToShip(amount)) {
-      throw new ArgumentInvalidExeception('Quantity is not enough to ship');
+      throw new ArgumentInvalidException('Quantity is not enough to ship');
     }
 
     let leftOver = amount;
@@ -27,7 +27,7 @@ export class ProductInStockState extends ProductState {
   }
   private removeFromTotal(amount: ProductQuantityValueObject): void {
     if (this.product.totalQuantity.unpack() < amount.unpack()) {
-      throw new ArgumentInvalidExeception(
+      throw new ArgumentInvalidException(
         'Quantity want to remove higher than current total',
       );
     }

@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { RmqModule } from '@product-configs/rmq';
+import { RmqModule } from '@configs/rmq';
 import { ProductEventModel } from '@product-database/event-store';
 import { productMessageBrokerDiToken } from '@product-gateway/driven-ports';
 import { AddProductThumbnailsUseCaseModule } from '@product-use-case/add-product-thumbnails/add-product-thumbnails.use-case.module';

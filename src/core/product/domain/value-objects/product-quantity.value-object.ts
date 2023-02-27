@@ -1,4 +1,4 @@
-import { ArgumentInvalidExeception } from '@tinphamm/common-exceptions';
+import { ArgumentInvalidException } from 'ts-common-exceptions';
 import { AbstractValueObject } from 'common-base-classes';
 
 export class ProductQuantityValueObject extends AbstractValueObject<number> {
@@ -6,7 +6,7 @@ export class ProductQuantityValueObject extends AbstractValueObject<number> {
 
   static create(value = 0) {
     if (!this.isValid(value)) {
-      throw new ArgumentInvalidExeception('Invalid quantity number');
+      throw new ArgumentInvalidException('Invalid quantity number');
     }
 
     return new ProductQuantityValueObject(value);
@@ -18,7 +18,7 @@ export class ProductQuantityValueObject extends AbstractValueObject<number> {
 
   remove(payload: ProductQuantityValueObject): ProductQuantityValueObject {
     if (this.unpack() - payload.unpack() < 0) {
-      throw new ArgumentInvalidExeception('Invalid quantity to remove');
+      throw new ArgumentInvalidException('Invalid quantity to remove');
     }
     return ProductQuantityValueObject.create(this.unpack() - payload.unpack());
   }

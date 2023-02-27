@@ -1,6 +1,72 @@
 {
   "compilerOptions": {
     "paths": {
+      "@common-value-object": [
+        "./src/core/common/domain/value-objects"
+      ],
+      "@common-value-object/*": [
+        "./src/core/common/domain/value-objects/*"
+      ],
+      "@common-aggregate": [
+        "./src/core/common/domain/aggregate"
+      ],
+      "@common-aggregate/*": [
+        "./src/core/common/domain/aggregate/*"
+      ],
+      "@common-entities": [
+        "./src/core/common/domain/entities"
+      ],
+      "@common-business-rules": [
+        "./src/core/common/domain/business-rules"
+      ],
+      "@common-business-rules/*": [
+        "./src/core/common/domain/business-rules/*"
+      ],
+      "@common-domain-events": [
+        "./src/core/common/domain/domain-events"
+      ],
+      "@common-domain-events/*": [
+        "./src/core/common/domain/domain-events/*"
+      ],
+      "@common-domain-services": [
+        "./src/core/common/domain/domain-services"
+      ],
+      "@common-domain-services/*": [
+        "./src/core/common/domain/domain-services/*"
+      ],
+      "@common-domain-errors": [
+        "./src/core/common/domain/domain-errors"
+      ],
+      "@common-domain-errors/*": [
+        "./src/core/common/domain/domain-errors/*"
+      ],
+      "@common-gateway/*": [
+        "./src/core/common/domain/gateway/*"
+      ],
+      "@common-use-case/*": [
+        "./src/core/common/use-cases/*"
+      ],
+      "@common-dtos": [
+        "./src/core/common/adapters/driver-adapters/dtos"
+      ],
+      "@common-common/*": [
+        "./src/core/common/common/*"
+      ],
+      "@common-views/*": [
+        "./src/core/common/views/*"
+      ],
+      "@common-database": [
+        "./src/core/common/adapters/database"
+      ],
+      "@common-database/*": [
+        "./src/core/common/adapters/database/*"
+      ],
+      "@common-controllers/*": [
+        "./src/core/common/adapters/driver-adapters/controllers/*"
+      ],
+      "@common-projectors": [
+        "./src/core/common/adapters/driver-adapters/projectors"
+      ],
       "@product-value-object": [
         "./src/core/product/domain/value-objects"
       ],
@@ -64,10 +130,76 @@
       "@product-projectors": [
         "./src/core/product/adapters/driver-adapters/projectors"
       ],
-      "@product-configs": [
+      "@warehouse-value-object": [
+        "./src/core/warehouse/domain/value-objects"
+      ],
+      "@warehouse-value-object/*": [
+        "./src/core/warehouse/domain/value-objects/*"
+      ],
+      "@warehouse-aggregate": [
+        "./src/core/warehouse/domain/aggregate"
+      ],
+      "@warehouse-aggregate/*": [
+        "./src/core/warehouse/domain/aggregate/*"
+      ],
+      "@warehouse-entities": [
+        "./src/core/warehouse/domain/entities"
+      ],
+      "@warehouse-business-rules": [
+        "./src/core/warehouse/domain/business-rules"
+      ],
+      "@warehouse-business-rules/*": [
+        "./src/core/warehouse/domain/business-rules/*"
+      ],
+      "@warehouse-domain-events": [
+        "./src/core/warehouse/domain/domain-events"
+      ],
+      "@warehouse-domain-events/*": [
+        "./src/core/warehouse/domain/domain-events/*"
+      ],
+      "@warehouse-domain-services": [
+        "./src/core/warehouse/domain/domain-services"
+      ],
+      "@warehouse-domain-services/*": [
+        "./src/core/warehouse/domain/domain-services/*"
+      ],
+      "@warehouse-domain-errors": [
+        "./src/core/warehouse/domain/domain-errors"
+      ],
+      "@warehouse-domain-errors/*": [
+        "./src/core/warehouse/domain/domain-errors/*"
+      ],
+      "@warehouse-gateway/*": [
+        "./src/core/warehouse/domain/gateway/*"
+      ],
+      "@warehouse-use-case/*": [
+        "./src/core/warehouse/use-cases/*"
+      ],
+      "@warehouse-dtos": [
+        "./src/core/warehouse/adapters/driver-adapters/dtos"
+      ],
+      "@warehouse-common/*": [
+        "./src/core/warehouse/common/*"
+      ],
+      "@warehouse-views/*": [
+        "./src/core/warehouse/views/*"
+      ],
+      "@warehouse-database": [
+        "./src/core/warehouse/adapters/database"
+      ],
+      "@warehouse-database/*": [
+        "./src/core/warehouse/adapters/database/*"
+      ],
+      "@warehouse-controllers/*": [
+        "./src/core/warehouse/adapters/driver-adapters/controllers/*"
+      ],
+      "@warehouse-projectors": [
+        "./src/core/warehouse/adapters/driver-adapters/projectors"
+      ],
+      "@configs": [
         "./src/configs"
       ],
-      "@product-configs/*": [
+      "@configs/*": [
         "./src/configs/*"
       ]
     },
@@ -88,14 +220,16 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false
+    "noFallthroughCasesInSwitch": false,
+    "resolveJsonModule": true
   },
   "include": [
-    "src"
+    "./src/**/*",
+    "./tests/**/*",
+    "./jest.config.ts"
   ],
   "exclude": [
     "node_modules",
-    "test",
     "dist"
   ]
 }

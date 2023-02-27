@@ -1,23 +1,27 @@
-import { ProductQuantityValueObject } from '@product-value-object';
-import { AbstractEntity, ID, UUID } from 'common-base-classes';
+import {
+  ProductLoadBarcodeValueObject,
+  ProductQuantityValueObject,
+} from '@product-value-object';
+import { AbstractEntity, UUID } from 'common-base-classes';
 import { Queue } from 'typescript-collections';
 
-export interface ProductContainersEntityDetails {
+export interface ProductLoadEntityDetails {
   quantity: ProductQuantityValueObject;
 }
 
-export class ProductContainerEntity extends AbstractEntity<ProductContainersEntityDetails> {
-  constructor(id: ID, details: ProductContainersEntityDetails) {
+export class ProductLoadEntity extends AbstractEntity<ProductLoadEntityDetails> {
+  constructor(
+    id: ProductLoadBarcodeValueObject,
+    details: ProductLoadEntityDetails,
+  ) {
     super({ id, details });
   }
 
-  static create(
-    containers: { quantity: number }[],
-  ): Queue<ProductContainerEntity> {
-    const queue = new Queue<ProductContainerEntity>();
-    containers.forEach((container) => {
+  static create(load: { quantity: number }[]): Queue<ProductLoadEntity> {
+    const queue = new Queue<ProductLoadEntity>();
+    load.forEach((container) => {
       const quantity = ProductQuantityValueObject.create(container.quantity);
-      queue.enqueue(new ProductContainerEntity(UUID.create(), { quantity }));
+      queue.enqueue(new ProductLoadEntity(UUID.create(), { quantity }));
     });
     return queue;
   }

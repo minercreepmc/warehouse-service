@@ -1,1 +1,1 @@
-export * from './product-container.entity';
+export * from './product-load.entity';
