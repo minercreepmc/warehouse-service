@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { ProductsShippedDomainEvent } from '@product-domain-events';
+import { ProductsExportedDomainEvent } from '@product-domain-events';
 import {
   ProductNameValueObject,
   ProductQuantityValueObject,
@@ -29,7 +29,7 @@ export class ShipProductsMapper implements IShipProductsMapper {
     return data;
   }
 
-  toResponseDTO(event: ProductsShippedDomainEvent): ShipProductsResponseDto {
+  toResponseDTO(event: ProductsExportedDomainEvent): ShipProductsResponseDto {
     const dto = new ShipProductsResponseDto({
       name: event.name.unpack(),
       quantity: event.quantity.unpack(),

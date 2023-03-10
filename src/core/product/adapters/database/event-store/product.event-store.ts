@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import {
   ProductDomainEvent,
   ProductDomainEventDetails,
+  productDomainEventNames,
 } from '@product-domain-events';
 import {
   ProductEventModel,
@@ -13,9 +14,21 @@ import {
 } from './product-event.model';
 import { ProductEventStorePort } from '@product-gateway/driven-ports';
 import { ProductEventTypeOrmMapper } from './product-event.mapper';
-import { ProductAggregate, productApplyEventMethods } from '@product-aggregate';
+import {
+  ProductAggregate,
+  ProductApplyEventMethodNames,
+} from '@product-aggregate';
 import { ProductNameValueObject } from '@product-value-object';
 import { typeormDataSource } from '@configs/typeorm/typeorm.data-source';
+
+export const productApplyEventMethods = {
+  [productDomainEventNames.PRODUCT_CREATED]:
+    ProductApplyEventMethodNames.CREATE_PRODUCT,
+  [productDomainEventNames.PRODUCTS_IMPORTED]:
+    ProductApplyEventMethodNames.IMPORT_PRODUCTS,
+  [productDomainEventNames.PRODUCTS_EXPORTED]:
+    ProductApplyEventMethodNames.SHIP_PRODUCTS,
+};
 
 @Injectable()
 export class ProductEventStore

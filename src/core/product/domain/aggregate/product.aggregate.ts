@@ -1,83 +1,84 @@
 import {
   ProductCreatedDomainEvent,
+  ProductsExportedDomainEvent,
   ProductsImportedDomainEvent,
-  ProductsShippedDomainEvent,
-  ProductThumbnailsAddedDomainEvent,
 } from '@product-domain-events';
-import type { ProductLoadEntity } from '@product-entities';
-import type {
+import { ProductLoadEntity } from '@product-entities';
+import {
   ProductNameValueObject,
   ProductQuantityValueObject,
-  ProductThumbnailPathValueObject,
 } from '@product-value-object';
 import { AbstractAggregateRoot, UUID } from 'common-base-classes';
 import { Queue } from 'typescript-collections';
 import { ProductIdValueObject } from '../value-objects/product-id.value-object';
 import type {
-  AddThumbnailsAggregateData,
-  CreateProductAggegateData,
-  ImportProductsAggregateData,
+  CreateProductAggegateOptions,
+  ExportProductsAggregateOptions,
+  ImportProductsAggregateOptions,
   ProductAggregateDetails,
-  ShipProductsAggregateData,
 } from './product.aggregate.interface';
 import { InitialProductState, ProductState } from './states';
 
 export class ProductAggregate extends AbstractAggregateRoot<
   Partial<ProductAggregateDetails>
 > {
-  state: InitialProductState;
+  constructor(id?: ProductIdValueObject) {
+    const productId = id ? id : UUID.create();
+    const details = {};
+    super({ id: productId, details });
+    this.state = new InitialProductState(this);
+  }
+  state: ProductState;
   changeState(newState: ProductState): void {
     this.state = newState;
   }
 
-  addThumbnails(data: AddThumbnailsAggregateData) {
-    const event = new ProductThumbnailsAddedDomainEvent({
-      entityId: this.id,
-      entityType: this.constructor.name,
-      eventName: ProductThumbnailsAddedDomainEvent.name,
-      details: data,
-    });
-    this.state.applyThumbnailsProduct(event);
-    return event;
-  }
-
-  createProduct(data: CreateProductAggegateData): ProductCreatedDomainEvent {
+  createProduct(
+    options: CreateProductAggegateOptions,
+  ): ProductCreatedDomainEvent {
+    const { name } = options;
     const event = new ProductCreatedDomainEvent({
-      entityId: this.id,
-      entityType: this.constructor.name,
-      eventName: ProductCreatedDomainEvent.name,
-      details: data,
+      productId: this.id,
+      eventDetails: {
+        name,
+      },
     });
     this.state.applyCreateProduct(event);
     return event;
   }
 
   importProducts(
-    data: ImportProductsAggregateData,
+    options: ImportProductsAggregateOptions,
   ): ProductsImportedDomainEvent {
+    const { name, quantity } = options;
     const event = new ProductsImportedDomainEvent({
-      entityId: this.id,
-      entityType: this.constructor.name,
-      eventName: ProductsImportedDomainEvent.name,
-      details: data,
+      productId: this.id,
+      eventDetails: {
+        name,
+        quantity,
+      },
     });
     this.state.applyImportProducts(event);
     return event;
   }
 
-  shipProducts(data: ShipProductsAggregateData): ProductsShippedDomainEvent {
-    const event = new ProductsShippedDomainEvent({
-      entityId: this.id,
-      entityType: this.constructor.name,
-      eventName: ProductsShippedDomainEvent.name,
-      details: data,
+  exportProducts(
+    options: ExportProductsAggregateOptions,
+  ): ProductsExportedDomainEvent {
+    const { name, quantity } = options;
+    const event = new ProductsExportedDomainEvent({
+      productId: this.id,
+      eventDetails: {
+        name,
+        quantity,
+      },
     });
-    this.state.applyShipProducts(event);
+    this.state.applyExportProducts(event);
     return event;
   }
 
-  isEnoughToShip(need: ProductQuantityValueObject): boolean {
-    return this.totalQuantity.unpack() >= need.unpack();
+  isEnoughToExport(need: ProductQuantityValueObject): boolean {
+    return this.totalQuantity.isGreaterThanOrEqualTo(need);
   }
 
   get name(): ProductNameValueObject {
@@ -88,12 +89,34 @@ export class ProductAggregate extends AbstractAggregateRoot<
     this.details.name = newName;
   }
 
-  get containers(): Queue<ProductLoadEntity> {
-    return this.details.containers;
+  getNameValue(): string {
+    return this.details.name.unpack();
   }
 
-  set containers(newContainers: Queue<ProductLoadEntity>) {
-    this.details.containers = newContainers;
+  setName(newName: string) {
+    this.details.name = new ProductNameValueObject(newName);
+  }
+
+  get loads(): Queue<ProductLoadEntity> {
+    return this.details.loads;
+  }
+
+  set loads(loads: Queue<ProductLoadEntity>) {
+    this.details.loads = loads;
+  }
+
+  setLoads(loads: number[]) {
+    const productLoadQueue = new Queue<ProductLoadEntity>();
+    loads.forEach((load) => {
+      const productLoad = new ProductLoadEntity({
+        productId: this.id,
+        productLoadBarcode: UUID.create(),
+        productQuantity: new ProductQuantityValueObject(load),
+      });
+      productLoadQueue.enqueue(productLoad);
+    });
+
+    this.details.loads = productLoadQueue;
   }
 
   get totalQuantity(): ProductQuantityValueObject {
@@ -104,18 +127,11 @@ export class ProductAggregate extends AbstractAggregateRoot<
     this.details.totalQuantity = newQuantity;
   }
 
-  get thumbnails() {
-    return this.details.thumbnails;
+  getTotalQuantityValue(): number {
+    return this.details.totalQuantity.unpack();
   }
 
-  set thumbnails(newThumbnails: ProductThumbnailPathValueObject[]) {
-    this.details.thumbnails = newThumbnails;
-  }
-
-  constructor(id?: ProductIdValueObject) {
-    const productId = id ? id : UUID.create();
-    const details = {};
-    super({ id: productId, details });
-    this.state = new InitialProductState(this);
+  setTotalQuantity(newQuantity: number) {
+    this.details.totalQuantity = new ProductQuantityValueObject(newQuantity);
   }
 }

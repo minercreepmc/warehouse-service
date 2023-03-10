@@ -1,4 +1,4 @@
-import { ImportProductDomainServiceData } from '@product-domain-services/services';
+import { ImportProductsDomainServiceData } from '@product-domain-services/services';
 
 export interface ImportProductsDomainData
-  extends ImportProductDomainServiceData {}
+  extends ImportProductsDomainServiceData {}

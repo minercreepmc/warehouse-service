@@ -1,33 +1,20 @@
-import { ArgumentInvalidException } from 'ts-common-exceptions';
-import { AbstractValueObject } from 'common-base-classes';
+import {
+  NumericValueObject,
+  NumericValueObjectOptions,
+} from '@common-value-object/primitive/numeric';
 
-export class ProductQuantityValueObject extends AbstractValueObject<number> {
-  private static readonly MIN_QUANTITY = 0;
+export class ProductQuantityValueObject extends NumericValueObject<ProductQuantityValueObject> {
+  static readonly OPTIONS: NumericValueObjectOptions = {
+    containsNegative: false,
+    containsPositive: true,
+    containsZero: true,
+    containsInteger: true,
+    containsFloat: true,
+    minValue: 0,
+    maxValue: Number.MAX_SAFE_INTEGER,
+  };
 
-  static create(value = 0) {
-    if (!this.isValid(value)) {
-      throw new ArgumentInvalidException('Invalid quantity number');
-    }
-
-    return new ProductQuantityValueObject(value);
-  }
-
-  add(payload: ProductQuantityValueObject): ProductQuantityValueObject {
-    return ProductQuantityValueObject.create(this.unpack() + payload.unpack());
-  }
-
-  remove(payload: ProductQuantityValueObject): ProductQuantityValueObject {
-    if (this.unpack() - payload.unpack() < 0) {
-      throw new ArgumentInvalidException('Invalid quantity to remove');
-    }
-    return ProductQuantityValueObject.create(this.unpack() - payload.unpack());
-  }
-
-  static isValid(value: number) {
-    return value >= this.MIN_QUANTITY;
-  }
-
-  private constructor(value: number) {
-    super({ value });
+  constructor(value: number) {
+    super(value, ProductQuantityValueObject.OPTIONS);
   }
 }

@@ -1,52 +1,51 @@
 import { ClientProxy } from '@nestjs/microservices';
-import { ShipProductsAggregateData } from '@product-aggregate';
-import { ProductBusinessRules } from '@product-business-rules';
+import { ExportProductsAggregateOptions } from '@product-aggregate';
 import { ProductDomainError } from '@product-domain-errors';
-import { ProductsShippedDomainEvent } from '@product-domain-events';
+import { ProductsExportedDomainEvent } from '@product-domain-events';
 import { ProductMessageMapper } from '@product-gateway/channel';
 import { ProductEventStorePort } from '@product-gateway/driven-ports';
+import { ProductInventoryDomainService } from './product-inventory.domain-service';
 
-export interface ShipProductsDomainServiceData
-  extends ShipProductsAggregateData {}
+export interface ExportProductsDomainServiceData
+  extends ExportProductsAggregateOptions {}
 
-export class ShipProductsDomainService {
+export class ExportProductsDomainService {
   constructor(
-    private readonly businessRules: ProductBusinessRules,
+    private readonly inventoryService: ProductInventoryDomainService,
     private readonly eventStore: ProductEventStorePort,
     private readonly messageBroker: ClientProxy,
     private readonly mapper: ProductMessageMapper,
   ) {}
 
   async execute(
-    data: ShipProductsDomainServiceData,
-  ): Promise<ProductsShippedDomainEvent> {
+    data: ExportProductsDomainServiceData,
+  ): Promise<ProductsExportedDomainEvent> {
     this.checkForError(data);
-    let productsShippedEvent: ProductsShippedDomainEvent;
-
-    this.eventStore.startTransaction();
-    try {
+    return this.eventStore.runInTransaction(async () => {
       const product = await this.eventStore.getProduct(data.name);
-      productsShippedEvent = product.shipProducts(data);
+      const productsExportedEvent = product.exportProducts(data);
 
-      this.eventStore.save(productsShippedEvent);
+      this.eventStore.save(productsExportedEvent);
 
-      const message = this.mapper.toMessage(productsShippedEvent);
-      this.messageBroker.emit(ProductsShippedDomainEvent.name, message);
+      const message = this.mapper.toMessage(productsExportedEvent);
+      this.messageBroker.emit(ProductsExportedDomainEvent.name, message);
 
       this.eventStore.commitTransaction();
-    } catch (error) {
-      this.eventStore.rollbackTransaction();
-      throw error;
-    }
-    return productsShippedEvent;
+      return productsExportedEvent;
+    });
   }
 
-  async checkForError(data: ShipProductsDomainServiceData) {
-    if (!this.businessRules.isProductNameExist(data.name)) {
+  async checkForError(data: ExportProductsDomainServiceData) {
+    if (!this.inventoryService.isProductExist(data.name)) {
       throw new ProductDomainError.NameIsNotExist();
     }
 
-    if (!this.businessRules.isEnoughToShip(data.name, data.quantity)) {
+    if (
+      !this.inventoryService.isEnoughToExport({
+        productName: data.name,
+        amount: data.quantity,
+      })
+    ) {
       throw new ProductDomainError.QuantityIsNotEnough();
     }
   }

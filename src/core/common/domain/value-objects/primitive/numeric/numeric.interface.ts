@@ -9,8 +9,11 @@ export type NumericValueObjectOptions = Partial<{
 }>;
 
 // ##METHOD##
-export interface IsAllowedSignOptions {
+export interface IsAllowPositiveOptions {
   containsPositive: boolean;
+}
+
+export interface IsAllowNegativeOptions {
   containsNegative: boolean;
 }
 

@@ -19,12 +19,6 @@ export class ProductMessageMapper
       message.quantity = event.details.quantity.unpack();
     }
 
-    if (event.details.thumbnails) {
-      message.thumbnails = event.details.thumbnails.map((thumbnail) =>
-        thumbnail.unpack(),
-      );
-    }
-
     return message;
   }
 }

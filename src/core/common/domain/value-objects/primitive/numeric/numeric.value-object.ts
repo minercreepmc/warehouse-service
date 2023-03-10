@@ -1,32 +1,84 @@
-import { AbstractValueObject } from 'common-base-classes';
-import { ArgumentInvalidException } from 'ts-common-exceptions';
 import {
-  IsAllowedSignOptions,
+  ArgumentContainsFloatException,
+  ArgumentContainsIntegerException,
+  ArgumentNotANumberException,
+  ArgumentOutofBoundsException,
+  ArgumentContainsPositiveException,
+  ArgumentContainsNegativeException,
+  ArgumentContainsZeroException,
+  MultipleExceptions,
+} from '@common-exceptions';
+import { ValidationResponse } from '@common-interfaces';
+import { AbstractValueObject } from 'common-base-classes';
+import { NumericOptionIsNotValid } from './numeric.exception';
+import {
   IsAllowedZeroOptions,
+  IsAllowNegativeOptions,
+  IsAllowPositiveOptions,
   NumericValueObjectOptions,
 } from './numeric.interface';
 
-export class NumericValueObject extends AbstractValueObject<number> {
+export class NumericValueObject<
+  T extends NumericValueObject<T>,
+> extends AbstractValueObject<number> {
   constructor(value: number, options = NumericValueObject.DEFAULT_OPTIONS) {
-    if (typeof value !== 'number') {
-      throw new ArgumentInvalidException('Invalid number value');
-    }
-    if (options && !NumericValueObject.isValidOptions(options)) {
-      throw new ArgumentInvalidException('Options is not valid');
+    const opts = Object.assign({}, NumericValueObject.DEFAULT_OPTIONS, options);
+    if (!NumericValueObject.isValidOptions(opts)) {
+      throw new NumericOptionIsNotValid('Numeric options it not valid');
     }
 
-    if (!NumericValueObject.isValidValue(value, options)) {
-      throw new ArgumentInvalidException('Invalid number value');
+    const { isValid, errors } = NumericValueObject.validate(value, opts);
+
+    if (!isValid) {
+      throw new MultipleExceptions(errors);
     }
 
     super({ value });
-    this.options = options;
+    this.options = opts;
   }
 
   private readonly options: NumericValueObjectOptions;
 
   getOptions(): NumericValueObjectOptions {
     return this.options;
+  }
+
+  getValue(): number {
+    return this.details.value;
+  }
+
+  add(other: T): T {
+    return new (<any>this.constructor)(
+      this.getValue() + other.getValue(),
+      this.options,
+    );
+  }
+
+  subtract(other: T): T {
+    return new (<any>this.constructor)(
+      this.getValue() - other.getValue(),
+      this.options,
+    );
+  }
+
+  isLessThan(other: T): boolean {
+    return this.getValue() < other.getValue();
+  }
+
+  isGreaterThan(other: T): boolean {
+    return this.getValue() > other.getValue();
+  }
+
+  isEqualTo(other: T): boolean {
+    return this.getValue() === other.getValue();
+  }
+
+  isLessThanOrEqualTo(other: T): boolean {
+    return this.getValue() <= other.getValue();
+  }
+
+  isGreaterThanOrEqualTo(other: T): boolean {
+    return this.getValue() >= other.getValue();
   }
 
   static readonly DEFAULT_OPTIONS: NumericValueObjectOptions = {
@@ -39,13 +91,16 @@ export class NumericValueObject extends AbstractValueObject<number> {
     maxValue: Number.MAX_SAFE_INTEGER,
   };
 
-  static isValidValue(
+  static validate(
     candidate: unknown,
-    options = NumericValueObject.DEFAULT_OPTIONS,
-  ): boolean {
+    options: NumericValueObjectOptions,
+  ): ValidationResponse {
+    const errors: Error[] = [];
     if (typeof candidate !== 'number') {
-      return false;
+      errors.push(new ArgumentNotANumberException());
     }
+
+    const value = candidate as number;
 
     const {
       minValue,
@@ -60,35 +115,46 @@ export class NumericValueObject extends AbstractValueObject<number> {
     if (
       containsInteger &&
       !containsFloat &&
-      !NumericValueObject.isInteger(candidate)
+      !NumericValueObject.isInteger(value)
     ) {
-      return false;
+      errors.push(new ArgumentContainsFloatException());
     }
 
     if (
       containsFloat &&
       !containsInteger &&
-      !NumericValueObject.isFloat(candidate)
+      !NumericValueObject.isFloat(value)
     ) {
-      return false;
+      errors.push(new ArgumentContainsIntegerException());
     }
 
-    if (!NumericValueObject.isWithinBounds(candidate, minValue, maxValue)) {
-      return false;
+    if (!NumericValueObject.isWithinBounds(value, minValue, maxValue)) {
+      errors.push(new ArgumentOutofBoundsException());
     }
 
-    if (
-      !NumericValueObject.isAllowedSign(candidate, {
-        containsPositive,
-        containsNegative,
-      })
-    ) {
-      return false;
-    } else if (!NumericValueObject.isAllowedZero(candidate, { containsZero })) {
-      return false;
+    if (!NumericValueObject.isAllowPositive(value, { containsPositive })) {
+      errors.push(new ArgumentContainsPositiveException());
     }
 
-    return true;
+    if (!NumericValueObject.isAllowNegative(value, { containsNegative })) {
+      errors.push(new ArgumentContainsNegativeException());
+    }
+
+    if (!NumericValueObject.isAllowedZero(value, { containsZero })) {
+      errors.push(new ArgumentContainsZeroException());
+    }
+
+    if (errors.length === 0) {
+      return {
+        isValid: true,
+        errors: [],
+      };
+    } else {
+      return {
+        isValid: false,
+        errors,
+      };
+    }
   }
 
   static isInteger(value: number): boolean {
@@ -110,18 +176,25 @@ export class NumericValueObject extends AbstractValueObject<number> {
     );
   }
 
-  static isAllowedSign(value: number, options: IsAllowedSignOptions): boolean {
-    const { containsPositive, containsNegative } = options;
+  static isPositive(value: number): boolean {
+    return value > 0;
+  }
 
-    if (value === 0) {
-      return false;
-    }
+  static isAllowPositive(
+    value: number,
+    options: IsAllowPositiveOptions,
+  ): boolean {
+    const { containsPositive } = options;
+    return containsPositive || !NumericValueObject.isPositive(value);
+  }
 
-    return (
-      (containsPositive && !containsNegative && value > 0) ||
-      (containsNegative && !containsPositive && value < 0) ||
-      (containsPositive && containsNegative)
-    );
+  static isNegative(value: number): boolean {
+    return value < 0;
+  }
+
+  static isAllowNegative(value: number, options: IsAllowNegativeOptions) {
+    const { containsNegative } = options;
+    return containsNegative || !NumericValueObject.isNegative(value);
   }
 
   static isAllowedZero(value: number, options: IsAllowedZeroOptions): boolean {

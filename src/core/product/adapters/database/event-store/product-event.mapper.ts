@@ -1,12 +1,13 @@
 import {
+  ProductCreatedDomainEvent,
   ProductDomainEvent,
-  productDomainEventConstructorDocuments,
   ProductDomainEventDetails,
+  ProductsExportedDomainEvent,
+  ProductsImportedDomainEvent,
 } from '@product-domain-events';
 import {
   ProductNameValueObject,
   ProductQuantityValueObject,
-  ProductThumbnailPathValueObject,
 } from '@product-value-object';
 import { AbstractEventTypeOrmMapper } from 'common-base-classes';
 import {
@@ -14,6 +15,12 @@ import {
   ProductEventModelDetails,
   ProductEventModelIndex,
 } from './product-event.model';
+
+export const productDomainEventConstructorDocuments = {
+  ProductCreatedDomainEvent: ProductCreatedDomainEvent,
+  ProductsImportedDomainEvent: ProductsImportedDomainEvent,
+  ProductsShippedDomainEvent: ProductsExportedDomainEvent,
+};
 
 export class ProductEventTypeOrmMapper extends AbstractEventTypeOrmMapper<
   ProductDomainEvent,
@@ -38,18 +45,12 @@ export class ProductEventTypeOrmMapper extends AbstractEventTypeOrmMapper<
     const domainDetails: ProductDomainEventDetails = {};
 
     if (ormDetails.name) {
-      domainDetails.name = ProductNameValueObject.create(ormDetails.name);
+      domainDetails.name = new ProductNameValueObject(ormDetails.name);
     }
 
     if (ormDetails.quantity) {
-      domainDetails.quantity = ProductQuantityValueObject.create(
+      domainDetails.quantity = new ProductQuantityValueObject(
         ormDetails.quantity,
-      );
-    }
-
-    if (ormDetails.thumbnails) {
-      domainDetails.thumbnails = ProductThumbnailPathValueObject.createMany(
-        ormDetails.thumbnails,
       );
     }
 
@@ -67,12 +68,6 @@ export class ProductEventTypeOrmMapper extends AbstractEventTypeOrmMapper<
 
     if (domainDetails.quantity) {
       ormDetails.quantity = domainDetails.quantity.unpack();
-    }
-
-    if (domainDetails.thumbnails) {
-      ormDetails.thumbnails = domainDetails.thumbnails.map((thumbnail) =>
-        thumbnail.unpack(),
-      );
     }
 
     return ormDetails;

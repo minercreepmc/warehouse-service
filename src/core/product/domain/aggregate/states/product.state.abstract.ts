@@ -1,18 +1,14 @@
 import type {
   ProductCreatedDomainEvent,
   ProductsImportedDomainEvent,
-  ProductsShippedDomainEvent,
-  ProductThumbnailsAddedDomainEvent,
+  ProductsExportedDomainEvent,
 } from '@product-domain-events';
 import { ProductLoadEntity } from '@product-entities';
 import type { ProductQuantityValueObject } from '@product-value-object';
 import { IState, UUID } from 'common-base-classes';
 import type { ProductAggregate } from '../product.aggregate';
-import type { ProductAggregateApply } from '../product.aggregate.interface';
 
-export interface IProductState
-  extends IState<ProductAggregate>,
-    ProductAggregateApply {}
+export interface IProductState extends IState<ProductAggregate> {}
 
 export abstract class ProductState implements IProductState {
   entity: ProductAggregate;
@@ -31,27 +27,26 @@ export abstract class ProductState implements IProductState {
   applyImportProducts(event: ProductsImportedDomainEvent): void {
     this.product.addEvent(event);
     const container = this.makeContainerFromQuantity(event.quantity);
-    this.addContainer(container);
+    this.addLoad(container);
     this.countTotalQuantity(event.quantity);
   }
 
-  applyShipProducts(event: ProductsShippedDomainEvent): void {
+  applyExportProducts(event: ProductsExportedDomainEvent): void {
     return;
-  }
-
-  applyThumbnailsProduct(event: ProductThumbnailsAddedDomainEvent): void {
-    this.product.addEvent(event);
-    this.product.thumbnails = event.thumbnails;
   }
 
   makeContainerFromQuantity(
     quantity: ProductQuantityValueObject,
   ): ProductLoadEntity {
-    return new ProductLoadEntity(UUID.create(), { quantity });
+    return new ProductLoadEntity({
+      productId: UUID.create(),
+      productLoadBarcode: UUID.create(),
+      productQuantity: quantity,
+    });
   }
 
-  addContainer(container: ProductLoadEntity) {
-    this.product.containers.enqueue(container);
+  addLoad(container: ProductLoadEntity) {
+    this.product.loads.enqueue(container);
   }
 
   countTotalQuantity(quantity: ProductQuantityValueObject) {

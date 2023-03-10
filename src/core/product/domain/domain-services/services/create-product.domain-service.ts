@@ -6,6 +6,7 @@ import { ProductCreatedDomainEvent } from '@product-domain-events';
 import { ProductMessageMapper } from '@product-gateway/channel';
 import { ProductEventStorePort } from '@product-gateway/driven-ports';
 import { ProductNameValueObject } from '@product-value-object';
+import { ProductInventoryDomainService } from './product-inventory.domain-service';
 
 export interface CreateProductDomainServiceData {
   name: ProductNameValueObject;
@@ -13,22 +14,22 @@ export interface CreateProductDomainServiceData {
 
 export class CreateProductDomainService {
   constructor(
-    private readonly businessRules: ProductBusinessRules,
+    private readonly inventoryService: ProductInventoryDomainService,
     private readonly eventStore: ProductEventStorePort,
     private readonly messageBroker: ClientProxy,
     private readonly mapper: ProductMessageMapper,
   ) {}
 
-  async execute(data: CreateProductDomainServiceData) {
-    if (!this.businessRules.isProductNameExist(data.name)) {
+  async execute(
+    data: CreateProductDomainServiceData,
+  ): Promise<ProductCreatedDomainEvent> {
+    if (!this.inventoryService.isProductExist(data.name)) {
       throw new ProductDomainError.NameIsExist();
     }
-    let productCreatedEvent: ProductCreatedDomainEvent;
 
-    await this.eventStore.startTransaction();
-    try {
+    return await this.eventStore.runInTransaction(async () => {
       const product = new ProductAggregate();
-      productCreatedEvent = product.createProduct({
+      const productCreatedEvent = product.createProduct({
         name: data.name,
       });
       await this.eventStore.save(productCreatedEvent);
@@ -40,12 +41,9 @@ export class CreateProductDomainService {
       // );
 
       await this.eventStore.commitTransaction();
-    } catch (error) {
-      await this.eventStore.rollbackTransaction();
-      throw error;
-    }
-    //this.outboxService.sendMessages$().subscribe();
+      //this.outboxService.sendMessages$().subscribe();
 
-    return productCreatedEvent;
+      return productCreatedEvent;
+    });
   }
 }

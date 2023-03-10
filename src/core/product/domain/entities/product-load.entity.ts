@@ -1,57 +1,53 @@
-import {
-  ProductLoadBarcodeValueObject,
-  ProductQuantityValueObject,
-} from '@product-value-object';
-import { AbstractEntity, UUID } from 'common-base-classes';
-import { Queue } from 'typescript-collections';
+import { ProductQuantityValueObject } from '@product-value-object';
+import { AbstractEntity, ID } from 'common-base-classes';
 
 export interface ProductLoadEntityDetails {
-  quantity: ProductQuantityValueObject;
+  productQuantity: ProductQuantityValueObject;
+  productId: ID;
+}
+
+export interface ProductLoadOptions {
+  productLoadBarcode: ID;
+  productQuantity: ProductQuantityValueObject;
+  productId: ID;
 }
 
 export class ProductLoadEntity extends AbstractEntity<ProductLoadEntityDetails> {
-  constructor(
-    id: ProductLoadBarcodeValueObject,
-    details: ProductLoadEntityDetails,
-  ) {
-    super({ id, details });
+  constructor(options: ProductLoadOptions) {
+    const { productLoadBarcode, productQuantity, productId } = options;
+    const details: ProductLoadEntityDetails = {
+      productId,
+      productQuantity,
+    };
+    super({ id: productLoadBarcode, details });
   }
 
-  static create(load: { quantity: number }[]): Queue<ProductLoadEntity> {
-    const queue = new Queue<ProductLoadEntity>();
-    load.forEach((container) => {
-      const quantity = ProductQuantityValueObject.create(container.quantity);
-      queue.enqueue(new ProductLoadEntity(UUID.create(), { quantity }));
-    });
-    return queue;
-  }
-
-  shipAmountOfQuantityAndReturnLeftOver(
+  exportAmountAndReturnLeftOver(
     amount: ProductQuantityValueObject,
   ): ProductQuantityValueObject {
-    if (!this.isEnoughToShip(amount)) {
-      const leftOver = amount.remove(this.quantity);
-      this.shipAll();
+    if (!this.isEnoughToExport(amount)) {
+      const leftOver = amount.subtract(this.quantity);
+      this.exportEntireQuantity();
       return leftOver;
     }
 
-    this.quantity = this.quantity.remove(amount);
-    return ProductQuantityValueObject.create(0);
+    this.quantity = this.quantity.subtract(amount);
+    return new ProductQuantityValueObject(0);
   }
 
-  isEnoughToShip(need: ProductQuantityValueObject) {
-    return this.quantity.unpack() >= need.unpack();
+  isEnoughToExport(need: ProductQuantityValueObject) {
+    return this.quantity.isGreaterThanOrEqualTo(need);
   }
 
-  shipAll() {
-    this.quantity = this.quantity.remove(this.quantity);
+  exportEntireQuantity() {
+    this.quantity = this.quantity.subtract(this.quantity);
   }
 
   get quantity(): ProductQuantityValueObject {
-    return this.details.quantity;
+    return this.details.productQuantity;
   }
 
   set quantity(newQuantity: ProductQuantityValueObject) {
-    this.details.quantity = newQuantity;
+    this.details.productQuantity = newQuantity;
   }
 }

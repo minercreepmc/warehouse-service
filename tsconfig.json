@@ -7,6 +7,18 @@
       "@common-value-object/*": [
         "./src/core/common/domain/value-objects/*"
       ],
+      "@common-exceptions": [
+        "./src/core/common/domain/exceptions"
+      ],
+      "@common-exceptions/*": [
+        "./src/core/common/domain/exceptions/*"
+      ],
+      "@common-interfaces": [
+        "./src/core/common/interfaces"
+      ],
+      "@common-interfaces/*": [
+        "./src/core/common/interfaces/*"
+      ],
       "@common-aggregate": [
         "./src/core/common/domain/aggregate"
       ],
