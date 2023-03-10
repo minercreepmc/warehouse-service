@@ -1,4 +1,7 @@
-import { ProductsExportedDomainEventOptions } from '@product-domain-events/product-exported.domain-event';
+import {
+  ProductsExportedDomainEvent,
+  ProductsExportedDomainEventOptions,
+} from '@product-domain-events';
 import {
   ProductNameValueObject,
   ProductQuantityValueObject,

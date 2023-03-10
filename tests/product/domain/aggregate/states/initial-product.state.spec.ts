@@ -1,8 +1,11 @@
+import { InvalidOperationException } from '@common-exceptions';
 import { ProductAggregate } from '@product-aggregate';
 import { InitialProductState } from '@product-aggregate/states';
 import {
   ProductCreatedDomainEvent,
   ProductCreatedDomainEventDetails,
+  ProductsExportedDomainEvent,
+  ProductsExportedDomainEventDetails,
   ProductsImportedDomainEvent,
   ProductsImportedDomainEventDetails,
 } from '@product-domain-events';
@@ -55,7 +58,7 @@ describe('InitialProductState', () => {
 
     expect(() =>
       initialState.applyImportProducts(importProductsEvent),
-    ).toThrowError('Cannot import have not been created yet');
+    ).toThrowError(InvalidOperationException);
   });
 
   it('should throw an exception when trying to apply an export products event', () => {
@@ -64,14 +67,12 @@ describe('InitialProductState', () => {
       quantity: new ProductQuantityValueObject(10),
     };
     const exportProductsEvent = new ProductsExportedDomainEvent({
-      eventName: 'ProductsExported',
-      entityType: 'Product',
-      entityId: UUID.create(),
-      details,
+      productId: UUID.create(),
+      eventDetails: details,
     });
 
     expect(() =>
       initialState.applyExportProducts(exportProductsEvent),
-    ).toThrowError('Cannot export have not been created yet');
+    ).toThrowError(InvalidOperationException);
   });
 });
