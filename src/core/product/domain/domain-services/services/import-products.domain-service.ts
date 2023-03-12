@@ -1,12 +1,12 @@
 import { ClientProxy } from '@nestjs/microservices';
 import { ImportProductsAggregateOptions } from '@product-aggregate';
-import { ProductDomainError } from '@product-domain-errors';
+import { ProductDomainException } from '@product-domain-exceptions';
 import { ProductsImportedDomainEvent } from '@product-domain-events';
 import { ProductMessageMapper } from '@product-gateway/channel';
 import { ProductEventStorePort } from '@product-gateway/driven-ports';
 import { ProductInventoryDomainService } from './product-inventory.domain-service';
 
-export interface ImportProductsDomainServiceData
+export interface ImportProductsDomainServiceOptions
   extends ImportProductsAggregateOptions {}
 
 export class ImportProductsDomainService {
@@ -17,15 +17,15 @@ export class ImportProductsDomainService {
     private readonly mapper: ProductMessageMapper,
   ) {}
   async execute(
-    data: ImportProductsDomainServiceData,
+    options: ImportProductsDomainServiceOptions,
   ): Promise<ProductsImportedDomainEvent> {
-    if (!this.inventoryService.isProductExist(data.name)) {
-      throw new ProductDomainError.NameIsNotExist();
+    if (!this.inventoryService.isProductExist(options.name)) {
+      throw new ProductDomainException.NameIsNotExist();
     }
 
     return await this.eventStore.runInTransaction(async () => {
-      const product = await this.eventStore.getProduct(data.name);
-      const productsImported = product.importProducts(data);
+      const product = await this.eventStore.getProduct(options.name);
+      const productsImported = product.importProducts(options);
       await this.eventStore.save(productsImported);
       const message = this.mapper.toMessage(productsImported);
       this.messageBroker.emit(ProductsImportedDomainEvent.name, message);

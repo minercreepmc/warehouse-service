@@ -1,12 +1,12 @@
 import { ClientProxy } from '@nestjs/microservices';
 import { ExportProductsAggregateOptions } from '@product-aggregate';
-import { ProductDomainError } from '@product-domain-errors';
+import { ProductDomainException } from '@product-domain-exceptions';
 import { ProductsExportedDomainEvent } from '@product-domain-events';
 import { ProductMessageMapper } from '@product-gateway/channel';
 import { ProductEventStorePort } from '@product-gateway/driven-ports';
 import { ProductInventoryDomainService } from './product-inventory.domain-service';
 
-export interface ExportProductsDomainServiceData
+export interface ExportProductsDomainServiceOptions
   extends ExportProductsAggregateOptions {}
 
 export class ExportProductsDomainService {
@@ -18,12 +18,12 @@ export class ExportProductsDomainService {
   ) {}
 
   async execute(
-    data: ExportProductsDomainServiceData,
+    options: ExportProductsDomainServiceOptions,
   ): Promise<ProductsExportedDomainEvent> {
-    this.checkForError(data);
+    this.checkForException(options);
     return this.eventStore.runInTransaction(async () => {
-      const product = await this.eventStore.getProduct(data.name);
-      const productsExportedEvent = product.exportProducts(data);
+      const product = await this.eventStore.getProduct(options.name);
+      const productsExportedEvent = product.exportProducts(options);
 
       this.eventStore.save(productsExportedEvent);
 
@@ -35,9 +35,9 @@ export class ExportProductsDomainService {
     });
   }
 
-  async checkForError(data: ExportProductsDomainServiceData) {
+  async checkForException(data: ExportProductsDomainServiceOptions) {
     if (!this.inventoryService.isProductExist(data.name)) {
-      throw new ProductDomainError.NameIsNotExist();
+      throw new ProductDomainException.NameIsNotExist();
     }
 
     if (
@@ -46,7 +46,7 @@ export class ExportProductsDomainService {
         amount: data.quantity,
       })
     ) {
-      throw new ProductDomainError.QuantityIsNotEnough();
+      throw new ProductDomainException.QuantityIsNotEnough();
     }
   }
 }

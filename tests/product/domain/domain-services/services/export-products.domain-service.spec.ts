@@ -32,16 +32,16 @@ describe('exportProductsDomainService', () => {
   let productsExportedEvent: ProductsExportedDomainEvent;
 
   describe('statement converage', () => {
-    it('should bypass the checkForError', async () => {
+    it('should bypass the checkForException', async () => {
       expect(() =>
-        exportProductsDomainServiceMock.checkForError({
+        exportProductsDomainServiceMock.checkForException({
           name: sampleProductName,
           quantity: sampleQuantity,
         }),
       ).not.toThrow(Error);
 
       expect(
-        exportProductsDomainServiceMock.checkForError,
+        exportProductsDomainServiceMock.checkForException,
       ).toHaveBeenCalledTimes(1);
     });
     it('should run inside a transaction', () => {

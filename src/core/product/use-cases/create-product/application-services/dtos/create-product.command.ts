@@ -6,7 +6,7 @@ export class CreateProductCommand implements ICommand {
   @IsString()
   readonly name: string;
 
-  constructor(dto: any) {
+  constructor(dto: CreateProductCommand) {
     this.name = dto.name;
   }
 }

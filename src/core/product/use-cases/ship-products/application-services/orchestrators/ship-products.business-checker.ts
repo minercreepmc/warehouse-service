@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { ProductBusinessRules } from '@product-business-rules';
 import { ProductBusinessChecker } from '@product-common/business-checker';
-import { ProductBusinessError } from '@product-domain-errors';
+import { ProductBusinessException } from '@product-domain-exceptions';
 import { AbstractNotificationWrapper } from 'common-base-classes';
 import { ShipProductsDomainData } from './data/ship-products.domain-data';
 
 @Injectable()
-export class ShipProductsBusinessChecker extends AbstractNotificationWrapper<ProductBusinessError> {
+export class ShipProductsBusinessChecker extends AbstractNotificationWrapper<ProductBusinessException> {
   constructor(private readonly businessRules: ProductBusinessRules) {
     super();
   }

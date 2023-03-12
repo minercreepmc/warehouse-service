@@ -27,7 +27,7 @@ describe('LatitudeValueObject', () => {
       expect(latitude.unpack()).toBe(12.345);
     });
 
-    it('should throw an error for invalid latitude', () => {
+    it('should throw an exception for invalid latitude', () => {
       expect(() => new LatitudeValueObject(91)).toThrow(
         ArgumentInvalidException,
       );

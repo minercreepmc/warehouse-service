@@ -2,7 +2,7 @@ import { QueryBus } from '@nestjs/cqrs';
 import { Args, Query, Resolver } from '@nestjs/graphql';
 import {
   GetProductQuery,
-  GetProductUseCaseError,
+  GetProductUseCaseException,
 } from '@product-use-case/get-product/data';
 import { ProductInfoModel } from '@product-views/product-info';
 import { match } from 'oxide.ts';
@@ -21,7 +21,7 @@ export class GetProductGraphQlResolver {
 
     return match(result, {
       Ok: (response: GetProductResponse) => new ProductInfoModel(response),
-      Err: (errors: GetProductUseCaseError) => {
+      Err: (errors: GetProductUseCaseException) => {
         throw errors;
       },
     });

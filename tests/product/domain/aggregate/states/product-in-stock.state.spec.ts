@@ -3,7 +3,7 @@ import {
   ProductInStockState,
   ProductOutOfStockState,
 } from '@product-aggregate/states';
-import { ProductDomainError } from '@product-domain-errors';
+import { ProductDomainException } from '@product-domain-exceptions';
 import {
   ProductsExportedDomainEvent,
   ProductsExportedDomainEventDetails,
@@ -28,7 +28,7 @@ describe('ProductInStockState', () => {
     productInStockState = product.state as ProductInStockState;
   });
   describe('applyExportProducts', () => {
-    it('should throw ProductDomainError.QuantityIsNotEnough if quantity to export is not enough', () => {
+    it('should throw ProductDomainException.QuantityIsNotEnough if quantity to export is not enough', () => {
       const details: ProductsExportedDomainEventDetails = {
         name: new ProductNameValueObject('Test'),
         quantity: new ProductQuantityValueObject(10),
@@ -40,7 +40,7 @@ describe('ProductInStockState', () => {
 
       expect(() => {
         productInStockState.applyExportProducts(event);
-      }).toThrow(ProductDomainError.QuantityIsNotEnough);
+      }).toThrow(ProductDomainException.QuantityIsNotEnough);
     });
 
     it('should ship amount of products and update total quantity', () => {

@@ -13,15 +13,15 @@ import {
 } from './services';
 import {
   CreateProductDomainService,
-  CreateProductDomainServiceData,
+  CreateProductDomainServiceOptions,
 } from './services/create-product.domain-service';
 import {
   ImportProductsDomainService,
-  ImportProductsDomainServiceData,
+  ImportProductsDomainServiceOptions,
 } from './services/import-products.domain-service';
 import {
   ExportProductsDomainService,
-  ExportProductsDomainServiceData,
+  ExportProductsDomainServiceOptions,
 } from './services/ship-products.domain-service';
 
 @Injectable()
@@ -58,15 +58,15 @@ export class ProductDomainService {
     this.mapper,
   );
 
-  async createProduct(data: CreateProductDomainServiceData) {
+  async createProduct(data: CreateProductDomainServiceOptions) {
     return this.createProductDomainService.execute(data);
   }
 
-  async importProducts(data: ImportProductsDomainServiceData) {
+  async importProducts(data: ImportProductsDomainServiceOptions) {
     return this.importProductDomainService.execute(data);
   }
 
-  async shipProducts(data: ExportProductsDomainServiceData) {
+  async shipProducts(data: ExportProductsDomainServiceOptions) {
     return this.shipProductsDomainService.execute(data);
   }
 

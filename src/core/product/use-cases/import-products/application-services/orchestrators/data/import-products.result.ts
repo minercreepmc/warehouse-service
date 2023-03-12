@@ -1,4 +1,4 @@
-import { ProductValidationError } from '@product-domain-errors';
+import { ProductValidationError } from '@product-domain-exceptions';
 import { Result } from 'oxide.ts';
 import { ImportProductsResponseDto } from './import-products.response.dto';
 

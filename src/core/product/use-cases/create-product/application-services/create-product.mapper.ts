@@ -1,26 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { ProductCreatedDomainEvent } from '@product-domain-events';
 import { ProductNameValueObject } from '@product-value-object';
-import { OrchestrateMapper } from 'common-base-classes';
 import {
   CreateProductCommand,
   CreateProductDomainData,
   CreateProductResponseDto,
-} from './data';
-
-export interface CreateProductMapperPort
-  extends OrchestrateMapper<
-    CreateProductDomainData,
-    CreateProductCommand,
-    CreateProductResponseDto
-  > {}
-
-export const createProductMapperDiToken = Symbol('CREATE_PRODUCT_MAPPER');
+} from './dtos';
 
 @Injectable()
-export class CreateProductMapper implements CreateProductMapperPort {
+export class CreateProductMapper {
   toDomain(command: CreateProductCommand): CreateProductDomainData {
-    const name = ProductNameValueObject.create(command.name);
+    const name = new ProductNameValueObject(command.name);
     const domainData: CreateProductDomainData = {
       name,
     };

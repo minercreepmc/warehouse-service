@@ -8,7 +8,7 @@ describe('LongitudeValueObject', () => {
       expect(longitudeValue.unpack()).toBe(10);
     });
 
-    it('should throw an error for invalid longitude', () => {
+    it('should throw an exception for invalid longitude', () => {
       expect(() => new LongitudeValueObject(181)).toThrow(
         ArgumentInvalidException,
       );

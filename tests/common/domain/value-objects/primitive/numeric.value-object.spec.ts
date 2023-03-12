@@ -261,9 +261,9 @@ describe('NumericValueObject', () => {
       } catch (e) {
         expect(e).toBeInstanceOf(MultipleExceptions);
 
-        const typedError = e as MultipleExceptions;
+        const typedException = e as MultipleExceptions;
 
-        expect(typedError.exceptions).toEqual(
+        expect(typedException.exceptions).toEqual(
           expect.arrayContaining([new ArgumentOutofBoundsException()]),
         );
       }
@@ -296,8 +296,8 @@ describe('NumericValueObject', () => {
         num1.add(num2);
       } catch (e) {
         expect(e).toBeInstanceOf(MultipleExceptions);
-        const typedError = e as MultipleExceptions;
-        expect(typedError.exceptions).toEqual(
+        const typedException = e as MultipleExceptions;
+        expect(typedException.exceptions).toEqual(
           expect.arrayContaining([new ArgumentOutofBoundsException()]),
         );
       }
@@ -310,8 +310,8 @@ describe('NumericValueObject', () => {
         num1.add(num2);
       } catch (e) {
         expect(e).toBeInstanceOf(MultipleExceptions);
-        const typedError = e as MultipleExceptions;
-        expect(typedError.exceptions).toEqual(
+        const typedException = e as MultipleExceptions;
+        expect(typedException.exceptions).toEqual(
           expect.arrayContaining([new ArgumentOutofBoundsException()]),
         );
       }
@@ -362,8 +362,8 @@ describe('NumericValueObject', () => {
         num.subtract(new NumericValueObject(10, { minValue: 0 }));
       } catch (e) {
         expect(e).toBeInstanceOf(MultipleExceptions);
-        const typedError = e as MultipleExceptions;
-        expect(typedError.exceptions).toEqual(
+        const typedException = e as MultipleExceptions;
+        expect(typedException.exceptions).toEqual(
           expect.arrayContaining([new ArgumentOutofBoundsException()]),
         );
       }

@@ -38,7 +38,7 @@ describe('CityValueObject', () => {
       expect(cityValueObject.unpack()).toEqual(city);
     });
 
-    it('should throw an error with invalid city name', () => {
+    it('should throw an exception with invalid city name', () => {
       const invalidCity = '123';
       expect(() => new CityValueObject(invalidCity)).toThrow(
         ArgumentInvalidException,

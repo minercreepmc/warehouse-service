@@ -18,11 +18,11 @@ describe('ProductQuantityValueObject', () => {
       expect(pqvo.getValue()).toBe(10);
     });
 
-    it('should throw an error if value is less than 0', () => {
+    it('should throw an exception if value is less than 0', () => {
       expect(() => new ProductQuantityValueObject(-1)).toThrow();
     });
 
-    it('should throw an error if value is not a number', () => {
+    it('should throw an exception if value is not a number', () => {
       try {
         new ProductQuantityValueObject('not a number' as unknown as number);
       } catch (e) {

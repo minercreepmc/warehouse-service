@@ -1,3 +1,4 @@
+import { ValidationResponse } from '@common-interfaces';
 import {
   TextValueObject,
   TextValueObjectOptions,
@@ -14,6 +15,10 @@ export class ProductNameValueObject extends TextValueObject {
     allowNumber: true,
     allowEmpty: false,
   };
+  static validate(value: string): ValidationResponse {
+    return super.validate(value, ProductNameValueObject.OPTIONS);
+  }
+
   constructor(value: string) {
     super(value, ProductNameValueObject.OPTIONS);
   }

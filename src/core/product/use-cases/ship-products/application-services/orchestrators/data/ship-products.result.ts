@@ -1,7 +1,7 @@
 import {
   ProductBusinessError,
   ProductValidationError,
-} from '@product-domain-errors';
+} from '@product-domain-exceptions';
 import { Result } from 'oxide.ts';
 import { ShipProductsResponseDto } from './ship-products.response.dto';
 

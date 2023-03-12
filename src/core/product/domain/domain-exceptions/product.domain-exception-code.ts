@@ -1,4 +1,4 @@
-export enum ProductDomainErrorCode {
+export enum ProductDomainExceptionCode {
   nameIsNotValid = 'PRODUCT.NAME.IS_NOT_VALID',
   nameIsExist = 'PRODUCT.NAME.IS_EXIST',
   nameIsNotExist = 'PRODUCT.NAME.IS_NOT_EXIST',

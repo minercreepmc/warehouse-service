@@ -9,7 +9,7 @@ describe('ProvinceValueObject', () => {
       expect(provinceValueObject.unpack()).toBe(province);
     });
 
-    it('should throw an error if the province is not in a valid format', () => {
+    it('should throw an exception if the province is not in a valid format', () => {
       const province = 'HCMC 123';
       expect(() => new ProvinceValueObject(province)).toThrow(
         ArgumentInvalidException,

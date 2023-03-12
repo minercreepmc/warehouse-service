@@ -1,5 +1,5 @@
-import { ArgumentInvalidException } from 'ts-common-exceptions';
 import { AbstractValueObject } from 'common-base-classes';
+import { ArgumentInvalidException } from 'ts-common-exceptions';
 
 enum ProductUnitEnum {
   ton = 'ton',

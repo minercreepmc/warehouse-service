@@ -1,8 +1,8 @@
 import { ProductBusinessRules } from '@product-business-rules';
 import {
-  ProductBusinessError,
-  ProductDomainError,
-} from '@product-domain-errors';
+  ProductBusinessException,
+  ProductDomainException,
+} from '@product-domain-exceptions';
 import {
   ProductNameValueObject,
   ProductQuantityValueObject,
@@ -12,7 +12,7 @@ import { Notification } from 'common-base-classes';
 export class ProductBusinessChecker {
   constructor(
     private readonly businessRules: ProductBusinessRules,
-    private readonly note: Notification<ProductBusinessError>,
+    private readonly note: Notification<ProductBusinessException>,
   ) {}
 
   productExist = true;
@@ -20,7 +20,7 @@ export class ProductBusinessChecker {
   async checkProductMustExist(productName: ProductNameValueObject) {
     const found = await this.businessRules.isProductNameExist(productName);
     if (!found) {
-      this.note.addNote(new ProductDomainError.NameIsNotExist());
+      this.note.addNote(new ProductDomainException.NameIsNotExist());
       this.productExist = false;
     }
   }
@@ -28,7 +28,7 @@ export class ProductBusinessChecker {
   async checkProductMustNotExist(productName: ProductNameValueObject) {
     const found = await this.businessRules.isProductNameExist(productName);
     if (found) {
-      this.note.addNote(new ProductDomainError.NameIsExist());
+      this.note.addNote(new ProductDomainException.NameIsExist());
       this.productExist = true;
     }
   }
@@ -38,14 +38,14 @@ export class ProductBusinessChecker {
     productQuantity: ProductQuantityValueObject,
   ) {
     if (!this.productExist) {
-      throw new Error('Product not exist');
+      throw new ProductDomainException.NameIsNotExist();
     }
     const isEnough = await this.businessRules.isEnoughToShip(
       productName,
       productQuantity,
     );
     if (!isEnough) {
-      this.note.addNote(new ProductDomainError.QuantityIsNotEnough());
+      this.note.addNote(new ProductDomainException.QuantityIsNotEnough());
     }
   }
 }

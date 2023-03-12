@@ -1,11 +1,10 @@
 import { InvalidOperationException } from '@common-exceptions';
-import { ProductDomainError } from '@product-domain-errors';
+import { ProductDomainException } from '@product-domain-exceptions';
 import type {
   ProductCreatedDomainEvent,
   ProductsExportedDomainEvent,
 } from '@product-domain-events';
 import type { ProductQuantityValueObject } from '@product-value-object';
-import { ArgumentInvalidException } from 'ts-common-exceptions';
 import { ProductOutOfStockState } from './product-out-of-stock.state';
 import { ProductState } from './product.state.abstract';
 
@@ -20,7 +19,7 @@ export class ProductInStockState extends ProductState {
 
   private exportAmountOfProducts(amount: ProductQuantityValueObject): void {
     if (!this.product.isEnoughToExport(amount)) {
-      throw new ProductDomainError.QuantityIsNotEnough();
+      throw new ProductDomainException.QuantityIsNotEnough();
     }
 
     let leftOver = amount;
@@ -34,9 +33,7 @@ export class ProductInStockState extends ProductState {
   }
   private removeFromTotal(amount: ProductQuantityValueObject): void {
     if (this.product.totalQuantity.isLessThan(amount)) {
-      throw new ArgumentInvalidException(
-        'Quantity want to remove higher than current total',
-      );
+      throw new ProductDomainException.QuantityIsNotEnough();
     }
     this.product.totalQuantity = this.product.totalQuantity.subtract(amount);
   }

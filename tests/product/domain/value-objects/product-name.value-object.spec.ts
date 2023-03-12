@@ -83,4 +83,14 @@ describe('ProductNameValueObject', () => {
       }
     });
   });
+
+  describe('validate', () => {
+    it('should return ValidationResponse contains errors when the value is an empty string', () => {
+      const validationResponse = ProductNameValueObject.validate('');
+      expect(validationResponse.isValid).toEqual(false);
+      expect(validationResponse.exceptions).toEqual(
+        expect.arrayContaining([new ArgumentContainsEmptyStringException()]),
+      );
+    });
+  });
 });

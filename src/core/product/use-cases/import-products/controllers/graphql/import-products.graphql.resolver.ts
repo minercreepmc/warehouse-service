@@ -5,13 +5,13 @@ import {
 import { CommandBus } from '@nestjs/cqrs';
 import { Args, Mutation, Resolver } from '@nestjs/graphql';
 import {
-  ProductBusinessError,
-  ProductValidationError,
-} from '@product-domain-errors';
+  ProductBusinessException,
+  ProductValidationException,
+} from '@product-domain-exceptions';
 import {
   ImportProductsCommand,
   ImportProductsResponseDto,
-  ImportProductsUseCaseError,
+  ImportProductsUseCaseException,
 } from '@product-use-case/import-products/application-services/orchestrators/data';
 import { IsArrayContainInstanceOf } from 'common-base-classes';
 import { match } from 'oxide.ts';
@@ -33,11 +33,11 @@ export class ImportProductsGraphQlResolver {
     return match(result, {
       Ok: (response: ImportProductsResponseDto) =>
         new ImportProductsGraphQlResponse(response),
-      Err: (errors: ImportProductsUseCaseError) => {
-        if (IsArrayContainInstanceOf(errors, ProductValidationError)) {
+      Err: (errors: ImportProductsUseCaseException) => {
+        if (IsArrayContainInstanceOf(errors, ProductValidationException)) {
           throw new UnprocessableEntityException(errors);
         }
-        if (IsArrayContainInstanceOf(errors, ProductBusinessError)) {
+        if (IsArrayContainInstanceOf(errors, ProductBusinessException)) {
           throw new ConflictException(errors);
         }
         throw errors;

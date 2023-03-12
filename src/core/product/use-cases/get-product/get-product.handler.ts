@@ -1,7 +1,7 @@
 import { Inject } from '@nestjs/common';
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import {
-  ProductInfoError,
+  ProductInfoException,
   productInfoRepositoryDiToken,
   ProductInfoRepositoryPort,
 } from '@product-views/product-info';
@@ -23,7 +23,7 @@ export class GetProductHandler
     );
 
     if (!product) {
-      return Err(new ProductInfoError.NameIsNotExist());
+      return Err(new ProductInfoException.NameIsNotExist());
     }
 
     return Ok(product);

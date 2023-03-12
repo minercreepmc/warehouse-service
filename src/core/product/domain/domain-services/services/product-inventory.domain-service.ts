@@ -1,5 +1,5 @@
 import { ProductAggregate } from '@product-aggregate';
-import { ProductDomainError } from '@product-domain-errors';
+import { ProductDomainException } from '@product-domain-exceptions';
 import { ProductEventStorePort } from '@product-gateway/driven-ports';
 import {
   ProductNameValueObject,
@@ -28,7 +28,7 @@ export class ProductInventoryDomainService {
   ): Promise<ProductAggregate> {
     const found = this.eventStore.isProductExist(productName);
     if (!found) {
-      throw new ProductDomainError.NameIsNotExist();
+      throw new ProductDomainException.NameIsNotExist();
     }
 
     return this.eventStore.getProduct(productName);

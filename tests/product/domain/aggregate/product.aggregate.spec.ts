@@ -10,7 +10,7 @@ import {
   ProductInStockState,
   ProductOutOfStockState,
 } from '@product-aggregate/states';
-import { ProductDomainError } from '@product-domain-errors';
+import { ProductDomainException } from '@product-domain-exceptions';
 import {
   ProductCreatedDomainEvent,
   ProductsExportedDomainEvent,
@@ -123,12 +123,12 @@ describe('ProductAggregate', () => {
       product.exportProducts(exportThreeOptions);
       expect(product.state).toBeInstanceOf(ProductInStockState);
     });
-    it('should throw an QuantityIsNotEnough error if try to export product that quantity higher than the stock in the warehouse', () => {
+    it('should throw an QuantityIsNotEnough exception if try to export product that quantity higher than the stock in the warehouse', () => {
       product.createProduct(createOptions);
       product.importProducts(importFiveOptions);
       product.exportProducts(exportThreeOptions);
       expect(() => product.exportProducts(exportThreeOptions)).toThrow(
-        ProductDomainError.QuantityIsNotEnough,
+        ProductDomainException.QuantityIsNotEnough,
       );
     });
     it('should make the state become ProductOutOfStockState if the product is out of stock', () => {

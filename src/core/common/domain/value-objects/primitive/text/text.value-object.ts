@@ -32,7 +32,10 @@ export class TextValueObject extends AbstractValueObject<string> {
   ) {
     const opt = Object.assign({}, TextValueObject.DEFAULT_OPTIONS, options);
 
-    const { isValid, errors } = TextValueObject.validate(value, opt);
+    const { isValid, exceptions: errors } = TextValueObject.validate(
+      value,
+      opt,
+    );
 
     if (!isValid) {
       throw new MultipleExceptions(errors);
@@ -157,12 +160,12 @@ export class TextValueObject extends AbstractValueObject<string> {
     if (errors.length === 0) {
       return {
         isValid: true,
-        errors: [],
+        exceptions: [],
       };
     } else {
       return {
         isValid: false,
-        errors,
+        exceptions: errors,
       };
     }
   }

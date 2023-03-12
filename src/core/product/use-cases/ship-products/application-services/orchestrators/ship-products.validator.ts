@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { ProductValidator } from '@product-common/validators';
-import { ProductValidationError } from '@product-domain-errors';
+import { ProductValidationException } from '@product-domain-exceptions';
 import { AbstractNotificationWrapper } from 'common-base-classes';
 import { ShipProductsCommand } from './data';
 
 @Injectable()
-export class ShipProductsValidator extends AbstractNotificationWrapper<ProductValidationError> {
+export class ShipProductsValidator extends AbstractNotificationWrapper<ProductValidationException> {
   private readonly validator = new ProductValidator(this.note);
 
   check(command: ShipProductsCommand): void {

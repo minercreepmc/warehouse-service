@@ -27,7 +27,7 @@ export class NumericValueObject<
       throw new NumericOptionIsNotValid('Numeric options it not valid');
     }
 
-    const { isValid, errors } = NumericValueObject.validate(value, opts);
+    const { isValid, exceptions: errors } = NumericValueObject.validate(value, opts);
 
     if (!isValid) {
       throw new MultipleExceptions(errors);
@@ -147,12 +147,12 @@ export class NumericValueObject<
     if (errors.length === 0) {
       return {
         isValid: true,
-        errors: [],
+        exceptions: [],
       };
     } else {
       return {
         isValid: false,
-        errors,
+        exceptions: errors,
       };
     }
   }

@@ -1,20 +1,20 @@
-import { AbstractDomainError } from 'common-base-classes';
+import { AbstractDomainException } from 'common-base-classes';
 
-export abstract class ProductInfoValidationError extends AbstractDomainError {}
-export abstract class ProductInfoLogicError extends AbstractDomainError {}
+export abstract class ProductInfoValidationException extends AbstractDomainException {}
+export abstract class ProductInfoLogicException extends AbstractDomainException {}
 
-export enum ProductInfoErrorCode {
+export enum ProductInfoExceptionCode {
   nameIsNotValid = 'PRODUCT_INFO.NAME.IS_NOT_VALID',
   nameIsNotExist = 'PRODUCT_INFO.NAME.IS_NOT_EXIST',
 }
 
-export namespace ProductInfoError {
-  export class NameIsNotValid extends ProductInfoValidationError {
+export namespace ProductInfoException {
+  export class NameIsNotValid extends ProductInfoValidationException {
     readonly message = 'Product info name is not valid';
-    readonly code = ProductInfoErrorCode.nameIsNotValid;
+    readonly code = ProductInfoExceptionCode.nameIsNotValid;
   }
-  export class NameIsNotExist extends ProductInfoLogicError {
+  export class NameIsNotExist extends ProductInfoLogicException {
     readonly message = 'Product info name is not exist';
-    readonly code = ProductInfoErrorCode.nameIsNotExist;
+    readonly code = ProductInfoExceptionCode.nameIsNotExist;
   }
 }

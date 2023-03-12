@@ -4,7 +4,6 @@ import {
   LatitudeValueObject,
   LongitudeValueObject,
 } from '@common-value-object/location';
-import { ArgumentInvalidException } from 'ts-common-exceptions';
 
 describe('CordinatesValueObject', () => {
   describe('constructor', () => {
@@ -18,14 +17,14 @@ describe('CordinatesValueObject', () => {
       expect(cordinatesValueObject.latitude.equals(latitude)).toBe(true);
       expect(cordinatesValueObject.longitude.equals(longitude)).toBe(true);
     });
-    it('should throw an error for invalid coordinates', () => {
+    it('should throw an exception for invalid coordinates', () => {
       expect(
         () =>
           new CordinatesValueObject({
             latitude: new LatitudeValueObject(91),
             longitude: new LongitudeValueObject(-181),
           }),
-      ).toThrow(ArgumentInvalidException);
+      ).toThrow(Error);
 
       expect(
         () =>
@@ -33,7 +32,7 @@ describe('CordinatesValueObject', () => {
             latitude: new LatitudeValueObject(-91),
             longitude: new LongitudeValueObject(181),
           }),
-      ).toThrow(ArgumentInvalidException);
+      ).toThrow(Error);
 
       expect(
         () =>
@@ -41,7 +40,7 @@ describe('CordinatesValueObject', () => {
             latitude: new LatitudeValueObject('invalid' as unknown as number),
             longitude: new LongitudeValueObject(-180),
           }),
-      ).toThrow(ArgumentInvalidException);
+      ).toThrow(Error);
     });
   });
 

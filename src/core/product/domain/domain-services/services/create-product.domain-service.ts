@@ -1,14 +1,13 @@
 import { ClientProxy } from '@nestjs/microservices';
 import { ProductAggregate } from '@product-aggregate';
-import { ProductBusinessRules } from '@product-business-rules';
-import { ProductDomainError } from '@product-domain-errors';
+import { ProductDomainException } from '@product-domain-exceptions';
 import { ProductCreatedDomainEvent } from '@product-domain-events';
 import { ProductMessageMapper } from '@product-gateway/channel';
 import { ProductEventStorePort } from '@product-gateway/driven-ports';
 import { ProductNameValueObject } from '@product-value-object';
 import { ProductInventoryDomainService } from './product-inventory.domain-service';
 
-export interface CreateProductDomainServiceData {
+export interface CreateProductDomainServiceOptions {
   name: ProductNameValueObject;
 }
 
@@ -21,16 +20,16 @@ export class CreateProductDomainService {
   ) {}
 
   async execute(
-    data: CreateProductDomainServiceData,
+    options: CreateProductDomainServiceOptions,
   ): Promise<ProductCreatedDomainEvent> {
-    if (!this.inventoryService.isProductExist(data.name)) {
-      throw new ProductDomainError.NameIsExist();
+    if (!this.inventoryService.isProductExist(options.name)) {
+      throw new ProductDomainException.NameIsExist();
     }
 
     return await this.eventStore.runInTransaction(async () => {
       const product = new ProductAggregate();
       const productCreatedEvent = product.createProduct({
-        name: data.name,
+        name: options.name,
       });
       await this.eventStore.save(productCreatedEvent);
       const message = this.mapper.toMessage(productCreatedEvent);

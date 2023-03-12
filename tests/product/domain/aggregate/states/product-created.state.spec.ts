@@ -45,7 +45,7 @@ describe('ProductCreatedState', () => {
     expect(product.state).toBeInstanceOf(ProductInStockState);
   });
 
-  it('should throw an InvalidOperationError if trying to apply an created event on the ProductCreatedState', () => {
+  it('should throw an InvalidOperationException if trying to apply an created event on the ProductCreatedState', () => {
     const productCreatedEvent = new ProductCreatedDomainEvent({
       productId: UUID.create(),
       eventDetails: {
@@ -58,7 +58,7 @@ describe('ProductCreatedState', () => {
     );
   });
 
-  it('should throw an InvalidOperationError if trying to apply an exported event on the ProductCreatedState', () => {
+  it('should throw an InvalidOperationException if trying to apply an exported event on the ProductCreatedState', () => {
     const productExportedEvent = new ProductsExportedDomainEvent({
       productId: UUID.create(),
       eventDetails: {

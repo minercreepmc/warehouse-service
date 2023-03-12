@@ -1,7 +1,7 @@
 import {
-  ProductDomainError,
-  ProductValidationError,
-} from '@product-domain-errors';
+  ProductDomainException,
+  ProductValidationException,
+} from '@product-domain-exceptions';
 import {
   ProductNameValueObject,
   ProductQuantityValueObject,
@@ -9,13 +9,16 @@ import {
   ProductUnitValueObject,
 } from '@product-value-object';
 import { Notification } from 'common-base-classes';
+import { ArgumentInvalidException } from 'ts-common-exceptions';
 
 export class ProductValidator {
-  constructor(private readonly note: Notification<ProductValidationError>) {}
+  constructor(
+    private readonly note: Notification<ProductValidationException>,
+  ) {}
 
   get errors() {
     if (!this.note.hasNote()) {
-      throw new Error('Cannot get error of valid data');
+      throw new ArgumentInvalidException('Cannot get exception of valid data');
     }
     return this.note.getNotes();
   }
@@ -26,25 +29,25 @@ export class ProductValidator {
 
   checkName(name: string) {
     if (!ProductNameValueObject.isValid(name)) {
-      this.note.addNote(new ProductDomainError.NameIsNotValid());
+      this.note.addNote(new ProductDomainException.NameIsNotValid());
     }
   }
 
   checkQuantity(quantity: number) {
     if (!ProductQuantityValueObject.isValid(quantity)) {
-      this.note.addNote(new ProductDomainError.QuantityIsNotValid());
+      this.note.addNote(new ProductDomainException.QuantityIsNotValid());
     }
   }
 
   checkUnit(unit: string) {
     if (!ProductUnitValueObject.isValid(unit)) {
-      this.note.addNote(new ProductDomainError.UnitIsNotValid());
+      this.note.addNote(new ProductDomainException.UnitIsNotValid());
     }
   }
 
   checkThumbnail(path: string) {
     if (!ProductThumbnailPathValueObject.isValid(path)) {
-      this.note.addNote(new ProductDomainError.ThumbnailIsNotValid());
+      this.note.addNote(new ProductDomainException.ThumbnailIsNotValid());
     }
   }
 }

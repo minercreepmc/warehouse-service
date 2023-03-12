@@ -109,11 +109,11 @@
       "@product-domain-services/*": [
         "./src/core/product/domain/domain-services/*"
       ],
-      "@product-domain-errors": [
-        "./src/core/product/domain/domain-errors"
+      "@product-domain-exceptions": [
+        "./src/core/product/domain/domain-exceptions"
       ],
-      "@product-domain-errors/*": [
-        "./src/core/product/domain/domain-errors/*"
+      "@product-domain-exceptions/*": [
+        "./src/core/product/domain/domain-exceptions/*"
       ],
       "@product-gateway/*": [
         "./src/core/product/domain/gateway/*"
