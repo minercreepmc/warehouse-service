@@ -1,3 +1,4 @@
+import { ArgumentContainsEmptyStringException } from '@common-exceptions';
 import { ProductsImportedDomainEvent } from '@product-domain-events';
 import { ProductDomainException } from '@product-domain-exceptions';
 import { ProductDomainService } from '@product-domain-services';
@@ -16,20 +17,20 @@ import {
   ProductQuantityValueObject,
 } from '@product-value-object';
 import { ID } from 'common-base-classes';
-import { mockDeep, DeepMockProxy } from 'jest-mock-extended';
+import { mock, MockProxy } from 'jest-mock-extended';
 
 describe('ImportProductsHandler', () => {
   let handler: ImportProductsHandler;
   let mapper: ImportProductsMapper;
-  let commandValidator: ImportProductsCommandValidator;
-  let businessValidator: ImportProductsBusinessValidator;
-  let domainServiceMock: DeepMockProxy<ProductDomainService>;
+  let commandValidator: MockProxy<ImportProductsCommandValidator>;
+  let businessValidator: MockProxy<ImportProductsBusinessValidator>;
+  let domainServiceMock: MockProxy<ProductDomainService>;
 
   beforeEach(() => {
     mapper = new ImportProductsMapper();
-    commandValidator = new ImportProductsCommandValidator();
-    domainServiceMock = mockDeep<ProductDomainService>();
-    businessValidator = new ImportProductsBusinessValidator(domainServiceMock);
+    commandValidator = mock<ImportProductsCommandValidator>();
+    domainServiceMock = mock<ProductDomainService>();
+    businessValidator = mock<ImportProductsBusinessValidator>();
     handler = new ImportProductsHandler(
       mapper,
       commandValidator,
@@ -45,13 +46,19 @@ describe('ImportProductsHandler', () => {
         name: '',
         quantity: 0,
       };
+      commandValidator.validate.mockReturnValueOnce({
+        isValid: false,
+        exceptions: [new ArgumentContainsEmptyStringException()],
+      });
 
       // Act
       const result = await handler.execute(command);
 
       // Assert
       expect(result.isErr()).toBe(true);
-      expect(result.unwrapErr()).toHaveLength(2);
+      expect(result.unwrapErr()).toContainEqual(
+        new ArgumentContainsEmptyStringException(),
+      );
     });
 
     it('should return Err if the product not exist', async () => {
@@ -61,6 +68,14 @@ describe('ImportProductsHandler', () => {
         quantity: 1,
       };
       const command = new ImportProductsCommand(dto);
+      commandValidator.validate.mockReturnValueOnce({
+        exceptions: [],
+        isValid: true,
+      });
+      businessValidator.validate.mockResolvedValueOnce({
+        exceptions: [new ProductDomainException.NameIsNotExist()],
+        isValid: false,
+      });
       domainServiceMock.isProductExist.mockResolvedValueOnce(false);
 
       // Act
@@ -80,6 +95,14 @@ describe('ImportProductsHandler', () => {
         quantity: 1,
       };
       const command = new ImportProductsCommand(dto);
+      commandValidator.validate.mockReturnValueOnce({
+        exceptions: [],
+        isValid: true,
+      });
+      businessValidator.validate.mockResolvedValueOnce({
+        isValid: true,
+        exceptions: [],
+      });
       domainServiceMock.isProductExist.mockResolvedValueOnce(true);
 
       domainServiceMock.importProducts.mockResolvedValueOnce(

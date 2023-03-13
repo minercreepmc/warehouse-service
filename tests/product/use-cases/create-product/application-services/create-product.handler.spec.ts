@@ -11,20 +11,20 @@ import {
 import { CreateProductCommand } from '@product-use-case/create-product/application-services/dtos';
 import { ProductNameValueObject } from '@product-value-object';
 import { ID } from 'common-base-classes';
-import { DeepMockProxy, mockDeep } from 'jest-mock-extended';
+import { MockProxy, mock } from 'jest-mock-extended';
 
 describe('CreateProductHandler', () => {
   let mapper: CreateProductMapper;
-  let commandValidator: CreateProductCommandValidator;
-  let businessValidator: DeepMockProxy<CreateProductBusinessValidator>;
-  let domainServiceMock: DeepMockProxy<ProductDomainService>;
+  let commandValidator: MockProxy<CreateProductCommandValidator>;
+  let businessValidator: MockProxy<CreateProductBusinessValidator>;
+  let domainServiceMock: MockProxy<ProductDomainService>;
   let handler: CreateProductHandler;
 
   beforeEach(() => {
-    domainServiceMock = mockDeep<ProductDomainService>();
+    domainServiceMock = mock<ProductDomainService>();
+    commandValidator = mock<CreateProductCommandValidator>();
+    businessValidator = mock<CreateProductBusinessValidator>();
     mapper = new CreateProductMapper();
-    commandValidator = new CreateProductCommandValidator();
-    businessValidator = mockDeep<CreateProductBusinessValidator>();
     handler = new CreateProductHandler(
       mapper,
       commandValidator,
@@ -38,6 +38,10 @@ describe('CreateProductHandler', () => {
     // Arrange
     const command = new CreateProductCommand({
       name: 'Test Product',
+    });
+    commandValidator.validate.mockReturnValue({
+      exceptions: [],
+      isValid: true,
     });
     businessValidator.validate.mockResolvedValue({
       exceptions: [],
@@ -64,6 +68,10 @@ describe('CreateProductHandler', () => {
     const command = new CreateProductCommand({
       name: '',
     });
+    commandValidator.validate.mockReturnValue({
+      exceptions: [new ArgumentContainsEmptyStringException()],
+      isValid: false,
+    });
 
     // Act
     const result = await handler.execute(command);
@@ -79,6 +87,10 @@ describe('CreateProductHandler', () => {
     // Arrange
     const command = new CreateProductCommand({
       name: 'Product A',
+    });
+    commandValidator.validate.mockReturnValue({
+      exceptions: [],
+      isValid: true,
     });
     businessValidator.validate.mockResolvedValue({
       exceptions: [new ProductDomainException.NameIsExist()],
