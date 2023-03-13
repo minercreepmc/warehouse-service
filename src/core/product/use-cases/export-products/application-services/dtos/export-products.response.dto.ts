@@ -1,14 +1,14 @@
-export interface ShipProductsResponseDtoData {
+export interface ExportProductsResponseDtoData {
   readonly name: string;
   readonly quantity: number;
 }
 
-export class ShipProductsResponseDto {
+export class ExportProductsResponseDto {
   readonly message = 'Product shipped successfully';
   readonly name: string;
   readonly quantity: number;
 
-  constructor(data: ShipProductsResponseDtoData) {
+  constructor(data: ExportProductsResponseDtoData) {
     this.name = data.name;
     this.quantity = data.quantity;
   }

@@ -1,7 +1,7 @@
 import { ICommand } from '@nestjs/cqrs';
 import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
-export class ShipProductsCommand implements ICommand {
+export class ExportProductsCommand implements ICommand {
   @IsNotEmpty()
   @IsString()
   name: string;

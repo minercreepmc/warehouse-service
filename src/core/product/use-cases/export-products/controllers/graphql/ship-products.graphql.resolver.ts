@@ -1,38 +1,31 @@
 import {
-  Body,
   ConflictException,
-  Controller,
-  Post,
   UnprocessableEntityException,
 } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
-import { ApiBody, ApiOperation } from '@nestjs/swagger';
+import { Args, Mutation, Resolver } from '@nestjs/graphql';
 import {
   ProductBusinessException,
   ProductValidationException,
 } from '@product-domain-exceptions';
-import { ShipProductsCommand, ShipProductsResponseDto, ShipProductsUseCaseException } from '@product-use-case/ship-products/application-services/orchestrators/data';
+import { ExportProductsCommand, ExportProductsResponseDto, ShipProductsUseCaseException } from '@product-use-case/ship-products/application-services/orchestrators/data';
 import { IsArrayContainInstanceOf } from 'common-base-classes';
 import { match } from 'oxide.ts';
-import { ShipProductsHttpRequest } from './ship-products.http.request';
+import { ShipProductsGraphQlRequest } from './ship-products.graphql.request';
+import { ShipProductsGraphQlResponse } from './ship-products.graphql.response';
 
-@Controller('products')
-export class ShipProductsHttpController {
+@Resolver()
+export class ShipProductsGraphQlResolver {
   constructor(private readonly commandBus: CommandBus) {}
 
-  @Post('ship')
-  @ApiOperation({ summary: 'Ship products' })
-  @ApiBody({
-    required: true,
-    description: 'The dto need to ship products',
-    type: ShipProductsHttpRequest,
-  })
-  async execute(@Body() dto: ShipProductsHttpRequest) {
-    const command = new ShipProductsCommand(dto);
+  @Mutation(() => ShipProductsGraphQlResponse, { name: 'shipProducts' })
+  async execute(@Args('dto') args: ShipProductsGraphQlRequest) {
+    const command = new ExportProductsCommand(args);
     const result = await this.commandBus.execute(command);
 
     return match(result, {
-      Ok: (response: ShipProductsResponseDto) => response,
+      Ok: (response: ExportProductsResponseDto) =>
+        new ShipProductsGraphQlResponse(response),
       Err: (errors: ShipProductsUseCaseException) => {
         if (IsArrayContainInstanceOf(errors, ProductValidationException)) {
           throw new UnprocessableEntityException(errors);

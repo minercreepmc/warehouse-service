@@ -10,10 +10,10 @@ import { ProductMessageMapper } from '@product-gateway/channel';
 import { productMessageBrokerDiToken } from '@product-gateway/driven-ports';
 import { productEventStoreProvider } from '../../adapters/di/providers';
 import {
-  ShipProductsBusinessChecker,
+  ExportProductsBusinessChecker,
   ShipProductsHandler,
-  ShipProductsMapper,
-  ShipProductsValidator,
+  ExportProductsMapper,
+  ExportProductsValidator,
 } from './application-services';
 import { ShipProductsGraphQlResolver } from './controllers/graphql';
 import { ShipProductsHttpController } from './controllers/http';
@@ -21,9 +21,9 @@ import { ShipProductsHttpController } from './controllers/http';
 const controllers = [ShipProductsHttpController];
 const resolvers: Provider[] = [ShipProductsGraphQlResolver];
 const orchestrators: Provider[] = [
-  ShipProductsMapper,
-  ShipProductsValidator,
-  ShipProductsBusinessChecker,
+  ExportProductsMapper,
+  ExportProductsValidator,
+  ExportProductsBusinessChecker,
 ];
 const commandHandlers: Provider[] = [ShipProductsHandler];
 const domainServices: Provider[] = [ProductDomainService];

@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { ShipProductsResponseDto } from '../application-services/orchestrators/data';
+import { ExportProductsResponseDto } from '../application-services/orchestrators/data';
 
-export class ShipProductsResponse implements ShipProductsResponseDto {
+export class ShipProductsResponse implements ExportProductsResponseDto {
   message: 'Product shipped successfully';
 
   @ApiProperty({
