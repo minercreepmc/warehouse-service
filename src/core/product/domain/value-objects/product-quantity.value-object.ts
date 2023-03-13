@@ -14,6 +14,10 @@ export class ProductQuantityValueObject extends NumericValueObject<ProductQuanti
     maxValue: Number.MAX_SAFE_INTEGER,
   };
 
+  static validate(quantity: number) {
+    return super.validate(quantity, ProductQuantityValueObject.OPTIONS);
+  }
+
   constructor(value: number) {
     super(value, ProductQuantityValueObject.OPTIONS);
   }

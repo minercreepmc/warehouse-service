@@ -1,4 +1,5 @@
 import {
+  ArgumentContainsNegativeException,
   ArgumentNotANumberException,
   MultipleExceptions,
 } from '@common-exceptions';
@@ -33,6 +34,16 @@ describe('ProductQuantityValueObject', () => {
           expect.arrayContaining([new ArgumentNotANumberException()]),
         );
       }
+    });
+  });
+
+  describe('validate', () => {
+    it('should return ValidationResponse if value is less than 0', () => {
+      const res = ProductQuantityValueObject.validate(-1);
+      expect(res.isValid).toBe(false);
+      expect(res.exceptions).toEqual(
+        expect.arrayContaining([new ArgumentContainsNegativeException()]),
+      );
     });
   });
 });

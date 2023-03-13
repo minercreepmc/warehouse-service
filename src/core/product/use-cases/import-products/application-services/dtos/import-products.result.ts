@@ -1,8 +1,8 @@
-import { ProductValidationError } from '@product-domain-exceptions';
+import { ProductValidationException } from '@product-domain-exceptions';
 import { Result } from 'oxide.ts';
 import { ImportProductsResponseDto } from './import-products.response.dto';
 
-export type ImportProductsUseCaseError = ProductValidationError[];
+export type ImportProductsUseCaseError = ProductValidationException[];
 
 export type ImportProductsResult = Result<
   ImportProductsResponseDto,

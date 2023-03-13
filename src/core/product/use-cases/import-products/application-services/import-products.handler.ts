@@ -1,15 +1,10 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { ProductDomainService } from '@product-domain-services';
 import { Err, Ok } from 'oxide.ts';
-import {
-  ImportProductsBusinessChecker,
-  ImportProductsMapper,
-  ImportProductsValidator,
-} from './orchestrators';
-import {
-  ImportProductsCommand,
-  ImportProductsResult,
-} from './orchestrators/data';
+import { ImportProductsCommand, ImportProductsResult } from './dtos';
+import { ImportProductsBusinessValidator } from './import-products.business-validator';
+import { ImportProductsCommandValidator } from './import-products.command-validator';
+import { ImportProductsMapper } from './import-products.mapper';
 
 @CommandHandler(ImportProductsCommand)
 export class ImportProductsHandler
@@ -17,22 +12,21 @@ export class ImportProductsHandler
 {
   constructor(
     private readonly mapper: ImportProductsMapper,
-    private readonly validator: ImportProductsValidator,
-    private readonly businessChecker: ImportProductsBusinessChecker,
+    private readonly commandValidator: ImportProductsCommandValidator,
+    private readonly businessValidator: ImportProductsBusinessValidator,
     private readonly domainService: ProductDomainService,
   ) {}
 
   async execute(command: ImportProductsCommand): Promise<ImportProductsResult> {
-    this.validator.clearNoteAndCheck(command);
-    const isValidCommand = this.validator.isValid();
-    if (!isValidCommand) {
-      return Err(this.validator.errors);
+    const commandValidated = this.commandValidator.validate(command);
+    if (!commandValidated.isValid) {
+      return Err(commandValidated.exceptions);
     }
     const domainData = this.mapper.toDomain(command);
 
-    await this.businessChecker.clearNoteAndCheck(domainData);
-    if (!this.businessChecker.isValid()) {
-      return Err(this.businessChecker.errors);
+    const domainValidated = await this.businessValidator.validate(domainData);
+    if (!domainValidated.isValid) {
+      return Err(domainValidated.exceptions);
     }
 
     const productsImportedEvent = await this.domainService.importProducts(

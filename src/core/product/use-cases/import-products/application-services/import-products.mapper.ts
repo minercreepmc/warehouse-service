@@ -4,31 +4,22 @@ import {
   ProductNameValueObject,
   ProductQuantityValueObject,
 } from '@product-value-object';
-import { OrchestrateMapper } from 'common-base-classes';
 import {
   ImportProductsCommand,
   ImportProductsDomainData,
   ImportProductsResponseDto,
-} from './data';
-
-export interface ImportProductsMapperPort
-  extends OrchestrateMapper<
-    ImportProductsDomainData,
-    ImportProductsCommand,
-    ImportProductsResponseDto
-  > {}
-
-export const importProductMapperDiToken = Symbol('IMPORT_PRODUCT_MAPPER');
+} from './dtos';
 
 @Injectable()
-export class ImportProductsMapper implements ImportProductsMapperPort {
+export class ImportProductsMapper {
   toDomain(command: ImportProductsCommand): ImportProductsDomainData {
-    const name = ProductNameValueObject.create(command.name);
-    const quantity = ProductQuantityValueObject.create(command.quantity);
+    const { name, quantity } = command;
+    const nameVo = new ProductNameValueObject(name);
+    const quantityVo = new ProductQuantityValueObject(quantity);
 
     const domainData: ImportProductsDomainData = {
-      name,
-      quantity,
+      name: nameVo,
+      quantity: quantityVo,
     };
 
     return domainData;
