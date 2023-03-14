@@ -1,3 +1,3 @@
-export * from './ship-products.http.request';
-export * from './ship-products.http.controller';
-export * from './ship-products.http.response';
+export * from './export-products.http.request';
+export * from './export-products.http.controller';
+export * from './export-products.http.response';

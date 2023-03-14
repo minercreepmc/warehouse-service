@@ -12,6 +12,11 @@ export class ImportProductsHttpRequest {
   })
   readonly quantity: number;
 
+  constructor(options: ImportProductsHttpRequest) {
+    this.name = options.name;
+    this.quantity = options.quantity;
+  }
+
   // @ApiProperty({
   //   example: 'kg',
   //   description: 'Unit of the product',

@@ -13,7 +13,13 @@ import { Queue } from 'typescript-collections';
 export interface ProductAggregateApply {
   applyCreateProduct(event: ProductCreatedDomainEvent): void;
   applyImportProducts(event: ProductsImportedDomainEvent): void;
-  applyShipProducts(event: ProductsExportedDomainEvent): void;
+  applyExportProducts(event: ProductsExportedDomainEvent): void;
+}
+
+export enum ProductAggregateApplyMethodNames {
+  CREATE_PRODUCT = 'applyExportProducts',
+  IMPORT_PRODUCTS = 'applyImportProducts',
+  EXPORT_PRODUCTS = 'applyExportProducts',
 }
 
 export interface ProductAggregateDetails {

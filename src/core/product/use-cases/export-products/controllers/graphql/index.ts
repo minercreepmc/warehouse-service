@@ -1,3 +1,3 @@
-export * from './ship-products.graphql.resolver';
-export * from './ship-products.graphql.response';
-export * from './ship-products.graphql.request';
+export * from './export-products.graphql.resolver';
+export * from './export-products.graphql.response';
+export * from './export-products.graphql.request';

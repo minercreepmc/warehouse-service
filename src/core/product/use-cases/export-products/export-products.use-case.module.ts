@@ -1,7 +1,6 @@
 import { Module, Provider } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ProductBusinessRules } from '@product-business-rules';
 import { rmqConfig } from '@configs';
 import { ClientDynamicModule } from '@configs/client';
 import { ProductEventModel } from '@product-database/event-store';
@@ -10,24 +9,23 @@ import { ProductMessageMapper } from '@product-gateway/channel';
 import { productMessageBrokerDiToken } from '@product-gateway/driven-ports';
 import { productEventStoreProvider } from '../../adapters/di/providers';
 import {
-  ExportProductsBusinessChecker,
-  ShipProductsHandler,
+  ExportProductsBusinessValidator,
+  ExportProductsCommandValidator,
+  ExportProductsHandler,
   ExportProductsMapper,
-  ExportProductsValidator,
 } from './application-services';
-import { ShipProductsGraphQlResolver } from './controllers/graphql';
-import { ShipProductsHttpController } from './controllers/http';
+import { ExportProductsHttpController } from './controllers/http';
+import { ExportProductsGraphQlResolver } from './controllers/graphql';
 
-const controllers = [ShipProductsHttpController];
-const resolvers: Provider[] = [ShipProductsGraphQlResolver];
+const controllers = [ExportProductsHttpController];
+const resolvers: Provider[] = [ExportProductsGraphQlResolver];
 const orchestrators: Provider[] = [
   ExportProductsMapper,
-  ExportProductsValidator,
-  ExportProductsBusinessChecker,
+  ExportProductsCommandValidator,
+  ExportProductsBusinessValidator,
 ];
-const commandHandlers: Provider[] = [ShipProductsHandler];
+const commandHandlers: Provider[] = [ExportProductsHandler];
 const domainServices: Provider[] = [ProductDomainService];
-const businessRules: Provider[] = [ProductBusinessRules];
 const eventStore: Provider[] = [productEventStoreProvider];
 const messageMappers: Provider[] = [ProductMessageMapper];
 
@@ -43,7 +41,6 @@ const messageMappers: Provider[] = [ProductMessageMapper];
   controllers: [...controllers],
   providers: [
     ...domainServices,
-    ...businessRules,
     ...commandHandlers,
     ...orchestrators,
     ...resolvers,
@@ -51,4 +48,4 @@ const messageMappers: Provider[] = [ProductMessageMapper];
     ...messageMappers,
   ],
 })
-export class ShipProductsUseCaseModule {}
+export class ExportProductsUseCaseModule {}

@@ -27,7 +27,7 @@ export class InitialProductState extends ProductState {
 
   override applyExportProducts(event: ProductsExportedDomainEvent): void {
     throw new InvalidOperationException(
-      'Cannot ship product that not yet created',
+      'Cannot export product that not yet created',
     );
   }
 }

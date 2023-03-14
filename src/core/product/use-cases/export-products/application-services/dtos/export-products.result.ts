@@ -5,11 +5,11 @@ import {
 import { Result } from 'oxide.ts';
 import { ExportProductsResponseDto } from './export-products.response.dto';
 
-export type ExportProductsUseCaseError =
+export type ExportProductsUseCaseExceptions =
   | ProductValidationException[]
   | ProductBusinessException[];
 
 export type ExportProductsResult = Result<
   ExportProductsResponseDto,
-  ExportProductsUseCaseError
+  ExportProductsUseCaseExceptions
 >;

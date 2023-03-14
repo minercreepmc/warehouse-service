@@ -43,7 +43,7 @@ describe('ProductInStockState', () => {
       }).toThrow(ProductDomainException.QuantityIsNotEnough);
     });
 
-    it('should ship amount of products and update total quantity', () => {
+    it('should export amount of products and update total quantity', () => {
       const details: ProductsExportedDomainEventDetails = {
         name: new ProductNameValueObject('Test'),
         quantity: new ProductQuantityValueObject(4),

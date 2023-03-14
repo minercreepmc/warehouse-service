@@ -53,9 +53,4 @@ export abstract class ProductState implements IProductState {
     const newQuantity = this.product.totalQuantity.add(quantity);
     this.product.totalQuantity = newQuantity;
   }
-  // abstract pendingImportProduct(state: ProductState): void;
-  // abstract cancelPendingImportProduct(state: ProductState): void;
-  // abstract productReadyToShipping(state: IState): void;
-  // abstract productsShipping(state: IState): void;
-  // abstract productOutOfStock(state: IState): void;
 }

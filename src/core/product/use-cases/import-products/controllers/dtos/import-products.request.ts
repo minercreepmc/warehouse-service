@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { ImportProductsCommand } from '../application-services/orchestrators/data';
+import { ImportProductsCommand } from '@product-use-case/import-products/application-services/dtos';
 
 export class ImportProductsRequest implements ImportProductsCommand {
   @ApiProperty({

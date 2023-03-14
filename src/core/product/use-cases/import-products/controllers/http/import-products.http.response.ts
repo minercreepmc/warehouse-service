@@ -1,3 +1,3 @@
-import { ImportProductsResponse } from '../import-products.response';
+import { ImportProductsResponse } from '../dtos';
 
 export class ImportProductsHttpResponse extends ImportProductsResponse {}

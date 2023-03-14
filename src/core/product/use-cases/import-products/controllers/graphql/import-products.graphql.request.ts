@@ -1,5 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { ImportProductsRequest } from '../import-products.request';
+import { ImportProductsRequest } from '../dtos';
 
 @InputType()
 export class ImportProductsGraphQlRequest implements ImportProductsRequest {

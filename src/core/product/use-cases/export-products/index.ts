@@ -1,1 +1,1 @@
-export * from './ship-products.use-case.module';
+export * from './export-products.use-case.module';

@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { ExportProductsCommand } from '../application-services/orchestrators/data';
+import { ExportProductsCommand } from '@product-use-case/export-products/application-services/dtos';
 
-export class ShipProductsRequest implements ExportProductsCommand {
+export class ExportProductsRequest implements ExportProductsCommand {
   @ApiProperty({
     example: 'Coconut',
   })

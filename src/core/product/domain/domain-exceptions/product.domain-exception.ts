@@ -14,7 +14,7 @@ export namespace ProductDomainException {
   }
   export class QuantityIsNotEnough extends ProductBusinessException {
     readonly code = ProductDomainExceptionCode.quantityIsNotEnough;
-    readonly message = 'Product quantity is not enough to ship';
+    readonly message = 'Product quantity is not enough to export';
   }
   export class UnitIsNotValid extends ProductValidationException {
     readonly code = ProductDomainExceptionCode.unitIsNotValid;

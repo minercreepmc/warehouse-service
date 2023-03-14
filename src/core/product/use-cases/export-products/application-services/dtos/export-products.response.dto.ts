@@ -4,7 +4,7 @@ export interface ExportProductsResponseDtoData {
 }
 
 export class ExportProductsResponseDto {
-  readonly message = 'Product shipped successfully';
+  readonly message = 'Product exported successfully';
   readonly name: string;
   readonly quantity: number;
 

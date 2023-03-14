@@ -1,7 +1,6 @@
 import { Module, Provider } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ProductBusinessRules } from '@product-business-rules';
 import { rmqConfig } from '@configs';
 import { ClientDynamicModule } from '@configs/client';
 import { ProductEventModel } from '@product-database/event-store';
@@ -10,24 +9,23 @@ import { ProductMessageMapper } from '@product-gateway/channel';
 import { productMessageBrokerDiToken } from '@product-gateway/driven-ports';
 import { productEventStoreProvider } from '../../adapters/di/providers';
 import { ImportProductsHandler } from './application-services/import-products.handler';
-import {
-  ImportProductsBusinessChecker,
-  ImportProductsMapper,
-  ImportProductsValidator,
-} from './application-services/orchestrators';
 import { ImportProductsGraphQlResolver } from './controllers/graphql';
 import { ImportProductsHttpController } from './controllers/http';
+import {
+  ImportProductsBusinessValidator,
+  ImportProductsCommandValidator,
+  ImportProductsMapper,
+} from './application-services';
 
 const controllers = [ImportProductsHttpController];
 const resolvers: Provider[] = [ImportProductsGraphQlResolver];
 const orchestrators: Provider[] = [
   ImportProductsMapper,
-  ImportProductsValidator,
-  ImportProductsBusinessChecker,
+  ImportProductsCommandValidator,
+  ImportProductsBusinessValidator,
 ];
 const commandHandlers: Provider[] = [ImportProductsHandler];
 const domainServices: Provider[] = [ProductDomainService];
-const businessRules: Provider[] = [ProductBusinessRules];
 const eventStore: Provider[] = [productEventStoreProvider];
 const messageMappers: Provider[] = [ProductMessageMapper];
 
@@ -43,7 +41,6 @@ const messageMappers: Provider[] = [ProductMessageMapper];
   controllers: [...controllers],
   providers: [
     ...domainServices,
-    ...businessRules,
     ...commandHandlers,
     ...orchestrators,
     ...resolvers,

@@ -1,7 +1,6 @@
 import { Module, Provider } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ProductBusinessRules } from '@product-business-rules';
 import { rmqConfig } from '@configs';
 import { ClientDynamicModule } from '@configs/client';
 import {
@@ -15,10 +14,10 @@ import {
   productMessageBrokerDiToken,
 } from '@product-gateway/driven-ports';
 import {
-  CreateProductBusinessChecker,
+  CreateProductBusinessValidator,
+  CreateProductCommandValidator,
   CreateProductHandler,
   CreateProductMapper,
-  CreateProductValidator,
 } from './application-services';
 import { CreateProductGraphQlResolver } from './controllers/graphql';
 import { CreateProductHttpController } from './controllers/http';
@@ -26,13 +25,12 @@ import { CreateProductHttpController } from './controllers/http';
 const controllers = [CreateProductHttpController];
 const resolvers: Provider[] = [CreateProductGraphQlResolver];
 const orchestrators: Provider[] = [
-  CreateProductBusinessChecker,
+  CreateProductBusinessValidator,
   CreateProductMapper,
-  CreateProductValidator,
+  CreateProductCommandValidator,
 ];
 const commandHandlers: Provider[] = [CreateProductHandler];
 const domainServices: Provider[] = [ProductDomainService];
-const businessRules: Provider[] = [ProductBusinessRules];
 const eventStore: Provider[] = [
   {
     provide: productEventStoreDiToken,
@@ -53,7 +51,6 @@ const messageMappers: Provider[] = [ProductMessageMapper];
   controllers: [...controllers],
   providers: [
     ...domainServices,
-    ...businessRules,
     ...commandHandlers,
     ...orchestrators,
     ...resolvers,

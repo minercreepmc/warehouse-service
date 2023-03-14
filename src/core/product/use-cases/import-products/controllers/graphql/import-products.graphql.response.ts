@@ -1,5 +1,5 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-import { ImportProductsResponse } from '../import-products.response';
+import { ImportProductsResponse } from '../dtos';
 
 @ObjectType()
 export class ImportProductsGraphQlResponse implements ImportProductsResponse {

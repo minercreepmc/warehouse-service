@@ -4,10 +4,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { RmqModule } from '@configs/rmq';
 import { ProductEventModel } from '@product-database/event-store';
 import { productMessageBrokerDiToken } from '@product-gateway/driven-ports';
-import { AddProductThumbnailsUseCaseModule } from '@product-use-case/add-product-thumbnails/add-product-thumbnails.use-case.module';
 import { CreateProductUseCaseModule } from '@product-use-case/create-product';
 import { ImportProductUseCaseModule } from '@product-use-case/import-products';
-import { ShipProductsUseCaseModule } from '@product-use-case/ship-products';
+import { ExportProductsUseCaseModule } from '@product-use-case/export-products';
 
 @Module({
   imports: [
@@ -16,8 +15,7 @@ import { ShipProductsUseCaseModule } from '@product-use-case/ship-products';
     RmqModule.register({ name: productMessageBrokerDiToken }),
     CreateProductUseCaseModule,
     ImportProductUseCaseModule,
-    ShipProductsUseCaseModule,
-    AddProductThumbnailsUseCaseModule,
+    ExportProductsUseCaseModule,
   ],
 })
 export class DomainModule {}

@@ -7,7 +7,7 @@ import { ExportProductsCommandValidator } from './export-products.command-valida
 import { ExportProductsMapper } from './export-products.mapper';
 
 @CommandHandler(ExportProductsCommand)
-export class ShipProductsHandler
+export class ExportProductsHandler
   implements ICommandHandler<ExportProductsCommand, ExportProductsResult>
 {
   constructor(
@@ -21,19 +21,19 @@ export class ShipProductsHandler
     if (!commandValidated.isValid) {
       return Err(commandValidated.exceptions);
     }
-    const shipDomainData = this.mapper.toDomain(command);
+    const exportDomainData = this.mapper.toDomain(command);
 
     const domainValidated = await this.businessValidator.validate(
-      shipDomainData,
+      exportDomainData,
     );
     if (!domainValidated.isValid) {
       return Err(domainValidated.exceptions);
     }
 
-    const productsShippedEvent = await this.domainService.shipProducts(
-      shipDomainData,
+    const productsExportedEvent = await this.domainService.exportProducts(
+      exportDomainData,
     );
 
-    return Ok(this.mapper.toResponseDTO(productsShippedEvent));
+    return Ok(this.mapper.toResponseDTO(productsExportedEvent));
   }
 }

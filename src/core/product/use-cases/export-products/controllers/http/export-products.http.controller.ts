@@ -11,29 +11,33 @@ import {
   ProductBusinessException,
   ProductValidationException,
 } from '@product-domain-exceptions';
-import { ExportProductsCommand, ExportProductsResponseDto, ShipProductsUseCaseException } from '@product-use-case/ship-products/application-services/orchestrators/data';
+import {
+  ExportProductsCommand,
+  ExportProductsResponseDto,
+  ExportProductsUseCaseExceptions,
+} from '@product-use-case/export-products/application-services/dtos';
 import { IsArrayContainInstanceOf } from 'common-base-classes';
 import { match } from 'oxide.ts';
-import { ShipProductsHttpRequest } from './ship-products.http.request';
+import { ExportProductsHttpRequest } from './export-products.http.request';
 
 @Controller('products')
-export class ShipProductsHttpController {
+export class ExportProductsHttpController {
   constructor(private readonly commandBus: CommandBus) {}
 
-  @Post('ship')
-  @ApiOperation({ summary: 'Ship products' })
+  @Post('export')
+  @ApiOperation({ summary: 'Export products' })
   @ApiBody({
     required: true,
-    description: 'The dto need to ship products',
-    type: ShipProductsHttpRequest,
+    description: 'The dto need to export products',
+    type: ExportProductsHttpRequest,
   })
-  async execute(@Body() dto: ShipProductsHttpRequest) {
+  async execute(@Body() dto: ExportProductsHttpRequest) {
     const command = new ExportProductsCommand(dto);
     const result = await this.commandBus.execute(command);
 
     return match(result, {
       Ok: (response: ExportProductsResponseDto) => response,
-      Err: (errors: ShipProductsUseCaseException) => {
+      Err: (errors: ExportProductsUseCaseExceptions) => {
         if (IsArrayContainInstanceOf(errors, ProductValidationException)) {
           throw new UnprocessableEntityException(errors);
         }

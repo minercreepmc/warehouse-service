@@ -18,7 +18,7 @@ export interface ProductsImportedDomainEventMessageDto {
   quantity: number;
 }
 
-export interface ProductShippedDomainEventMessageDto {
+export interface ProductExportedDomainEventMessageDto {
   productId: string;
   name: string;
 }

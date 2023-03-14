@@ -16,18 +16,18 @@ import { ProductEventStorePort } from '@product-gateway/driven-ports';
 import { ProductEventTypeOrmMapper } from './product-event.mapper';
 import {
   ProductAggregate,
-  ProductApplyEventMethodNames,
+  ProductAggregateApplyMethodNames,
 } from '@product-aggregate';
 import { ProductNameValueObject } from '@product-value-object';
 import { typeormDataSource } from '@configs/typeorm/typeorm.data-source';
 
 export const productApplyEventMethods = {
   [productDomainEventNames.PRODUCT_CREATED]:
-    ProductApplyEventMethodNames.CREATE_PRODUCT,
+    ProductAggregateApplyMethodNames.CREATE_PRODUCT,
   [productDomainEventNames.PRODUCTS_IMPORTED]:
-    ProductApplyEventMethodNames.IMPORT_PRODUCTS,
+    ProductAggregateApplyMethodNames.IMPORT_PRODUCTS,
   [productDomainEventNames.PRODUCTS_EXPORTED]:
-    ProductApplyEventMethodNames.SHIP_PRODUCTS,
+    ProductAggregateApplyMethodNames.EXPORT_PRODUCTS,
 };
 
 @Injectable()

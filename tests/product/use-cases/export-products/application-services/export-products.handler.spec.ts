@@ -5,8 +5,8 @@ import { ProductDomainService } from '@product-domain-services';
 import {
   ExportProductsBusinessValidator,
   ExportProductsCommandValidator,
+  ExportProductsHandler,
   ExportProductsMapper,
-  ShipProductsHandler,
 } from '@product-use-case/export-products/application-services';
 import {
   ExportProductsCommand,
@@ -19,8 +19,8 @@ import {
 import { ID } from 'common-base-classes';
 import { mock, MockProxy } from 'jest-mock-extended';
 
-describe('ShipProductsHandler', () => {
-  let handler: ShipProductsHandler;
+describe('ExportProductsHandler', () => {
+  let handler: ExportProductsHandler;
   let mapper: ExportProductsMapper;
   let commandValidator: MockProxy<ExportProductsCommandValidator>;
   let businessValidator: MockProxy<ExportProductsBusinessValidator>;
@@ -32,7 +32,7 @@ describe('ShipProductsHandler', () => {
     domainService = mock<ProductDomainService>();
     businessValidator = mock<ExportProductsBusinessValidator>();
 
-    handler = new ShipProductsHandler(
+    handler = new ExportProductsHandler(
       mapper,
       commandValidator,
       businessValidator,
@@ -88,7 +88,7 @@ describe('ShipProductsHandler', () => {
       );
     });
 
-    it('should call the domain service to ship the products and return the result', async () => {
+    it('should call the domain service to export the products and return the result', async () => {
       commandValidator.validate.mockReturnValue({
         isValid: true,
         exceptions: [],
@@ -104,7 +104,7 @@ describe('ShipProductsHandler', () => {
           quantity: new ProductQuantityValueObject(dto.quantity),
         },
       });
-      domainService.shipProducts.mockResolvedValue(event);
+      domainService.exportProducts.mockResolvedValue(event);
 
       const result = await handler.execute(command);
 
@@ -113,7 +113,7 @@ describe('ShipProductsHandler', () => {
         name: new ProductNameValueObject(dto.name),
         quantity: new ProductQuantityValueObject(dto.quantity),
       });
-      expect(domainService.shipProducts).toHaveBeenCalledWith({
+      expect(domainService.exportProducts).toHaveBeenCalledWith({
         name: new ProductNameValueObject(dto.name),
         quantity: new ProductQuantityValueObject(dto.quantity),
       });

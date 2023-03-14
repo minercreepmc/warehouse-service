@@ -8,11 +8,11 @@ import {
   ProductBusinessException,
   ProductValidationException,
 } from '@product-domain-exceptions';
-import { CreateProductUseCaseException } from '@product-use-case/create-product/application-services';
 import {
   CreateProductCommand,
   CreateProductResponseDto,
-} from '@product-use-case/create-product/application-services/orchestrators/data';
+  CreateProductUseCaseException,
+} from '@product-use-case/create-product/application-services/dtos';
 import { IsArrayContainInstanceOf } from 'common-base-classes';
 import { match } from 'oxide.ts';
 import { CreateProductGraphQlRequest } from './create-product.graphql.request';

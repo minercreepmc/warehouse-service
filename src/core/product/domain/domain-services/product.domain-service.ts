@@ -22,7 +22,7 @@ import {
 import {
   ExportProductsDomainService,
   ExportProductsDomainServiceOptions,
-} from './services/ship-products.domain-service';
+} from './services/export-products.domain-service';
 
 @Injectable()
 export class ProductDomainService {
@@ -51,12 +51,13 @@ export class ProductDomainService {
     this.mapper,
   );
 
-  private readonly shipProductsDomainService = new ExportProductsDomainService(
-    this.productInventoryDomainService,
-    this.eventStore,
-    this.messageBroker,
-    this.mapper,
-  );
+  private readonly exportProductsDomainService =
+    new ExportProductsDomainService(
+      this.productInventoryDomainService,
+      this.eventStore,
+      this.messageBroker,
+      this.mapper,
+    );
 
   async createProduct(data: CreateProductDomainServiceOptions) {
     return this.createProductDomainService.execute(data);
@@ -66,8 +67,8 @@ export class ProductDomainService {
     return this.importProductDomainService.execute(data);
   }
 
-  async shipProducts(data: ExportProductsDomainServiceOptions) {
-    return this.shipProductsDomainService.execute(data);
+  async exportProducts(data: ExportProductsDomainServiceOptions) {
+    return this.exportProductsDomainService.execute(data);
   }
 
   async getProduct(productName: ProductNameValueObject) {

@@ -19,7 +19,7 @@ import {
 export const productDomainEventConstructorDocuments = {
   ProductCreatedDomainEvent: ProductCreatedDomainEvent,
   ProductsImportedDomainEvent: ProductsImportedDomainEvent,
-  ProductsShippedDomainEvent: ProductsExportedDomainEvent,
+  ProductsExportedDomainEvent: ProductsExportedDomainEvent,
 };
 
 export class ProductEventTypeOrmMapper extends AbstractEventTypeOrmMapper<
