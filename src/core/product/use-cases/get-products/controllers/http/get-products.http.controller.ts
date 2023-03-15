@@ -1,7 +1,7 @@
 import { Controller, Get, Query } from '@nestjs/common';
 import { QueryBus } from '@nestjs/cqrs';
 import { ApiOperation } from '@nestjs/swagger';
-import { GetProductsQuery } from '@product-use-case/get-products/data';
+import { GetProductsQuery } from '@product-use-case/get-products/application-services/dtos';
 import { match } from 'oxide.ts';
 import { GetProductsHttpRequest } from './get-products.http.request';
 import { GetProductsHttpResponse } from './get-products.http.response';

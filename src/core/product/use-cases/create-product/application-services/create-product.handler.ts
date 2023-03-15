@@ -1,43 +1,40 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import {
-  CreateProductBusinessChecker,
-  CreateProductMapper,
-  CreateProductResult,
-  CreateProductValidator,
-} from './orchestrators';
 import { Ok, Err } from 'oxide.ts';
-import { CreateProductCommand } from './orchestrators/data';
 import { ProductDomainService } from '@product-domain-services';
+import { CreateProductCommand, CreateProductResult } from './dtos';
+import { CreateProductMapper } from './create-product.mapper';
+import { CreateProductCommandValidator } from './create-product.command-validator';
+import { CreateProductBusinessValidator } from './create-product.business-validator';
+
 @CommandHandler(CreateProductCommand)
 export class CreateProductHandler
   implements ICommandHandler<CreateProductCommand, CreateProductResult>
 {
   constructor(
     private readonly mapper: CreateProductMapper,
-    private readonly validator: CreateProductValidator,
-    private readonly businessChecker: CreateProductBusinessChecker,
+    private readonly commandValidator: CreateProductCommandValidator,
+    private readonly businessValidator: CreateProductBusinessValidator,
     private readonly domainService: ProductDomainService,
   ) {}
 
   async execute(command: CreateProductCommand): Promise<CreateProductResult> {
-    //validate
-    this.validator.clearNoteAndCheck(command);
-    if (!this.validator.isValid()) {
-      return Err(this.validator.errors);
+    const commandValidated = this.commandValidator.validate(command);
+    if (!commandValidated.isValid) {
+      return Err(commandValidated.exceptions);
     }
 
     const domainData = this.mapper.toDomain(command);
-    await this.businessChecker.clearNoteAndCheck(domainData);
 
-    if (!this.businessChecker.isValid()) {
-      return Err(this.businessChecker.errors);
+    const businessValidated = await this.businessValidator.validate(domainData);
+
+    if (!businessValidated.isValid) {
+      return Err(businessValidated.exceptions);
     }
 
     const productCreatedEvent = await this.domainService.createProduct(
       domainData,
     );
 
-    // business check
     return Ok(this.mapper.toResponseDTO(productCreatedEvent));
   }
 }

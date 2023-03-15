@@ -1,9 +1,9 @@
 import { ProductCreatedDomainEventMessageDto } from '../gateway/channel';
 
-export interface ProductInfoServiceCreateData
+export interface CreateProductInfoOptions
   extends ProductCreatedDomainEventMessageDto {}
 
-export interface ProductInfoServiceUpdateData {
+export interface UpdateProductInfoServiceOptions {
   productId: string;
   name: string;
   quantity: number;

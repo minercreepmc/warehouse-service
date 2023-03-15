@@ -4,10 +4,10 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriverConfig } from '@nestjs/apollo';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { productMessageBrokerDiToken } from '@product-gateway/driven-ports';
-import { typeOrmConfig } from '@product-configs/typeorm';
-import { gplModuleOptions } from '@product-configs/graphql';
-import { ClientDynamicModule } from '@product-configs/client';
-import { rmqConfig } from '@product-configs';
+import { typeOrmConfig } from '@configs/typeorm';
+import { gplModuleOptions } from '@configs/graphql';
+import { ClientDynamicModule } from '@configs/client';
+import { rmqConfig } from '@configs';
 import { DomainModule, ViewsModule } from './core/product/adapters/di/module';
 
 @Module({

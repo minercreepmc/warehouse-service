@@ -3,9 +3,9 @@ import { QueryBus } from '@nestjs/cqrs';
 import { ApiOperation } from '@nestjs/swagger';
 import {
   GetProductQuery,
-  GetProductUseCaseError,
-} from '@product-use-case/get-product/data';
-import { ProductInfoLogicError } from '@product-views/product-info';
+  GetProductUseCaseException,
+} from '@product-use-case/get-product/dtos';
+import { ProductInfoLogicException } from '@product-views/product-info';
 import { match } from 'oxide.ts';
 import { GetProductHttpRequest } from './get-product.http.request';
 import { GetProductHttpResponse } from './get-product.http.response';
@@ -22,11 +22,11 @@ export class GetProductHttpController {
 
     return match(result, {
       Ok: (response: GetProductHttpResponse) => response,
-      Err: (error: GetProductUseCaseError) => {
-        if (error instanceof ProductInfoLogicError) {
-          throw new ConflictException(error);
+      Err: (exception: GetProductUseCaseException) => {
+        if (exception instanceof ProductInfoLogicException) {
+          throw new ConflictException(exception);
         }
-        throw error;
+        throw exception;
       },
     });
   }

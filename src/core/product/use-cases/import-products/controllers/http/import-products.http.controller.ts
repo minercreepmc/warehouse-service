@@ -8,14 +8,14 @@ import {
 import { CommandBus } from '@nestjs/cqrs';
 import { ApiBody, ApiOperation } from '@nestjs/swagger';
 import {
-  ProductBusinessError,
-  ProductValidationError,
-} from '@product-domain-errors';
+  ProductBusinessException,
+  ProductValidationException,
+} from '@product-domain-exceptions';
 import {
   ImportProductsCommand,
   ImportProductsResponseDto,
-  ImportProductsUseCaseError,
-} from '@product-use-case/import-products/application-services/orchestrators/data';
+  ImportProductsUseCaseExceptions,
+} from '@product-use-case/import-products/application-services/dtos';
 import { IsArrayContainInstanceOf } from 'common-base-classes';
 import { match } from 'oxide.ts';
 import { ImportProductsHttpRequest } from './import-products.http.request';
@@ -36,11 +36,11 @@ export class ImportProductsHttpController {
     const result = await this.commandBus.execute(command);
     return match(result, {
       Ok: (response: ImportProductsResponseDto) => response,
-      Err: (errors: ImportProductsUseCaseError) => {
-        if (IsArrayContainInstanceOf(errors, ProductValidationError)) {
+      Err: (errors: ImportProductsUseCaseExceptions) => {
+        if (IsArrayContainInstanceOf(errors, ProductValidationException)) {
           throw new UnprocessableEntityException(errors);
         }
-        if (IsArrayContainInstanceOf(errors, ProductBusinessError)) {
+        if (IsArrayContainInstanceOf(errors, ProductBusinessException)) {
           throw new ConflictException(errors);
         }
         throw errors;

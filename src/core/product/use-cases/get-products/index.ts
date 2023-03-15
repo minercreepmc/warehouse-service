@@ -1,1 +1,1 @@
-export * from './get-products.handler';
+export * from './application-services';

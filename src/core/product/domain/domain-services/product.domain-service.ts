@@ -1,8 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
-import { ProductAggregate } from '@product-aggregate';
-import { ProductBusinessRules } from '@product-business-rules';
-import { ProductDomainError } from '@product-domain-errors';
 import { ProductMessageMapper } from '@product-gateway/channel';
 import {
   productEventStoreDiToken,
@@ -11,26 +8,25 @@ import {
 } from '@product-gateway/driven-ports';
 import { ProductNameValueObject } from '@product-value-object';
 import {
-  AddProductThumbnailsDomainService,
-  AddProductThumbnailsDomainServiceData,
-} from './services/add-product-thumbnails.domain-service';
+  isEnoughToExportOptions,
+  ProductInventoryDomainService,
+} from './services';
 import {
   CreateProductDomainService,
-  CreateProductDomainServiceData,
+  CreateProductDomainServiceOptions,
 } from './services/create-product.domain-service';
 import {
-  ImportProductDomainService,
-  ImportProductDomainServiceData,
+  ImportProductsDomainService,
+  ImportProductsDomainServiceOptions,
 } from './services/import-products.domain-service';
 import {
-  ShipProductsDomainService,
-  ShipProductsDomainServiceData,
-} from './services/ship-products.domain-service';
+  ExportProductsDomainService,
+  ExportProductsDomainServiceOptions,
+} from './services/export-products.domain-service';
 
 @Injectable()
 export class ProductDomainService {
   constructor(
-    private readonly businessRules: ProductBusinessRules,
     @Inject(productEventStoreDiToken)
     private readonly eventStore: ProductEventStorePort,
 
@@ -39,54 +35,51 @@ export class ProductDomainService {
 
     private readonly mapper: ProductMessageMapper,
   ) {}
+  private readonly productInventoryDomainService =
+    new ProductInventoryDomainService(this.eventStore);
 
-  private readonly importProductDomainService = new ImportProductDomainService(
-    this.businessRules,
+  private readonly importProductDomainService = new ImportProductsDomainService(
+    this.productInventoryDomainService,
     this.eventStore,
     this.messageBroker,
     this.mapper,
   );
   private readonly createProductDomainService = new CreateProductDomainService(
-    this.businessRules,
+    this.productInventoryDomainService,
     this.eventStore,
     this.messageBroker,
     this.mapper,
   );
 
-  private readonly shipProductsDomainService = new ShipProductsDomainService(
-    this.businessRules,
-    this.eventStore,
-    this.messageBroker,
-    this.mapper,
-  );
+  private readonly exportProductsDomainService =
+    new ExportProductsDomainService(
+      this.productInventoryDomainService,
+      this.eventStore,
+      this.messageBroker,
+      this.mapper,
+    );
 
-  private readonly addProductThumbnailsDomainService =
-    new AddProductThumbnailsDomainService(this.eventStore);
-
-  async createProduct(data: CreateProductDomainServiceData) {
+  async createProduct(data: CreateProductDomainServiceOptions) {
     return this.createProductDomainService.execute(data);
   }
 
-  async importProducts(data: ImportProductDomainServiceData) {
+  async importProducts(data: ImportProductsDomainServiceOptions) {
     return this.importProductDomainService.execute(data);
   }
 
-  async shipProducts(data: ShipProductsDomainServiceData) {
-    return this.shipProductsDomainService.execute(data);
+  async exportProducts(data: ExportProductsDomainServiceOptions) {
+    return this.exportProductsDomainService.execute(data);
   }
 
-  async addProductThumbnails(data: AddProductThumbnailsDomainServiceData) {
-    return this.addProductThumbnailsDomainService.execute(data);
+  async getProduct(productName: ProductNameValueObject) {
+    return this.productInventoryDomainService.getProduct(productName);
   }
 
-  async getProduct(
-    productName: ProductNameValueObject,
-  ): Promise<ProductAggregate> {
-    const found = this.businessRules.isProductNameExist(productName);
-    if (!found) {
-      throw new ProductDomainError.NameIsNotExist();
-    }
+  async isEnoughToExport(options: isEnoughToExportOptions) {
+    return this.productInventoryDomainService.isEnoughToExport(options);
+  }
 
-    return this.eventStore.getProduct(productName);
+  async isProductExist(productName: ProductNameValueObject) {
+    return this.isProductExist(productName);
   }
 }

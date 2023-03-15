@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { CreateProductResponse } from '../create-product.response';
+import { CreateProductResponseDto } from '@product-use-case/create-product/application-services/dtos';
 
-export class CreateProductHttpResponse implements CreateProductResponse {
+export class CreateProductHttpResponse implements CreateProductResponseDto {
   @ApiProperty({
     example: 'Fish',
   })

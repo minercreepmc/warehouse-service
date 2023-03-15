@@ -4,7 +4,7 @@ import {
   ProductCreatedDomainEventMessageDto,
   ProductEvent,
   ProductsImportedDomainEventMessageDto,
-  ProductsShippedDomainEventMessageDto,
+  ProductsExportedDomainEventMessageDto,
 } from '@product-views/gateway/channel';
 import { ProductInfoService } from './product-info.service';
 
@@ -42,9 +42,9 @@ export class ProductInfoProjector {
     }
   }
 
-  @EventPattern(ProductEvent.productsShipped)
-  async ship(
-    @Payload() data: ProductsShippedDomainEventMessageDto,
+  @EventPattern(ProductEvent.productsExported)
+  async export(
+    @Payload() data: ProductsExportedDomainEventMessageDto,
     @Ctx() context: RmqContext,
   ) {
     try {

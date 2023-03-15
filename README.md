@@ -1,6 +1,10 @@
 # Warehouse Service
 
-![Warehouse Service CheatSheat](./assets/diagrams/bounded-context.png)
+## Summarize
+
+This app is built with Hexagonal Architecture, DDD, Event-sourcing, CQRS, a little bit Microservice that communicate to itself, the projector gonna act like it come from another service (the read side of CQRS)
+
+This app build with super "details protection" (maybe), from failing in domain it gonna throw Error to return Result code in validation step in application service
 
 ## How to run application
 
@@ -13,5 +17,4 @@ Require: Docker
 
 ## TODO:
 
-- Optimize event-store (Remove mapping between domain and database model => Seperate read and write model)
 - Build the front end for application

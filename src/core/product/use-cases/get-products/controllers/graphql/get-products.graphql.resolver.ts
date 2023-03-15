@@ -4,8 +4,8 @@ import { match } from 'oxide.ts';
 import { ProductInfoModel } from '@product-views/product-info';
 import {
   GetProductsQuery,
-  GetProductsUseCaseError,
-} from '@product-use-case/get-products/data';
+  GetProductsUseCaseException,
+} from '@product-use-case/get-products/application-services/dtos';
 
 @Resolver()
 export class GetProductsGraphQlResolver {
@@ -18,8 +18,8 @@ export class GetProductsGraphQlResolver {
 
     return match(result, {
       Ok: (products: ProductInfoModel[]) => products,
-      Err: (error: GetProductsUseCaseError) => {
-        throw error;
+      Err: (exception: GetProductsUseCaseException) => {
+        throw exception;
       },
     });
   }
