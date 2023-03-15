@@ -1,3 +1,3 @@
-import { GetProductResponse } from '../get-product.response';
+import { GetProductResponse } from '../dtos';
 
 export type GetProductHttpResponse = GetProductResponse;

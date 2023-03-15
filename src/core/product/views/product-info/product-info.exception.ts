@@ -1,7 +1,5 @@
-import { AbstractDomainException } from 'common-base-classes';
-
-export abstract class ProductInfoValidationException extends AbstractDomainException {}
-export abstract class ProductInfoLogicException extends AbstractDomainException {}
+export abstract class ProductInfoValidationException extends Error {}
+export abstract class ProductInfoLogicException extends Error {}
 
 export enum ProductInfoExceptionCode {
   nameIsNotValid = 'PRODUCT_INFO.NAME.IS_NOT_VALID',

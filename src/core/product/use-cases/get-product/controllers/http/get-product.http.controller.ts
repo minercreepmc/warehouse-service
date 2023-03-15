@@ -4,7 +4,7 @@ import { ApiOperation } from '@nestjs/swagger';
 import {
   GetProductQuery,
   GetProductUseCaseException,
-} from '@product-use-case/get-product/data';
+} from '@product-use-case/get-product/dtos';
 import { ProductInfoLogicException } from '@product-views/product-info';
 import { match } from 'oxide.ts';
 import { GetProductHttpRequest } from './get-product.http.request';

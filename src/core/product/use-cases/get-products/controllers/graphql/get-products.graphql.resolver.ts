@@ -5,7 +5,7 @@ import { ProductInfoModel } from '@product-views/product-info';
 import {
   GetProductsQuery,
   GetProductsUseCaseException,
-} from '@product-use-case/get-products/data';
+} from '@product-use-case/get-products/application-services/dtos';
 
 @Resolver()
 export class GetProductsGraphQlResolver {

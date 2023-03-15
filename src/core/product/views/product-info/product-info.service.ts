@@ -5,8 +5,8 @@ import {
   ProductInfoRepositoryPort,
 } from './product-info.repository.port';
 import {
-  ProductInfoServiceCreateData,
-  ProductInfoServiceUpdateData,
+  CreateProductInfoOptions,
+  UpdateProductInfoServiceOptions,
 } from './product-info.service.interface';
 
 export class ProductInfoService {
@@ -14,25 +14,25 @@ export class ProductInfoService {
     @Inject(productInfoRepositoryDiToken)
     private readonly repository: ProductInfoRepositoryPort,
   ) {}
-  async create(data: ProductInfoServiceCreateData) {
+  async create(options: CreateProductInfoOptions) {
     const productInfo = new ProductInfoModel({
-      id: data.productId,
-      name: data.name,
+      id: options.productId,
+      name: options.name,
     });
     this.repository.save(productInfo);
   }
 
-  async addQuantity(data: ProductInfoServiceUpdateData) {
-    const productInfo = await this.repository.findOneById(data.productId);
-    productInfo.quantity += data.quantity;
+  async addQuantity(options: UpdateProductInfoServiceOptions) {
+    const productInfo = await this.repository.findOneById(options.productId);
+    productInfo.quantity += options.quantity;
 
-    return this.repository.update(data.productId, productInfo);
+    return this.repository.update(options.productId, productInfo);
   }
 
-  async removeQuantity(data: ProductInfoServiceUpdateData) {
-    const productInfo = await this.repository.findOneById(data.productId);
-    productInfo.quantity -= data.quantity;
+  async removeQuantity(options: UpdateProductInfoServiceOptions) {
+    const productInfo = await this.repository.findOneById(options.productId);
+    productInfo.quantity -= options.quantity;
 
-    return this.repository.update(data.productId, productInfo);
+    return this.repository.update(options.productId, productInfo);
   }
 }

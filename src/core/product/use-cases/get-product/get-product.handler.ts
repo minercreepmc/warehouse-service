@@ -6,7 +6,7 @@ import {
   ProductInfoRepositoryPort,
 } from '@product-views/product-info';
 import { Err, Ok } from 'oxide.ts';
-import { GetProductResult, GetProductQuery } from './data';
+import { GetProductResult, GetProductQuery } from './dtos';
 
 @QueryHandler(GetProductQuery)
 export class GetProductHandler

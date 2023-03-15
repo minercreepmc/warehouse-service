@@ -2,11 +2,7 @@ import { EventStoreTypeOrm, ID, UUID } from 'common-base-classes';
 import { Repository } from 'typeorm';
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import {
-  ProductDomainEvent,
-  ProductDomainEventDetails,
-  productDomainEventNames,
-} from '@product-domain-events';
+import { ProductDomainEvent } from '@product-domain-events';
 import {
   ProductEventModel,
   ProductEventModelDetails,
@@ -20,6 +16,10 @@ import {
 } from '@product-aggregate';
 import { ProductNameValueObject } from '@product-value-object';
 import { typeormDataSource } from '@configs/typeorm/typeorm.data-source';
+import {
+  ProductDomainEventDetails,
+  productDomainEventNames,
+} from '@product-domain-events/product.domain-event.interface';
 
 export const productApplyEventMethods = {
   [productDomainEventNames.PRODUCT_CREATED]:

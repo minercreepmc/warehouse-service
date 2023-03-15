@@ -1,3 +1,3 @@
-import { GetProductRequest } from '../get-product.request';
+import { GetProductRequest } from '../dtos';
 
 export class GetProductHttpRequest extends GetProductRequest {}

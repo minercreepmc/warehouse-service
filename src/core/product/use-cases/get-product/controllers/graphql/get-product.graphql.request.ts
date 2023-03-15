@@ -1,5 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { GetProductRequest } from '../get-product.request';
+import { GetProductRequest } from '../dtos';
 
 @InputType()
 export class GetProductGraphQlRequest extends GetProductRequest {

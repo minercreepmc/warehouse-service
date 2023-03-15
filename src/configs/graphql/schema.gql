@@ -12,7 +12,7 @@ type ImportProductsGraphQlResponse {
   quantity: Float!
 }
 
-type ShipProductsGraphQlResponse {
+type ExportProductsGraphQlResponse {
   message: String!
   name: String!
   quantity: Float!
@@ -43,7 +43,7 @@ input GetProductGraphQlRequest {
 type Mutation {
   createProduct(dto: CreateProductGraphQlRequest!): CreateProductGraphQlResponse!
   importProducts(dto: ImportProductsGraphQlRequest!): ImportProductsGraphQlResponse!
-  shipProducts(dto: ShipProductsGraphQlRequest!): ShipProductsGraphQlResponse!
+  exportProducts(dto: ExportProductsGraphQlRequest!): ExportProductsGraphQlResponse!
 }
 
 input CreateProductGraphQlRequest {
@@ -55,7 +55,7 @@ input ImportProductsGraphQlRequest {
   quantity: Float!
 }
 
-input ShipProductsGraphQlRequest {
+input ExportProductsGraphQlRequest {
   name: String!
   quantity: Float!
 }

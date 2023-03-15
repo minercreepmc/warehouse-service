@@ -3,10 +3,10 @@ import { Args, Query, Resolver } from '@nestjs/graphql';
 import {
   GetProductQuery,
   GetProductUseCaseException,
-} from '@product-use-case/get-product/data';
+} from '@product-use-case/get-product/dtos';
 import { ProductInfoModel } from '@product-views/product-info';
 import { match } from 'oxide.ts';
-import { GetProductResponse } from '../get-product.response';
+import { GetProductResponse } from '../dtos';
 import { GetProductGraphQlRequest } from './get-product.graphql.request';
 
 @Resolver()

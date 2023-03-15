@@ -8,7 +8,7 @@ export interface QuantityValueObjectDetails {
   /**
    * The amount of the quantity.
    */
-  amount: NumericValueObject;
+  amount: NumericValueObject<any>;
   /**
    * The unit of the quantity.
    */

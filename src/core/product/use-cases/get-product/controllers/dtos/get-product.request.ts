@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { GetProductQuery } from '../data';
+import { GetProductQuery } from '@product-use-case/get-product/dtos';
 
 export class GetProductRequest implements GetProductQuery {
   @ApiProperty({
