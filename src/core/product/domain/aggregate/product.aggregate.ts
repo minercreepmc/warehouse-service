@@ -23,7 +23,7 @@ export class ProductAggregate extends AbstractAggregateRoot<
   Partial<ProductAggregateDetails>
 > {
   constructor(id?: ProductIdValueObject) {
-    const productId = id ? id : UUID.create();
+    const productId = id ? id : new UUID();
     const details = {};
     super({ id: productId, details });
     this.state = new InitialProductState(this);
@@ -37,7 +37,7 @@ export class ProductAggregate extends AbstractAggregateRoot<
     options: CreateProductAggegateOptions,
   ): ProductCreatedDomainEvent {
     const { name } = options;
-    const event = new ProductCreatedDomainEvent({
+    const event = ProductCreatedDomainEvent.create({
       productId: this.id,
       eventDetails: {
         name,
@@ -51,7 +51,7 @@ export class ProductAggregate extends AbstractAggregateRoot<
     options: ImportProductsAggregateOptions,
   ): ProductsImportedDomainEvent {
     const { name, quantity } = options;
-    const event = new ProductsImportedDomainEvent({
+    const event = ProductsImportedDomainEvent.create({
       productId: this.id,
       eventDetails: {
         name,
@@ -66,7 +66,7 @@ export class ProductAggregate extends AbstractAggregateRoot<
     options: ExportProductsAggregateOptions,
   ): ProductsExportedDomainEvent {
     const { name, quantity } = options;
-    const event = new ProductsExportedDomainEvent({
+    const event = ProductsExportedDomainEvent.create({
       productId: this.id,
       eventDetails: {
         name,
@@ -110,7 +110,7 @@ export class ProductAggregate extends AbstractAggregateRoot<
     loads.forEach((load) => {
       const productLoad = new ProductLoadEntity({
         productId: this.id,
-        productLoadBarcode: UUID.create(),
+        productLoadBarcode: new UUID(),
         productQuantity: new ProductQuantityValueObject(load),
       });
       productLoadQueue.enqueue(productLoad);

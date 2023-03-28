@@ -1,4 +1,4 @@
-import { EventTypeOrmModel } from 'common-base-classes';
+import { EventTypeOrmModel } from 'nest-typeorm-common-classes';
 import { Column, Entity, Index } from 'typeorm';
 
 export const productEventRelation = 'product-event';

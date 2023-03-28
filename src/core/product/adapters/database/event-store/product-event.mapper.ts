@@ -9,7 +9,7 @@ import {
   ProductNameValueObject,
   ProductQuantityValueObject,
 } from '@product-value-object';
-import { AbstractEventTypeOrmMapper } from 'common-base-classes';
+import { AbstractEventTypeOrmMapper } from 'nest-typeorm-common-classes';
 import {
   ProductEventModel,
   ProductEventModelDetails,

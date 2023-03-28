@@ -41,15 +41,9 @@ input GetProductGraphQlRequest {
 }
 
 type Mutation {
-  createProduct(
-    dto: CreateProductGraphQlRequest!
-  ): CreateProductGraphQlResponse!
-  importProducts(
-    dto: ImportProductsGraphQlRequest!
-  ): ImportProductsGraphQlResponse!
-  exportProducts(
-    dto: ExportProductsGraphQlRequest!
-  ): ExportProductsGraphQlResponse!
+  createProduct(dto: CreateProductGraphQlRequest!): CreateProductGraphQlResponse!
+  importProducts(dto: ImportProductsGraphQlRequest!): ImportProductsGraphQlResponse!
+  exportProducts(dto: ExportProductsGraphQlRequest!): ExportProductsGraphQlResponse!
 }
 
 input CreateProductGraphQlRequest {

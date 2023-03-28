@@ -1,4 +1,4 @@
-import { AbstractTypeOrmModel } from 'common-base-classes';
+import { AbstractTypeOrmModel } from 'nest-typeorm-common-classes';
 import { Column, Entity } from 'typeorm';
 
 @Entity('product-info')

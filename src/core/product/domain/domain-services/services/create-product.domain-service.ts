@@ -22,11 +22,14 @@ export class CreateProductDomainService {
   async execute(
     options: CreateProductDomainServiceOptions,
   ): Promise<ProductCreatedDomainEvent> {
-    if (!this.inventoryService.isProductExist(options.name)) {
-      throw new ProductDomainException.NameIsExist();
-    }
+    return this.eventStore.runInTransaction(async () => {
+      const isProductExist = await this.inventoryService.isProductExist(
+        options.name,
+      );
+      if (isProductExist) {
+        throw new ProductDomainException.NameIsExist();
+      }
 
-    return await this.eventStore.runInTransaction(async () => {
       const product = new ProductAggregate();
       const productCreatedEvent = product.createProduct({
         name: options.name,
@@ -39,7 +42,6 @@ export class CreateProductDomainService {
       //   ProductCreatedDomainEvent.name,
       // );
 
-      await this.eventStore.commitTransaction();
       //this.outboxService.sendMessages$().subscribe();
 
       return productCreatedEvent;

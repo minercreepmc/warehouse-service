@@ -39,8 +39,8 @@ export abstract class ProductState implements IProductState {
     quantity: ProductQuantityValueObject,
   ): ProductLoadEntity {
     return new ProductLoadEntity({
-      productId: UUID.create(),
-      productLoadBarcode: UUID.create(),
+      productId: new UUID(),
+      productLoadBarcode: new UUID(),
       productQuantity: quantity,
     });
   }

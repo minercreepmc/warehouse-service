@@ -20,8 +20,8 @@ export class ExportProductsDomainService {
   async execute(
     options: ExportProductsDomainServiceOptions,
   ): Promise<ProductsExportedDomainEvent> {
-    this.checkForException(options);
     return this.eventStore.runInTransaction(async () => {
+      await this.checkForException(options);
       const product = await this.eventStore.getProduct(options.name);
       const productsExportedEvent = product.exportProducts(options);
 
@@ -36,15 +36,15 @@ export class ExportProductsDomainService {
   }
 
   async checkForException(data: ExportProductsDomainServiceOptions) {
-    if (!this.inventoryService.isProductExist(data.name)) {
+    if (!(await this.inventoryService.isProductExist(data.name))) {
       throw new ProductDomainException.NameIsNotExist();
     }
 
     if (
-      !this.inventoryService.isEnoughToExport({
+      !(await this.inventoryService.isEnoughToExport({
         productName: data.name,
         amount: data.quantity,
-      })
+      }))
     ) {
       throw new ProductDomainException.QuantityIsNotEnough();
     }

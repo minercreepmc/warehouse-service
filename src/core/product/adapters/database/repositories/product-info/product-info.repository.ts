@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ProductInfoRepositoryPort } from '@product-views/product-info';
-import { AbstractProjectionRepository } from 'common-base-classes';
+import { AbstractProjectionRepository } from 'nest-typeorm-common-classes';
 import { Repository } from 'typeorm';
 import { ProductInfoOrmModel } from './product-info.orm-model';
 

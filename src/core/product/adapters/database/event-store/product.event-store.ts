@@ -1,4 +1,5 @@
-import { EventStoreTypeOrm, ID, UUID } from 'common-base-classes';
+import { ID, UUID } from 'common-base-classes';
+import { EventStoreTypeOrm } from 'nest-typeorm-common-classes';
 import { Repository } from 'typeorm';
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -70,8 +71,10 @@ export class ProductEventStore
     const eventStream = await this.eventRepository.find({
       where: { productName: productName.unpack() },
     });
+    console.log(eventStream);
     const domainEvents = this.getDomainEvents(eventStream);
-    const productId = UUID.create(eventStream[0].entityId);
+    console.log(domainEvents);
+    const productId = new UUID(eventStream[0].entityId);
     return productId ? this.rebuildStream(productId, domainEvents) : undefined;
   }
 

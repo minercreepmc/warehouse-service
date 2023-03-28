@@ -80,6 +80,6 @@ export class ProductDomainService {
   }
 
   async isProductExist(productName: ProductNameValueObject) {
-    return this.isProductExist(productName);
+    return this.eventStore.isProductExist(productName);
   }
 }

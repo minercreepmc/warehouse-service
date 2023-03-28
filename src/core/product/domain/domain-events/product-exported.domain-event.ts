@@ -3,7 +3,7 @@ import type {
   ProductNameValueObject,
   ProductQuantityValueObject,
 } from '@product-value-object';
-import { DomainEvent, ID } from 'common-base-classes';
+import { DomainEvent, DomainEventOptions, ID } from 'common-base-classes';
 
 export interface ProductsExportedDomainEventDetails {
   name: ProductNameValueObject;
@@ -16,9 +16,14 @@ export interface ProductsExportedDomainEventOptions {
 }
 
 export class ProductsExportedDomainEvent extends DomainEvent<ProductsExportedDomainEventDetails> {
-  constructor(options: ProductsExportedDomainEventOptions) {
+  constructor(options: DomainEventOptions<ProductsExportedDomainEventDetails>) {
+    super(options);
+  }
+
+  static create(options: ProductsExportedDomainEventOptions) {
     const { eventDetails, productId } = options;
-    super({
+
+    return new ProductsExportedDomainEvent({
       entityId: productId,
       eventName: ProductsExportedDomainEvent.name,
       entityType: ProductAggregate.name,
