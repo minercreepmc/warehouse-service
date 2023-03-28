@@ -71,9 +71,7 @@ export class ProductEventStore
     const eventStream = await this.eventRepository.find({
       where: { productName: productName.unpack() },
     });
-    console.log(eventStream);
     const domainEvents = this.getDomainEvents(eventStream);
-    console.log(domainEvents);
     const productId = new UUID(eventStream[0].entityId);
     return productId ? this.rebuildStream(productId, domainEvents) : undefined;
   }

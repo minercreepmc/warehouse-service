@@ -19,7 +19,7 @@ export interface ProductAggregateApply {
 export enum ProductAggregateApplyMethodNames {
   CREATE_PRODUCT = 'applyCreateProduct',
   IMPORT_PRODUCTS = 'applyImportProducts',
-  EXPORT_PRODUCTS = 'applyExportProductf',
+  EXPORT_PRODUCTS = 'applyExportProducts',
 }
 
 export interface ProductAggregateDetails {
