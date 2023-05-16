@@ -37,16 +37,15 @@ export class ProductInfoProjector {
     @Payload() data: ProductsImportedDomainEventMessageDto,
     @Ctx() context: RmqContext,
   ) {
-    const exportRequest: ExportProductsHttpRequest = {
-      name: data.name,
-      quantity: data?.postponed,
-    };
-    console.log(data);
+    // const exportRequest: ExportProductsHttpRequest = {
+    //   name: data.name,
+    //   quantity: data?.postponed,
+    // };
     try {
       await this.service.addQuantity(data);
-      const response = await this.httpService
-        .post('http://localhost:3000/products/export', exportRequest)
-        .toPromise();
+      // const response = await this.httpService
+      //   .post('http://localhost:3000/products/export', exportRequest)
+      //   .toPromise();
 
       const channel = context.getChannelRef();
       const originalMsg = context.getMessage();

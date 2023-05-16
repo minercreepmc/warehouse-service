@@ -18,10 +18,10 @@ export class CreateProductHandler
   ) {}
 
   async execute(command: CreateProductCommand): Promise<CreateProductResult> {
-    const commandValidated = this.commandValidator.validate(command);
-    if (!commandValidated.isValid) {
-      return Err(commandValidated.exceptions);
-    }
+    // const commandValidated = this.commandValidator.validate(command);
+    // if (!commandValidated.isValid) {
+    //   return Err(commandValidated.exceptions);
+    // }
 
     const domainData = this.mapper.toDomain(command);
 
