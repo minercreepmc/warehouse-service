@@ -27,7 +27,10 @@ export class NumericValueObject<
       throw new NumericOptionIsNotValid('Numeric options it not valid');
     }
 
-    const { isValid, exceptions: errors } = NumericValueObject.validate(value, opts);
+    const { isValid, exceptions: errors } = NumericValueObject.validate(
+      value,
+      opts,
+    );
 
     if (!isValid) {
       throw new MultipleExceptions(errors);
@@ -49,36 +52,36 @@ export class NumericValueObject<
 
   add(other: T): T {
     return new (<any>this.constructor)(
-      this.getValue() + other.getValue(),
+      this.unpack() + other.unpack(),
       this.options,
     );
   }
 
   subtract(other: T): T {
     return new (<any>this.constructor)(
-      this.getValue() - other.getValue(),
+      this.unpack() - other.unpack(),
       this.options,
     );
   }
 
   isLessThan(other: T): boolean {
-    return this.getValue() < other.getValue();
+    return this.unpack() < other.unpack();
   }
 
   isGreaterThan(other: T): boolean {
-    return this.getValue() > other.getValue();
+    return this.unpack() > other.unpack();
   }
 
   isEqualTo(other: T): boolean {
-    return this.getValue() === other.getValue();
+    return this.unpack() === other.unpack();
   }
 
   isLessThanOrEqualTo(other: T): boolean {
-    return this.getValue() <= other.getValue();
+    return this.unpack() <= other.unpack();
   }
 
   isGreaterThanOrEqualTo(other: T): boolean {
-    return this.getValue() >= other.getValue();
+    return this.unpack() >= other.unpack();
   }
 
   static readonly DEFAULT_OPTIONS: NumericValueObjectOptions = {

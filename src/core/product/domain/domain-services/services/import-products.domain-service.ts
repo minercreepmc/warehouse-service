@@ -19,18 +19,16 @@ export class ImportProductsDomainService {
   async execute(
     options: ImportProductsDomainServiceOptions,
   ): Promise<ProductsImportedDomainEvent> {
-    return await this.eventStore.runInTransaction(async () => {
-      if (!(await this.inventoryService.isProductExist(options.name))) {
-        throw new ProductDomainException.NameIsNotExist();
-      }
+    if (!(await this.inventoryService.isProductExist(options.name))) {
+      throw new ProductDomainException.NameIsNotExist();
+    }
 
-      const product = await this.eventStore.getProduct(options.name);
+    const product = await this.eventStore.getProduct(options.name);
 
-      const productsImported = product.importProducts(options);
-      await this.eventStore.save(productsImported);
-      const message = this.mapper.toMessage(productsImported);
-      this.messageBroker.emit(ProductsImportedDomainEvent.name, message);
-      return productsImported;
-    });
+    const productsImported = product.importProducts(options);
+    await this.eventStore.save(productsImported);
+    const message = this.mapper.toMessage(productsImported);
+    this.messageBroker.emit(ProductsImportedDomainEvent.name, message);
+    return productsImported;
   }
 }

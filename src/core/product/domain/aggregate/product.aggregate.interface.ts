@@ -28,6 +28,8 @@ export interface ProductAggregateDetails {
   // unit: ProductUnitValueObject;
   totalQuantity: ProductQuantityValueObject;
   loads: Queue<ProductLoadEntity>;
+  postponed: ProductQuantityValueObject;
+  isPostponed: boolean;
 }
 
 export interface CreateProductAggegateOptions {
@@ -40,6 +42,13 @@ export interface ImportProductsAggregateOptions {
 }
 
 export interface ExportProductsAggregateOptions {
+  name: ProductNameValueObject;
+  quantity?: ProductQuantityValueObject;
+  postponed?: ProductQuantityValueObject;
+  isPostponed?: boolean;
+}
+
+export interface PostPoneExportProductsDomainOptions {
   name: ProductNameValueObject;
   quantity: ProductQuantityValueObject;
 }

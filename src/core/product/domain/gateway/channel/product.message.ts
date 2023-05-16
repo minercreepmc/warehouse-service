@@ -5,6 +5,8 @@ export interface ProductDomainEventMessageDto extends AbstractMessageDto {
   name?: string;
   quantity?: number;
   thumbnails?: string[];
+  isPostponed?: boolean;
+  postponed?: number;
 }
 
 export interface ProductCreatedDomainEventMessageDto {

@@ -1,7 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { ExportProductsResponseDto } from '@product-use-case/export-products/application-services/dtos';
 
-export class ExportProductsResponse implements ExportProductsResponseDto {
+export class ExportProductsResponse {
   message: 'Product exported successfully';
 
   @ApiProperty({

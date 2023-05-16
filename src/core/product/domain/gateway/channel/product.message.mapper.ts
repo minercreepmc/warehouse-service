@@ -19,6 +19,14 @@ export class ProductMessageMapper
       message.quantity = event.details.quantity.unpack();
     }
 
+    if (event.details.postponed) {
+      message.postponed = event.details.postponed.unpack();
+    }
+
+    if (event.details.isPostponed) {
+      message.isPostponed = event.details.isPostponed;
+    }
+
     return message;
   }
 }

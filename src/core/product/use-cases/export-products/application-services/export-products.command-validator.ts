@@ -14,7 +14,9 @@ export class ExportProductsCommandValidator {
   validate(command: ExportProductsCommand): ValidationResponse {
     const { name, quantity } = command;
     this.checkName(name);
-    this.checkQuantity(quantity);
+    if (quantity !== undefined) {
+      this.checkQuantity(quantity);
+    }
     return this.getValidationResponse(this.exceptions);
   }
 

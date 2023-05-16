@@ -1,7 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { ExportProductsRequest } from '../dtos';
 
-export class ExportProductsHttpRequest implements ExportProductsRequest {
+export class ExportProductsHttpRequest {
   @ApiProperty({
     example: 'Banana',
     description: 'Product name to export',
@@ -12,7 +11,15 @@ export class ExportProductsHttpRequest implements ExportProductsRequest {
     example: '10',
     description: 'The amount you want to export',
   })
-  readonly quantity: number;
+  readonly quantity?: number;
+
+  @ApiProperty({
+    example: '10',
+    description: 'The amount you want to postpone',
+  })
+  readonly postponed?: number;
+
+  readonly isPostponed?: boolean;
 
   // @ApiProperty({
   //   example: 'kg',

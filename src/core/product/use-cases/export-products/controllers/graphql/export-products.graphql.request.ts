@@ -8,4 +8,7 @@ export class ExportProductsGraphQlRequest implements ExportProductsRequest {
 
   @Field()
   quantity: number;
+
+  @Field()
+  postpone: number;
 }

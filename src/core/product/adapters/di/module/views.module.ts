@@ -1,3 +1,4 @@
+import { HttpModule } from '@nestjs/axios';
 import { Module, Provider } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -33,7 +34,11 @@ const repositories: Provider[] = [
 ];
 
 @Module({
-  imports: [TypeOrmModule.forFeature([ProductInfoOrmModel]), CqrsModule],
+  imports: [
+    TypeOrmModule.forFeature([ProductInfoOrmModel]),
+    CqrsModule,
+    HttpModule,
+  ],
   controllers: [...controllers],
   providers: [...services, ...queryHandlers, ...repositories, ...resolvers],
   exports: [...services],

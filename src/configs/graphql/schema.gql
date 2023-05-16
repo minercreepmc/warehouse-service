@@ -58,4 +58,5 @@ input ImportProductsGraphQlRequest {
 input ExportProductsGraphQlRequest {
   name: String!
   quantity: Float!
+  postpone: Float!
 }

@@ -22,29 +22,27 @@ export class CreateProductDomainService {
   async execute(
     options: CreateProductDomainServiceOptions,
   ): Promise<ProductCreatedDomainEvent> {
-    return this.eventStore.runInTransaction(async () => {
-      const isProductExist = await this.inventoryService.isProductExist(
-        options.name,
-      );
-      if (isProductExist) {
-        throw new ProductDomainException.NameIsExist();
-      }
+    const isProductExist = await this.inventoryService.isProductExist(
+      options.name,
+    );
+    if (isProductExist) {
+      throw new ProductDomainException.NameIsExist();
+    }
 
-      const product = new ProductAggregate();
-      const productCreatedEvent = product.createProduct({
-        name: options.name,
-      });
-      await this.eventStore.save(productCreatedEvent);
-      const message = this.mapper.toMessage(productCreatedEvent);
-      this.messageBroker.emit(ProductCreatedDomainEvent.name, message);
-      // await this.outboxService.addMessage(
-      //   message,
-      //   ProductCreatedDomainEvent.name,
-      // );
-
-      //this.outboxService.sendMessages$().subscribe();
-
-      return productCreatedEvent;
+    const product = new ProductAggregate();
+    const productCreatedEvent = product.createProduct({
+      name: options.name,
     });
+    await this.eventStore.save(productCreatedEvent);
+    const message = this.mapper.toMessage(productCreatedEvent);
+    this.messageBroker.emit(ProductCreatedDomainEvent.name, message);
+    // await this.outboxService.addMessage(
+    //   message,
+    //   ProductCreatedDomainEvent.name,
+    // );
+
+    //this.outboxService.sendMessages$().subscribe();
+
+    return productCreatedEvent;
   }
 }

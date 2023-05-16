@@ -2,6 +2,7 @@ export interface ProductDomainEventMessageDto {
   productId: string;
   name?: string;
   quantity?: number;
+  postponed?: number;
 }
 
 export interface ProductCreatedDomainEventMessageDto {

@@ -21,4 +21,6 @@ export type ProductEventModelDetails = Partial<{
   name: string;
   quantity: number;
   thumbnails: string[];
+  postponed: number;
+  isPostponed: boolean;
 }>;

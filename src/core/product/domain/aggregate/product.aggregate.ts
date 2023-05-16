@@ -56,6 +56,8 @@ export class ProductAggregate extends AbstractAggregateRoot<
       eventDetails: {
         name,
         quantity,
+        postponed: this.postponed,
+        isPostponed: this.isPostponed,
       },
     });
     this.state.applyImportProducts(event);
@@ -65,12 +67,14 @@ export class ProductAggregate extends AbstractAggregateRoot<
   exportProducts(
     options: ExportProductsAggregateOptions,
   ): ProductsExportedDomainEvent {
-    const { name, quantity } = options;
+    const { name, quantity, postponed, isPostponed } = options;
     const event = ProductsExportedDomainEvent.create({
       productId: this.id,
       eventDetails: {
         name,
         quantity,
+        postponed,
+        isPostponed,
       },
     });
     this.state.applyExportProducts(event);
@@ -133,5 +137,29 @@ export class ProductAggregate extends AbstractAggregateRoot<
 
   setTotalQuantity(newQuantity: number) {
     this.details.totalQuantity = new ProductQuantityValueObject(newQuantity);
+  }
+
+  get postponed(): ProductQuantityValueObject {
+    return this.details.postponed;
+  }
+
+  set postponed(newPostponed: ProductQuantityValueObject) {
+    this.details.postponed = newPostponed;
+  }
+
+  getPostponedValue(): number {
+    return this.details.postponed.unpack();
+  }
+
+  setPostponed(newPostponed: number) {
+    this.details.postponed = new ProductQuantityValueObject(newPostponed);
+  }
+
+  get isPostponed(): boolean {
+    return this.details.isPostponed;
+  }
+
+  set isPostponed(newIsPostponed: boolean) {
+    this.details.isPostponed = newIsPostponed;
   }
 }

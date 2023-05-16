@@ -31,6 +31,7 @@
   },
   "dependencies": {
     "@nestjs/apollo": "^10.1.7",
+    "@nestjs/axios": "^2.0.0",
     "@nestjs/common": "^9.0.0",
     "@nestjs/config": "^2.2.0",
     "@nestjs/core": "^9.3.9",
@@ -43,6 +44,7 @@
     "amqp-connection-manager": "^4.1.9",
     "amqplib": "^0.10.3",
     "apollo-server-express": "^3.11.1",
+    "axios": "^1.4.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
     "common-base-classes": "0.21.3",
@@ -52,7 +54,6 @@
     "graphql-tools": "^8.3.16",
     "multer": "^1.4.5-lts.1",
     "nest-typeorm-common-classes": "0.0.5",
-    "nestjs-outbox-pattern": "0.0.26",
     "oxide.ts": "^1.1.0",
     "pg": "^8.8.0",
     "reflect-metadata": "^0.1.13",

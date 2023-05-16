@@ -1,7 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { ExportProductsCommand } from '@product-use-case/export-products/application-services/dtos';
 
-export class ExportProductsRequest implements ExportProductsCommand {
+export class ExportProductsRequest {
   @ApiProperty({
     example: 'Coconut',
   })
@@ -11,4 +10,9 @@ export class ExportProductsRequest implements ExportProductsCommand {
     example: 10,
   })
   quantity: number;
+
+  @ApiProperty({
+    example: 10,
+  })
+  postpone: number;
 }

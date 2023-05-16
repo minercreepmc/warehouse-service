@@ -9,7 +9,10 @@ import type {
 import { DomainEvent, DomainEventOptions, ID } from 'common-base-classes';
 
 export interface ProductsImportedDomainEventDetails
-  extends ImportProductsAggregateOptions {}
+  extends ImportProductsAggregateOptions {
+  postponed?: ProductQuantityValueObject;
+  isPostponed?: boolean;
+}
 
 export interface ProductsImportedDomainEventOptions {
   productId: ID;
@@ -37,5 +40,9 @@ export class ProductsImportedDomainEvent extends DomainEvent<ProductsImportedDom
 
   get quantity(): ProductQuantityValueObject {
     return this.details.quantity;
+  }
+
+  get postponed(): ProductQuantityValueObject {
+    return this.details.postponed;
   }
 }

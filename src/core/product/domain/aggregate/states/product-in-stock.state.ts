@@ -4,17 +4,35 @@ import type {
   ProductCreatedDomainEvent,
   ProductsExportedDomainEvent,
 } from '@product-domain-events';
-import type { ProductQuantityValueObject } from '@product-value-object';
+import { ProductQuantityValueObject } from '@product-value-object';
 import { ProductOutOfStockState } from './product-out-of-stock.state';
 import { ProductState } from './product.state.abstract';
 
 export class ProductInStockState extends ProductState {
   override applyExportProducts(event: ProductsExportedDomainEvent): void {
     //console.log(this.product.totalQuantity.unpack());
-    this.exportAmountOfProducts(event.quantity);
-    this.removeFromTotal(event.quantity);
-    this.changeStateIfOutOfStock();
+    if (event.isPostponed) {
+      this.product.isPostponed = true;
+      this.postponeProductForExport(event.postponed);
+      this.removePostponeStateWhenItIsExported();
+    } else {
+      this.exportAmountOfProducts(event.quantity);
+      this.removeFromTotal(event.quantity);
+      this.changeStateIfOutOfStock();
+    }
     this.product.addEvent(event);
+  }
+
+  private postponeProductForExport(amount: ProductQuantityValueObject): void {
+    this.product.postponed = new ProductQuantityValueObject(
+      this.product.postponed.unpack() + amount.unpack(),
+    );
+  }
+
+  private removePostponeStateWhenItIsExported(): void {
+    if (this.product.postponed.unpack() === 0) {
+      this.product.isPostponed = false;
+    }
   }
 
   private exportAmountOfProducts(amount: ProductQuantityValueObject): void {

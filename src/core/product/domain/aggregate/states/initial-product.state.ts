@@ -16,6 +16,8 @@ export class InitialProductState extends ProductState {
     this.product.name = event.name;
     this.product.loads = new Queue<ProductLoadEntity>();
     this.product.totalQuantity = new ProductQuantityValueObject(0);
+    this.product.postponed = new ProductQuantityValueObject(0);
+    this.product.isPostponed = false;
     this.product.changeState(new ProductCreatedState(this.product));
   }
 

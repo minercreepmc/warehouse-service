@@ -26,7 +26,8 @@ export class GetProductAggregateController {
       new ProductNameValueObject(dto.name),
     );
     const queueVisuallize = [];
-    for (let i = 0; i <= product.loads.size(); i++) {
+
+    while (!product.loads.isEmpty()) {
       const load = product.loads.dequeue();
       queueVisuallize.unshift(load.quantity.unpack());
     }

@@ -48,10 +48,20 @@ export class ProductEventTypeOrmMapper extends AbstractEventTypeOrmMapper<
       domainDetails.name = new ProductNameValueObject(ormDetails.name);
     }
 
-    if (ormDetails.quantity) {
+    if (ormDetails.quantity !== undefined) {
       domainDetails.quantity = new ProductQuantityValueObject(
         ormDetails.quantity,
       );
+    }
+
+    if (ormDetails.postponed !== undefined) {
+      domainDetails.postponed = new ProductQuantityValueObject(
+        ormDetails.postponed,
+      );
+    }
+
+    if (ormDetails.isPostponed !== undefined) {
+      domainDetails.isPostponed = ormDetails.isPostponed;
     }
 
     return domainDetails;
@@ -66,8 +76,16 @@ export class ProductEventTypeOrmMapper extends AbstractEventTypeOrmMapper<
       ormDetails.name = domainDetails.name.unpack();
     }
 
-    if (domainDetails.quantity) {
+    if (domainDetails.quantity !== undefined) {
       ormDetails.quantity = domainDetails.quantity.unpack();
+    }
+
+    if (domainDetails.postponed !== undefined) {
+      ormDetails.postponed = domainDetails.postponed.unpack();
+    }
+
+    if (domainDetails.isPostponed !== undefined) {
+      ormDetails.isPostponed = domainDetails.isPostponed;
     }
 
     return ormDetails;

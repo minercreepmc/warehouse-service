@@ -20,19 +20,16 @@ export class ExportProductsDomainService {
   async execute(
     options: ExportProductsDomainServiceOptions,
   ): Promise<ProductsExportedDomainEvent> {
-    return this.eventStore.runInTransaction(async () => {
-      await this.checkForException(options);
-      const product = await this.eventStore.getProduct(options.name);
-      const productsExportedEvent = product.exportProducts(options);
+    await this.checkForException(options);
+    const product = await this.eventStore.getProduct(options.name);
+    const productsExportedEvent = product.exportProducts(options);
 
-      this.eventStore.save(productsExportedEvent);
+    this.eventStore.save(productsExportedEvent);
 
-      const message = this.mapper.toMessage(productsExportedEvent);
-      this.messageBroker.emit(ProductsExportedDomainEvent.name, message);
+    const message = this.mapper.toMessage(productsExportedEvent);
+    this.messageBroker.emit(ProductsExportedDomainEvent.name, message);
 
-      this.eventStore.commitTransaction();
-      return productsExportedEvent;
-    });
+    return productsExportedEvent;
   }
 
   async checkForException(data: ExportProductsDomainServiceOptions) {
@@ -41,6 +38,7 @@ export class ExportProductsDomainService {
     }
 
     if (
+      data.quantity &&
       !(await this.inventoryService.isEnoughToExport({
         productName: data.name,
         amount: data.quantity,
